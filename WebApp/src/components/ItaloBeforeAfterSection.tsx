@@ -120,10 +120,18 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
   const newBasePath = `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/new/`;
 
   return (
-    <section className="w-full relative z-20 py-20 sm:py-28 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto border-t border-white/5">
+    <section
+      id="italo-treni-before-after"
+      data-project-section="06-before-after"
+      aria-labelledby="italo-before-after-title"
+      className="w-full relative z-20 py-20 sm:py-28 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto border-t border-white/5"
+    >
       {/* Section Title Header */}
       <div className="flex flex-col items-center justify-center text-center gap-3 mb-12 sm:mb-16">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase font-sans text-center">
+        <h2
+          id="italo-before-after-title"
+          className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase font-sans text-center"
+        >
           {lang === 'it' ? 'Prima & Dopo' : 'Before & After'}
         </h2>
         <div className="w-12 h-1 bg-[#B50D3A] mt-1 rounded-full" />

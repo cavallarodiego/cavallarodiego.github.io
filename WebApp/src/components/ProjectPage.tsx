@@ -46,8 +46,6 @@ import { SmoothScroll } from './SmoothScroll';
 import { ScrollProgress } from './ScrollProgress';
 import { ScrollReveal } from './ScrollReveal';
 import { FloatingPaths } from './ui/background-paths';
-import CardFanCarousel from './ui/card-fan-carousel';
-import WireframeComparisonCarousel from './WireframeComparisonCarousel';
 import ItaloDesignSystemSection from './ItaloDesignSystemSection';
 import ItaloBeforeAfterSection from './ItaloBeforeAfterSection';
 import ItaloPrototypeSection from './ItaloPrototypeSection';
@@ -57,6 +55,9 @@ import { OrtoAppShowcaseSection } from './OrtoAppShowcaseSection';
 import { OrtoInteractivePrototypeSection } from './OrtoInteractivePrototypeSection';
 import { UrbanStreetArtIntroductionSection } from './UrbanStreetArtIntroductionSection';
 import { ProjectFooter } from './ProjectFooter';
+import { ItaloIntroductionSection } from './ItaloIntroductionSection';
+import { ItaloCriticalIssuesSection } from './ItaloCriticalIssuesSection';
+import { ItaloWireframeSection } from './ItaloWireframeSection';
 
 import HighlightCard from './ui/highlight-card';
 import AuroraBackground from './ui/aurora-background';
@@ -134,42 +135,6 @@ interface ProjectPageProps {
   lang?: 'it' | 'en';
   setLang?: (lang: 'it' | 'en') => void;
 }
-
-const TrainDividerBanner = React.memo(function TrainDividerBanner() {
-  const trainCount = 6;
-  const trainSrc = import.meta.env.BASE_URL + "train_divider.svg";
-  
-  return (
-    <div className="w-full relative h-[22px] sm:h-[32px] lg:h-[42px] overflow-hidden flex items-center border-b border-[#B50D3A]/20 opacity-90 mt-16 md:mt-24 pointer-events-none select-none">
-      <div className="flex w-max h-full animate-train-scroll-seamless">
-        {/* Set 1 */}
-        <div className="flex items-center h-full shrink-0 gap-6 sm:gap-8 pr-6 sm:pr-8">
-          {[...Array(trainCount)].map((_, i) => (
-            <img 
-              key={`t1-${i}`}
-              src={trainSrc}
-              alt="Italo Train" 
-              className="h-full w-auto aspect-[2153/145] object-contain flex-shrink-0"
-              loading="eager"
-            />
-          ))}
-        </div>
-        {/* Set 2 (Identical clone for 100% seamless infinite loop) */}
-        <div className="flex items-center h-full shrink-0 gap-6 sm:gap-8 pr-6 sm:pr-8" aria-hidden="true">
-          {[...Array(trainCount)].map((_, i) => (
-            <img 
-              key={`t2-${i}`}
-              src={trainSrc}
-              alt="Italo Train" 
-              className="h-full w-auto aspect-[2153/145] object-contain flex-shrink-0"
-              loading="eager"
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-});
 
 export default function ProjectPage({ project, onClose, onNavigateToProject, allProjects, lang = 'it', setLang }: ProjectPageProps) {
   // Back to top on mount or project change
@@ -482,185 +447,11 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
           />
         {isKinetics && <UrbanStreetArtIntroductionSection />}
 
-        {/* 2.4 Introduction Section for Chronos */}
-        {isChronos && (
-          <section className="w-full h-screen relative z-10 bg-transparent flex flex-col justify-start">
-             {/* Dynamic Train Divider Banner */}
-             <TrainDividerBanner />
+        {isChronos && <ItaloIntroductionSection />}
 
-             {/* Introduction Text */}
-             <div className="flex-1 flex items-center justify-center px-6 sm:px-12 md:px-16 w-full max-w-[1600px] mx-auto z-20">
-               <p className="text-white font-urbanist text-xl md:text-2xl lg:text-3xl leading-[1.4] font-light tracking-tight text-center max-w-4xl">
-                  <span className="font-semibold text-[#B50D3A]">Il redesign dell'applicazione di Italo Treno</span> si concentra sull'abbattimento del carico cognitivo durante la ricerca, selezione e pagamento delle tratte ad alta velocità.
-               </p>
-             </div>
-          </section>
-        )}
+        {isChronos && <ItaloCriticalIssuesSection />}
 
-        {/* 2.5 Decorative Section for Chronos */}
-        {isChronos && (
-          <section 
-            className="w-full h-screen relative z-20 flex items-center justify-center overflow-hidden"
-            style={{ background: 'linear-gradient(to bottom, #050505 0%, #3B0615 50%, #050505 100%)' }}
-          >
-
-            {/* Analisi UX/UI (Problem Statement) - Centered in this section */}
-            <div className="relative z-20 flex flex-col items-center gap-12 w-full max-w-[90rem] px-6 pointer-events-auto mt-20">
-              <div className="flex flex-col items-center gap-4 text-center">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase font-sans drop-shadow-lg">
-                  Criticità
-                </h2>
-              </div>
-              <div className="w-full relative z-30">
-                <CardFanCarousel 
-                  cards={[
-                    {
-                      content: (
-                        <>
-                          <div className="absolute inset-0 z-0 pointer-events-none opacity-20"
-                               style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '32px 32px' }}>
-                          </div>
-
-                          <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[80%] h-20 bg-[#B50D3A] opacity-[0.25] blur-[40px] rounded-full pointer-events-none z-0" />
-                          <div className="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#B50D3A]/80 to-transparent z-10" />
-
-                          <div className="flex flex-col items-center justify-center w-full h-full gap-8 relative z-10 pt-4">
-                            <div className="w-16 h-16 rounded-full bg-white/[0.02] flex items-center justify-center border border-white/[0.05] shadow-inner shrink-0">
-                              <AlertTriangle className="w-7 h-7 text-[#B50D3A]" />
-                            </div>
-                            
-                            <div className="flex flex-col items-center gap-4 text-center">
-                              <h4 className="text-white font-medium text-2xl md:text-[32px] tracking-tight leading-[1.1]">Navigazione<br/>Labirintica</h4>
-                              <p className="text-neutral-400 text-[15px] leading-relaxed font-light max-w-[280px]">
-                                Eccessiva ridondanza dei menu con voci duplicate e sezioni superflue che rallentano il flusso d'acquisto disorientando l'utente.
-                              </p>
-                              <span className="text-[11px] font-mono font-bold text-[#B50D3A] uppercase tracking-[0.2em] mt-6">Problema 01</span>
-                            </div>
-                          </div>
-                        </>
-                      )
-                    },
-                    {
-                      content: (
-                        <>
-                          <div className="absolute inset-0 z-0 pointer-events-none opacity-20"
-                               style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '32px 32px' }}>
-                          </div>
-
-                          <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[80%] h-20 bg-[#B50D3A] opacity-[0.25] blur-[40px] rounded-full pointer-events-none z-0" />
-                          <div className="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#B50D3A]/80 to-transparent z-10" />
-
-                          <div className="flex flex-col items-center justify-center w-full h-full gap-8 relative z-10 pt-4">
-                            <div className="w-16 h-16 rounded-full bg-white/[0.02] flex items-center justify-center border border-white/[0.05] shadow-inner shrink-0">
-                              <Compass className="w-7 h-7 text-[#B50D3A]" />
-                            </div>
-                            
-                            <div className="flex flex-col items-center gap-4 text-center">
-                              <h4 className="text-white font-medium text-2xl md:text-[32px] tracking-tight leading-[1.1]">Gerarchia<br/>Visiva Assente</h4>
-                              <p className="text-neutral-400 text-[15px] leading-relaxed font-light max-w-[280px]">
-                                Testi monocromatici e dimensionamento errato (prezzi minuscoli, titoli non centrati) rendono faticosa la scansione rapida.
-                              </p>
-                              <span className="text-[11px] font-mono font-bold text-[#B50D3A] uppercase tracking-[0.2em] mt-6">Problema 02</span>
-                            </div>
-                          </div>
-                        </>
-                      )
-                    },
-                    {
-                      content: (
-                        <>
-                          <div className="absolute inset-0 z-0 pointer-events-none opacity-20"
-                               style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '32px 32px' }}>
-                          </div>
-
-                          <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[80%] h-20 bg-[#B50D3A] opacity-[0.25] blur-[40px] rounded-full pointer-events-none z-0" />
-                          <div className="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#B50D3A]/80 to-transparent z-10" />
-
-                          <div className="flex flex-col items-center justify-center w-full h-full gap-8 relative z-10 pt-4">
-                            <div className="w-16 h-16 rounded-full bg-white/[0.02] flex items-center justify-center border border-white/[0.05] shadow-inner shrink-0">
-                              <Image className="w-7 h-7 text-[#B50D3A]" />
-                            </div>
-                            
-                            <div className="flex flex-col items-center gap-4 text-center">
-                              <h4 className="text-white font-medium text-2xl md:text-[32px] tracking-tight leading-[1.1]">Frizioni<br/>Cromatiche</h4>
-                              <p className="text-neutral-400 text-[15px] leading-relaxed font-light max-w-[280px]">
-                                Uso fuorviante dei colori: il rosso viene usato per evidenziare messaggi positivi. Scarso contrasto sulle call to action primarie.
-                              </p>
-                              <span className="text-[11px] font-mono font-bold text-[#B50D3A] uppercase tracking-[0.2em] mt-6">Problema 03</span>
-                            </div>
-                          </div>
-                        </>
-                      )
-                    },
-                    {
-                      content: (
-                        <>
-                          <div className="absolute inset-0 z-0 pointer-events-none opacity-20"
-                               style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '32px 32px' }}>
-                          </div>
-
-                          <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[80%] h-20 bg-[#B50D3A] opacity-[0.25] blur-[40px] rounded-full pointer-events-none z-0" />
-                          <div className="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#B50D3A]/80 to-transparent z-10" />
-
-                          <div className="flex flex-col items-center justify-center w-full h-full gap-8 relative z-10 pt-4">
-                            <div className="w-16 h-16 rounded-full bg-white/[0.02] flex items-center justify-center border border-white/[0.05] shadow-inner shrink-0">
-                              <Smartphone className="w-7 h-7 text-[#B50D3A]" />
-                            </div>
-                            
-                            <div className="flex flex-col items-center gap-4 text-center">
-                              <h4 className="text-white font-medium text-2xl md:text-[32px] tracking-tight leading-[1.1]">Discontinuità<br/>d'Interfaccia</h4>
-                              <p className="text-neutral-400 text-[15px] leading-relaxed font-light max-w-[280px]">
-                                Spaziature incoerenti, layout frammentato e icone fuori standard che minano pesantemente la percezione qualitativa dell'app.
-                              </p>
-                              <span className="text-[11px] font-mono font-bold text-[#B50D3A] uppercase tracking-[0.2em] mt-6">Problema 04</span>
-                            </div>
-                          </div>
-                        </>
-                      )
-                    }
-                  ]}
-                />
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* 2.6 Sviluppo Wireframe Section for Chronos */}
-        {isChronos && (
-          <section className="w-full min-h-screen relative z-20 flex items-center justify-center py-16 sm:py-20 px-6 sm:px-12 border-t border-white/5">
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20 w-full max-w-6xl mx-auto">
-              {/* Left Column: Sviluppo Wireframe Narrative (Fixed width prevents any horizontal shift) */}
-              <div className="w-full lg:w-[520px] shrink-0 flex flex-col items-start text-left gap-6 relative">
-                {/* Background Ambient Glow Blob */}
-                <div 
-                  className="absolute -top-32 -left-32 sm:-top-44 sm:-left-44 w-[600px] sm:w-[750px] lg:w-[850px] h-[600px] sm:h-[750px] lg:h-[850px] rounded-full bg-[radial-gradient(circle_at_center,rgba(181,13,58,0.28)_0%,rgba(158,28,31,0.12)_45%,transparent_70%)] blur-[35px] sm:blur-[50px] transform-gpu -z-10 pointer-events-none"
-                  aria-hidden="true"
-                />
-
-                <div className="flex flex-col items-start gap-3 relative z-10">
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase font-sans">
-                    Sviluppo Wireframe
-                  </h2>
-                  <div className="w-12 h-1 bg-[#B50D3A] mt-1 rounded-full" />
-                </div>
-
-                <div className="flex flex-col gap-5 text-neutral-300 font-urbanist text-lg sm:text-xl leading-relaxed font-light relative z-10">
-                  <p>
-                    Sono stati analizzati i flussi principali degli utenti e le funzionalità più utilizzate.
-                  </p>
-                  <p className="text-neutral-400 text-base sm:text-lg leading-relaxed">
-                    Successivamente è stato sviluppato un wireframe a bassa fedeltà per definire la struttura della schermata, la disposizione dei contenuti e la gerarchia delle informazioni.
-                  </p>
-                </div>
-              </div>
-
-              {/* Right Column: Wireframe Carousel (Fixed width prevents any layout shift) */}
-              <div className="w-full lg:w-[340px] shrink-0 flex justify-center items-center">
-                <WireframeComparisonCarousel />
-              </div>
-            </div>
-          </section>
-        )}
+        {isChronos && <ItaloWireframeSection />}
 
         {/* 2.7 Design System Section for Chronos */}
         {isChronos && (
@@ -2156,7 +1947,7 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
               )}
             </>
           ) : (
-            !isKinetics && (
+            !(isKinetics || isChronos) && (
               <div className={`flex flex-col gap-6 pt-10 border-t ${isAetheris ? 'border-white/5' : 'border-neutral-100'}`}>
                 <span className={`text-sm font-raleway uppercase tracking-widest ${isAetheris ? 'text-[#2E8B3A] font-bold' : 'text-[#E8302A]'}`}>{isAetheris ? '06 / Design System Spec' : '04 / Design System Spec'}</span>
 

@@ -39,6 +39,8 @@ export default function ItaloPrototypeSection({ lang }: ItaloPrototypeSectionPro
     <section
       className="w-full relative z-10 pt-16 md:pt-24 pb-16 px-6 sm:px-12 md:px-16 flex justify-center items-center"
       id="italo-interactive-prototypes-section"
+      data-project-section="07-prototype"
+      aria-labelledby="italo-prototype-title"
     >
       <div className="max-w-[1300px] w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center justify-items-center">
 
@@ -85,7 +87,10 @@ export default function ItaloPrototypeSection({ lang }: ItaloPrototypeSectionPro
         {/* Right Column: Text & CTA Button (Centered in its half, text naturally left-aligned) */}
         <div className="flex justify-center items-center w-full">
           <div className="flex flex-col items-start text-left gap-6 lg:gap-8 max-w-[420px] w-full">
-            <h2 className="text-5xl md:text-7xl lg:text-[80px] font-bold tracking-tight text-[#B50D3A] font-sans leading-none uppercase text-left">
+            <h2
+              id="italo-prototype-title"
+              className="text-5xl md:text-7xl lg:text-[80px] font-bold tracking-tight text-[#B50D3A] font-sans leading-none uppercase text-left"
+            >
               Provalo
             </h2>
             <p className="text-xl md:text-2xl lg:text-3xl text-white font-medium leading-relaxed font-urbanist text-left">

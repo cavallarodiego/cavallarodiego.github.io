@@ -37,11 +37,29 @@ export function ProjectHeroSection({
   category,
   heroImage,
 }: ProjectHeroSectionProps) {
+  const sectionIdentity = isKinetics
+    ? {
+        id: 'urban-streetart-hero',
+        order: '01-hero',
+        label: 'Hero Urban StreetArt Sicily',
+      }
+    : isChronos
+      ? {
+          id: 'italo-treni-hero',
+          order: '01-hero',
+          label: 'Hero Italo Treni',
+        }
+      : {
+          id: 'project-hero',
+          order: isAetheris ? '01-hero' : undefined,
+          label: isAetheris ? 'Hero Orto Botanico' : undefined,
+        };
+
   return (
     <section
-      id={isKinetics ? 'urban-streetart-hero' : 'project-hero'}
-      data-project-section={isKinetics ? '01-hero' : undefined}
-      aria-label={isKinetics ? 'Hero Urban StreetArt Sicily' : undefined}
+      id={sectionIdentity.id}
+      data-project-section={sectionIdentity.order}
+      aria-label={sectionIdentity.label}
       className={`relative w-full pt-20 min-h-[100svh] flex flex-col justify-end p-6 sm:p-12 md:p-16 overflow-hidden ${isKinetics ? 'bg-[#0D0D0D]' : ''}`}
     >
       <div className="absolute inset-0 z-0">

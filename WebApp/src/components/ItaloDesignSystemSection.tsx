@@ -52,10 +52,18 @@ export default function ItaloDesignSystemSection({ lang = 'it' }: ItaloDesignSys
   const basePath = `${import.meta.env.BASE_URL}Images/Project 03/design_system/`;
 
   return (
-    <section className="w-full relative z-20 py-20 sm:py-28 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto border-t border-white/5">
+    <section
+      id="italo-treni-design-system"
+      data-project-section="05-design-system"
+      aria-labelledby="italo-design-system-title"
+      className="w-full relative z-20 py-20 sm:py-28 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto border-t border-white/5"
+    >
       {/* Section Title Header */}
       <div className="flex flex-col items-center justify-center text-center gap-3 mb-20 sm:mb-24 lg:mb-28">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase font-sans text-center">
+        <h2
+          id="italo-design-system-title"
+          className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase font-sans text-center"
+        >
           Design System
         </h2>
         <div className="w-12 h-1 bg-[#B50D3A] mt-1 rounded-full" />
