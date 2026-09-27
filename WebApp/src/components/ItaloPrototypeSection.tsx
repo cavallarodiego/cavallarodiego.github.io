@@ -39,7 +39,7 @@ export default function ItaloPrototypeSection({ lang }: ItaloPrototypeSectionPro
     <section
       className="w-full relative z-10 pt-16 md:pt-24 pb-16 px-6 sm:px-12 md:px-16 flex justify-center items-center"
       id="italo-interactive-prototypes-section"
-      data-project-section="07-prototype"
+      data-project-section="08-prototype"
       aria-labelledby="italo-prototype-title"
     >
       <div className="max-w-[1300px] w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center justify-items-center">

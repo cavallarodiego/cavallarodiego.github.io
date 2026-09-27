@@ -58,6 +58,7 @@ import { ProjectFooter } from './ProjectFooter';
 import { ItaloIntroductionSection } from './ItaloIntroductionSection';
 import { ItaloCriticalIssuesSection } from './ItaloCriticalIssuesSection';
 import { ItaloWireframeSection } from './ItaloWireframeSection';
+import { ItaloMockupGallerySection } from './ItaloMockupGallerySection';
 
 import HighlightCard from './ui/highlight-card';
 import AuroraBackground from './ui/aurora-background';
@@ -462,6 +463,8 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
         {isChronos && (
           <ItaloBeforeAfterSection lang={lang} />
         )}
+
+        {isChronos && <ItaloMockupGallerySection />}
 
         {/* 2.9 Provalo Interactive Prototype Section for Chronos */}
         {isChronos && (
