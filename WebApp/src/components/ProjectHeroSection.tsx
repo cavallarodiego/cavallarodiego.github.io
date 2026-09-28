@@ -79,7 +79,7 @@ export function ProjectHeroSection({
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#B5103B] rounded-full blur-[100px] opacity-40 z-0" />
                 <GridVignetteBackground className="opacity-100 absolute inset-0 z-10 bg-[image:linear-gradient(to_right,rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.15)_1px,transparent_1px)]" horizontalVignetteSize={50} verticalVignetteSize={50} intensity={100} />
                 <div className="absolute inset-0 z-20 flex items-center justify-center p-8">
-                  <img src="./Images/Project 03/app_mobile/new/Home.jpg" alt="Italo App Mobile" className="w-[80%] max-w-[280px] rounded-3xl shadow-2xl border-2 border-neutral-800" />
+                  <img src="./Images/Project 03/hero_screens/center-home.png" alt="Italo App Mobile" className="w-[80%] max-w-[280px] rounded-3xl shadow-2xl border-2 border-neutral-800" />
                 </div>
               </div>
               <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[800px] h-[600px] md:h-[800px] bg-[#B5103B] rounded-full blur-[150px] md:blur-[200px] opacity-30 z-0" />
@@ -96,13 +96,13 @@ export function ProjectHeroSection({
                   <pointLight position={[0, -20, -10]} intensity={300} distance={150} color="#B5103B" />
                   <group>
                     <group position={[-55, 30, -20]} rotation={[0, 0, 0.25]}>
-                      <Resize scale={140}><Center><RotatingPhone initialRotationY={Math.PI + 0.2}><Model imagePath="./Images/Project 03/app_mobile/new/Biglietti.jpg" /></RotatingPhone></Center></Resize>
+                      <Resize scale={140}><Center><RotatingPhone initialRotationY={Math.PI + 0.2}><Model imagePath="./Images/Project 03/hero_screens/left-ticket.png" /></RotatingPhone></Center></Resize>
                     </group>
                     <group position={[0, 10, 20]} rotation={[0.05, 0, -0.05]}>
-                      <Resize scale={150}><Center><RotatingPhone><Model imagePath="./Images/Project 03/app_mobile/new/Home.jpg" /></RotatingPhone></Center></Resize>
+                      <Resize scale={150}><Center><RotatingPhone><Model imagePath="./Images/Project 03/hero_screens/center-home.png" /></RotatingPhone></Center></Resize>
                     </group>
                     <group position={[55, 5, -20]} rotation={[0, 0, -0.25]}>
-                      <Resize scale={140}><Center><RotatingPhone initialRotationY={Math.PI - 0.2}><Model imagePath="./Images/Project 03/app_mobile/new/Cerca.jpg" /></RotatingPhone></Center></Resize>
+                      <Resize scale={140}><Center><RotatingPhone initialRotationY={Math.PI - 0.2}><Model imagePath="./Images/Project 03/hero_screens/right-search.png" /></RotatingPhone></Center></Resize>
                     </group>
                   </group>
                 </Suspense>

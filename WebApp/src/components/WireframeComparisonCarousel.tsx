@@ -26,7 +26,7 @@ const SCREENS: WireframeScreen[] = [
   },
   {
     id: 'relax',
-    name: 'Carrozza & Relax',
+    name: 'Relax',
     wireframeImg: `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/wireframe-hd/relax.png`,
   },
   {

@@ -7,7 +7,7 @@ export function ItaloWireframeSection() {
       id="italo-treni-wireframe"
       data-project-section="04-wireframe"
       aria-labelledby="italo-wireframe-title"
-      className="w-full min-h-screen relative z-20 flex items-center justify-center py-16 sm:py-20 px-6 sm:px-12 border-t border-white/5"
+      className="w-full min-h-[100svh] relative z-20 flex items-center justify-center py-20 sm:py-24 lg:py-28 px-6 sm:px-12 border-t border-white/5"
     >
       <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20 w-full max-w-6xl mx-auto">
         <div className="w-full lg:w-[520px] shrink-0 flex flex-col items-start text-left gap-6 relative">

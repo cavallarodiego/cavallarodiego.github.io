@@ -124,7 +124,7 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
       id="italo-treni-before-after"
       data-project-section="06-before-after"
       aria-labelledby="italo-before-after-title"
-      className="w-full relative z-20 py-20 sm:py-28 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto border-t border-white/5"
+      className="w-full min-h-[100svh] relative z-20 py-20 sm:py-24 lg:py-28 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto border-t border-white/5"
     >
       {/* Section Title Header */}
       <div className="flex flex-col items-center justify-center text-center gap-3 mb-12 sm:mb-16">
