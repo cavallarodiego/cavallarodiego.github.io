@@ -25,7 +25,7 @@ const SCREENS: WireframeScreen[] = [
     wireframeImg: `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/wireframe-hd/programma_fedelta.png`,
   },
   {
-    id: 'relax',
+    id: 'relax-screen',
     name: 'Relax',
     wireframeImg: `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/wireframe-hd/relax.png`,
   },
