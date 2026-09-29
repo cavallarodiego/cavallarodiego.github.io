@@ -29,7 +29,7 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
       labelEn: 'Home',
       icon: Home,
       oldImg: 'home.png',
-      newImg: 'Home.jpg',
+      newImg: '1_home.png',
       titleIt: 'Home Screen & Prenotazione Rapida',
       titleEn: 'Home Screen & Quick Booking',
       descIt: 'Riorganizzazione visiva radicale: la ricerca rapida è posta in primo piano, con un widget pulito che semplifica la selezione delle tratte e l\'accesso immediato all\'ultimo viaggio acquistato.',
@@ -51,7 +51,7 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
       labelEn: 'Search Route',
       icon: Search,
       oldImg: 'cerca_biglietto.png',
-      newImg: 'Cerca.jpg',
+      newImg: '4_cerca_biglietto.png',
       titleIt: 'Selezione Tratta & Parametri di Viaggio',
       titleEn: 'Route Selection & Travel Parameters',
       descIt: 'Il modulo di ricerca passa da un modulo statico a un\'interfaccia conversazionale e touch-friendly, con selezione stazioni fluida e filtri intelligenti per andata e ritorno.',
@@ -69,11 +69,11 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
     },
     {
       id: 'biglietti',
-      labelIt: 'Scegli Biglietto',
+      labelIt: 'I tuoi biglietti',
       labelEn: 'Select Ticket',
       icon: Ticket,
       oldImg: 'scegli_biglietto.png',
-      newImg: 'Biglietti.jpg',
+      newImg: '3_ticket.png',
       titleIt: 'Risultati di Ricerca & Tariffe',
       titleEn: 'Search Results & Travel Tariffs',
       descIt: 'Trasparenza totale sui prezzi: i viaggi disponibili sono organizzati in card orarie ad alto contrasto con chiara distinzione delle classi di viaggio (Smart, Prima, Club Executive).',
@@ -95,7 +95,7 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
       labelEn: 'Offers',
       icon: Sparkles,
       oldImg: 'offerte.png',
-      newImg: 'Offerte.jpg',
+      newImg: '2_offerte.png',
       titleIt: 'Offerte & Vantaggi Italo Più',
       titleEn: 'Offers & Italo Più Perks',
       descIt: 'La sezione promozionale si trasforma in un hub premiante: card visive con immagini aspirazionali, codici sconto applicabili con un tocco e integrazione con il programma fedeltà.',
@@ -118,7 +118,7 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
   const activeScreen = screens.find((s) => s.id === activeTab) || screens[0];
 
   const oldBasePath = `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/old/`;
-  const newBasePath = `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/new/`;
+  const newBasePath = `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/redesign/`;
 
   return (
     <section
@@ -197,6 +197,7 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
               src={`${oldBasePath}${activeScreen.oldImg}`}
               alt={`${activeScreen.labelIt} - Prima`}
               className="absolute inset-0 h-full w-full object-cover"
+              style={{ clipPath: `inset(0 ${100 - comparisonPosition}% 0 0)` }}
               loading="eager"
               decoding="async"
             />
@@ -205,7 +206,6 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
               src={`${newBasePath}${activeScreen.newImg}`}
               alt={`${activeScreen.labelIt} - Redesign`}
               className="absolute inset-0 h-full w-full object-cover"
-              style={{ clipPath: `inset(0 ${100 - comparisonPosition}% 0 0)` }}
               loading="eager"
               decoding="async"
             />

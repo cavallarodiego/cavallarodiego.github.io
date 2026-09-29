@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 export function ItaloIntroductionSection() {
   const reduceMotion = useReducedMotion();
   const assetBase = `${import.meta.env.BASE_URL}Images/Project 03/introduction/3d/`;
+  const brandRedColorCorrection = 'hue-rotate(-8deg) saturate(1.2) brightness(1.22)';
 
   const floatingMotion = (
     duration: number,
@@ -19,11 +20,11 @@ export function ItaloIntroductionSection() {
           rotate: [0, rotation * 0.7, -rotation * 0.45, rotation * 0.25, 0],
           scale: [1, 1.025, 1, 0.99, 1],
           filter: [
-            'blur(0px) drop-shadow(0 18px 28px rgba(0,0,0,0.28))',
-            'blur(2px) drop-shadow(0 18px 28px rgba(0,0,0,0.22))',
-            'blur(0.6px) drop-shadow(0 18px 28px rgba(0,0,0,0.26))',
-            'blur(1.2px) drop-shadow(0 18px 28px rgba(0,0,0,0.24))',
-            'blur(0px) drop-shadow(0 18px 28px rgba(0,0,0,0.28))',
+            `${brandRedColorCorrection} blur(0px) drop-shadow(0 18px 28px rgba(0,0,0,0.28))`,
+            `${brandRedColorCorrection} blur(2px) drop-shadow(0 18px 28px rgba(0,0,0,0.22))`,
+            `${brandRedColorCorrection} blur(0.6px) drop-shadow(0 18px 28px rgba(0,0,0,0.26))`,
+            `${brandRedColorCorrection} blur(1.2px) drop-shadow(0 18px 28px rgba(0,0,0,0.24))`,
+            `${brandRedColorCorrection} blur(0px) drop-shadow(0 18px 28px rgba(0,0,0,0.28))`,
           ],
           transition: {
             duration,

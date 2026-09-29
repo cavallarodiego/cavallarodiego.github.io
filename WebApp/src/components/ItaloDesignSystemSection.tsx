@@ -58,12 +58,12 @@ export default function ItaloDesignSystemSection({ lang = 'it' }: ItaloDesignSys
             </div>
 
             {/* Navigation bars */}
-            <div className="col-span-full mx-auto grid w-full max-w-[620px] grid-cols-1 items-center gap-5 sm:grid-cols-2 sm:gap-6">
+            <div className="col-span-full mx-auto grid w-full max-w-[560px] grid-cols-1 items-center gap-5 sm:grid-cols-2 sm:gap-6">
               <div className="flex min-w-0 items-center justify-center sm:justify-self-center">
                 <img
                   src={`${componentsPath}tabbar.png`}
                   alt="Barra di navigazione inferiore"
-                  className="h-auto w-full max-w-[310px] object-contain drop-shadow-lg transition-transform duration-300 hover:scale-[1.015]"
+                  className="h-auto w-full max-w-[280px] object-contain drop-shadow-lg transition-transform duration-300 hover:scale-[1.015]"
                   loading="eager"
                 />
               </div>
@@ -71,39 +71,41 @@ export default function ItaloDesignSystemSection({ lang = 'it' }: ItaloDesignSys
                 <img
                   src={`${componentsPath}navbar.png`}
                   alt="Barra superiore dell’app Italo"
-                  className="h-auto w-full max-w-[310px] object-contain drop-shadow-lg transition-transform duration-300 hover:scale-[1.015]"
+                  className="h-auto w-full max-w-[280px] object-contain drop-shadow-lg transition-transform duration-300 hover:scale-[1.015]"
                   loading="eager"
                 />
               </div>
             </div>
 
             {/* Primary and secondary actions */}
-            <div className="col-span-full mx-auto grid w-full max-w-[620px] grid-cols-1 items-center gap-4 sm:grid-cols-2 sm:gap-6">
+            <div className="col-span-full mx-auto grid w-full max-w-[560px] grid-cols-1 items-center gap-4 sm:grid-cols-2 sm:gap-6">
               <img src={`${componentsPath}button-red.png`} alt="Pulsante primario" className="w-full object-contain" loading="eager" />
               <img src={`${componentsPath}button-dark.png`} alt="Pulsante secondario" className="w-full object-contain" loading="eager" />
             </div>
 
             {/* Ticket and booking fields */}
-            <img
-              src={`${componentsPath}ticket.png`}
-              alt="Biglietto digitale Italo"
-              className="mx-auto max-h-[315px] w-full max-w-[270px] object-contain drop-shadow-xl transition-transform duration-300 hover:scale-[1.02] sm:justify-self-center"
-              loading="eager"
-            />
+            <div className="col-span-full mx-auto grid w-full max-w-[580px] grid-cols-2 items-center gap-5 sm:gap-6">
+              <img
+                src={`${componentsPath}ticket.png`}
+                alt="Biglietto digitale Italo"
+                className="ml-auto max-h-[285px] w-full max-w-[245px] object-contain drop-shadow-xl transition-transform duration-300 hover:scale-[1.02]"
+                loading="eager"
+              />
 
-            <div className="mx-auto flex w-full max-w-[300px] min-w-0 flex-col items-center justify-center gap-4 sm:gap-5 sm:self-center">
-              <img
-                src={`${componentsPath}route.png`}
-                alt="Selettore della tratta"
-                  className="max-h-[112px] w-full object-contain drop-shadow-lg transition-transform duration-300 hover:scale-[1.02]"
-                loading="eager"
-              />
-              <img
-                src={`${componentsPath}passengers.png`}
-                alt="Selettore del numero di passeggeri"
-                  className="max-h-[58px] w-full object-contain drop-shadow-lg transition-transform duration-300 hover:scale-[1.02]"
-                loading="eager"
-              />
+              <div className="mr-auto flex w-full max-w-[260px] min-w-0 flex-col items-center justify-center gap-3 sm:gap-4">
+                <img
+                  src={`${componentsPath}route.png`}
+                  alt="Selettore della tratta"
+                  className="max-h-[100px] w-full object-contain drop-shadow-lg transition-transform duration-300 hover:scale-[1.02]"
+                  loading="eager"
+                />
+                <img
+                  src={`${componentsPath}passengers.png`}
+                  alt="Selettore del numero di passeggeri"
+                  className="max-h-[52px] w-full object-contain drop-shadow-lg transition-transform duration-300 hover:scale-[1.02]"
+                  loading="eager"
+                />
+              </div>
             </div>
           </div>
         </div>
