@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import { Copy, Check } from 'lucide-react';
 import { ItaloTrainMarquee } from './ItaloTrainMarquee';
 
 interface ItaloDesignSystemSectionProps {
@@ -7,57 +5,22 @@ interface ItaloDesignSystemSectionProps {
 }
 
 export default function ItaloDesignSystemSection({ lang = 'it' }: ItaloDesignSystemSectionProps) {
-  const [copiedColor, setCopiedColor] = useState<string | null>(null);
-
-  const handleCopyHex = (hex: string) => {
-    try {
-      navigator.clipboard.writeText(hex);
-    } catch {}
-    setCopiedColor(hex);
-    setTimeout(() => setCopiedColor(null), 2000);
-  };
-
   const primaryColors = [
-    { hex: '#B50D3A', nameIt: 'Rosso Italo', nameEn: 'Italo Red', bgClass: 'bg-[#B50D3A]' },
-    { hex: '#FFFFFF', nameIt: 'Bianco Ottico', nameEn: 'Pure White', bgClass: 'bg-white' },
-    { hex: '#EBEBEB', nameIt: 'Grigio Chiaro', nameEn: 'Light Surface', bgClass: 'bg-[#EBEBEB]' },
-    { hex: '#111111', nameIt: 'Carbone', nameEn: 'Carbon Black', bgClass: 'bg-[#111111]' },
-  ];
-
-  const row1 = [
-    { file: 'Tracciato 816.svg', name: 'Alert' },
-    { file: 'Tracciato 817.svg', name: 'Account Settings' },
-    { file: 'Tracciato 818.svg', name: 'Notifications' },
-    { file: 'Tracciato 815.svg', name: 'History' },
-    { file: 'Tracciato 819.svg', name: 'Home' },
-    { file: 'Tracciato 828.svg', name: 'Entertainment / Gamepad' },
-    { file: 'Tracciato 820.svg', name: 'Payments / Dollar' },
-    { file: 'Tracciato 823.svg', name: 'Ticket' },
-    { file: 'Tracciato 827.svg', name: 'User Profile' },
-    { file: 'Tracciato 826.svg', name: 'Media / Video' },
-  ];
-
-  const row2 = [
-    { file: 'Tracciato 832.svg', name: 'Train / High Speed' },
-    { file: 'Tracciato 830.svg', name: 'Seat Comfort' },
-    { file: 'Tracciato 822.svg', name: 'News & Press' },
-    { file: 'Tracciato 829.svg', name: 'Help & Support' },
-    { file: 'Tracciato 821.svg', name: 'Travel Guide / Book' },
-    { file: 'Tracciato 833.svg', name: 'Security / Shield' },
-    { file: 'Tracciato 834.svg', name: 'Info' },
-    { file: 'Raggruppa 36.svg', name: 'Cinema / Clapperboard' },
-    { file: 'Tracciato 824.svg', name: 'Accessibility / Wheelchair' },
-    { file: 'Tracciato 831.svg', name: 'Italo Più Loyalty / Crown' },
+    { hex: '#B50D3A', bgClass: 'bg-[#B50D3A]' },
+    { hex: '#FFFFFF', bgClass: 'bg-white' },
+    { hex: '#EBEBEB', bgClass: 'bg-[#EBEBEB]' },
+    { hex: '#111111', bgClass: 'bg-[#111111]' },
   ];
 
   const basePath = `${import.meta.env.BASE_URL}Images/Project 03/design_system/`;
+  const componentsPath = `${basePath}updated-components/`;
 
   return (
     <section
       id="italo-treni-design-system"
       data-project-section="05-design-system"
       aria-labelledby="italo-design-system-title"
-      className="w-full min-h-[100svh] relative z-20 py-20 sm:py-24 lg:py-28 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto border-t border-white/5"
+      className="w-full min-h-[100svh] relative z-20 py-20 sm:py-24 lg:py-28 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto"
     >
       <h2 id="italo-design-system-title" className="sr-only">Design System</h2>
       <div className="relative left-1/2 mb-14 w-screen -translate-x-1/2 sm:mb-16 lg:mb-20">
@@ -65,81 +28,80 @@ export default function ItaloDesignSystemSection({ lang = 'it' }: ItaloDesignSys
       </div>
 
       {/* Design System Bento Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 w-full items-stretch">
 
         {/* Left Side: Componenti Core & UI Kit (lg:col-span-7) */}
-        <div className="lg:col-span-7 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl p-8 md:p-10 shadow-2xl relative overflow-hidden group flex flex-col justify-between gap-8">
+        <div className="lg:col-span-7 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl p-6 sm:p-8 md:p-10 shadow-2xl relative overflow-hidden group flex flex-col gap-8">
           <div className="absolute inset-0 bg-gradient-to-br from-[#B50D3A]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-          {/* Card Header */}
-          <div className="flex items-center justify-start relative z-10">
-            <h3 className="text-xs font-mono uppercase tracking-widest text-neutral-400 font-bold">
-              Componenti Core & UI Kit
-            </h3>
-          </div>
-
-          {/* Component Showcase Gallery */}
-          <div className="flex flex-col gap-8 relative z-10 w-full">
-            {/* Hero booking component */}
-            <div className="w-full flex justify-center items-center">
+          <div className="relative z-10 grid w-full grid-cols-1 gap-x-8 gap-y-9 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 lg:gap-x-10 lg:gap-y-14">
+            {/* Top row: calendar and promotional cards */}
+            <div className="col-span-full mx-auto grid w-full max-w-[660px] grid-cols-1 items-end gap-6 sm:grid-cols-3 sm:gap-5 xl:gap-8">
               <img
-                src={`${basePath}image%209.svg`}
-                alt="Search & Booking Widget"
-                className="w-full max-h-[170px] object-contain drop-shadow-2xl hover:scale-[1.02] transition-transform duration-300"
+                src={`${componentsPath}calendar.png`}
+                alt="Selettore della data di ritorno"
+              className="mx-auto h-[250px] w-full max-w-[230px] object-contain drop-shadow-2xl transition-transform duration-300 hover:scale-[1.025]"
+                loading="eager"
+              />
+              <img
+                src={`${componentsPath}promo-default.png`}
+                alt="Card promozionale Italo"
+              className="mx-auto h-[250px] w-full max-w-[230px] object-contain drop-shadow-2xl transition-transform duration-300 hover:scale-[1.025]"
+                loading="eager"
+              />
+              <img
+                src={`${componentsPath}promo-friends.png`}
+                alt="Card promozionale Italo Friends"
+              className="mx-auto h-[250px] w-full max-w-[230px] object-contain drop-shadow-2xl transition-transform duration-300 hover:scale-[1.025]"
                 loading="eager"
               />
             </div>
 
-            {/* Middle Grid: Ticket Cards, Price Tags & Action Bars */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full items-center justify-items-center">
-              <img
-                src={`${basePath}image%2015.svg`}
-                alt="Ticket Tariff Card"
-                className="w-full max-h-[130px] object-contain drop-shadow-xl hover:scale-105 transition-transform duration-300"
-                loading="eager"
-              />
-              <img
-                src={`${basePath}Group%209.svg`}
-                alt="Booking Selection Component"
-                className="w-full max-h-[130px] object-contain drop-shadow-xl hover:scale-105 transition-transform duration-300"
-                loading="eager"
-              />
-              <img
-                src={`${basePath}image%2018.svg`}
-                alt="Loyalty Banner"
-                className="w-full max-h-[130px] object-contain drop-shadow-xl hover:scale-105 transition-transform duration-300"
-                loading="eager"
-              />
+            {/* Navigation bars */}
+            <div className="col-span-full mx-auto grid w-full max-w-[660px] grid-cols-1 items-center gap-7 sm:grid-cols-2 sm:gap-8">
+              <div className="flex min-w-0 items-center justify-center sm:justify-self-center">
+                <img
+                  src={`${componentsPath}tabbar.png`}
+                  alt="Barra di navigazione inferiore"
+                  className="h-auto w-full max-w-[340px] object-contain drop-shadow-xl transition-transform duration-300 hover:scale-[1.02]"
+                  loading="eager"
+                />
+              </div>
+              <div className="flex min-w-0 items-center justify-center sm:justify-self-center">
+                <img
+                  src={`${componentsPath}navbar.png`}
+                  alt="Barra superiore dell’app Italo"
+                  className="h-auto w-full max-w-[340px] object-contain drop-shadow-xl transition-transform duration-300 hover:scale-[1.02]"
+                  loading="eager"
+                />
+              </div>
             </div>
 
-            {/* Core Interactive Cards (Enlarged for high clarity & readability) */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 w-full items-center justify-items-center py-2">
-              <img
-                src={`${basePath}image%2014.svg`}
-                alt="Ticket Selection Card"
-                className="w-full max-h-[240px] sm:max-h-[280px] md:max-h-[320px] object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300"
-                loading="eager"
-              />
-              <img
-                src={`${basePath}image%2013.svg`}
-                alt="Search Route Card"
-                className="w-full max-h-[240px] sm:max-h-[280px] md:max-h-[320px] object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300"
-                loading="eager"
-              />
-              <img
-                src={`${basePath}image%2010.svg`}
-                alt="UI Button States Hierarchy"
-                className="w-full max-h-[240px] sm:max-h-[280px] md:max-h-[320px] object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300"
-                loading="eager"
-              />
+            {/* Primary and secondary actions */}
+            <div className="col-span-full mx-auto grid w-full max-w-[660px] grid-cols-1 items-center gap-5 sm:grid-cols-2 sm:gap-7">
+              <img src={`${componentsPath}button-red.png`} alt="Pulsante primario" className="w-full object-contain" loading="eager" />
+              <img src={`${componentsPath}button-dark.png`} alt="Pulsante secondario" className="w-full object-contain" loading="eager" />
             </div>
 
-            {/* Bottom Navigation Bar */}
-            <div className="w-full flex justify-center items-center pt-2">
+            {/* Ticket and booking fields */}
+            <img
+              src={`${componentsPath}ticket.png`}
+              alt="Biglietto digitale Italo"
+              className="mx-auto max-h-[360px] w-full max-w-[300px] object-contain drop-shadow-2xl transition-transform duration-300 hover:scale-[1.025] sm:justify-self-center"
+              loading="eager"
+            />
+
+            <div className="mx-auto flex w-full max-w-[330px] min-w-0 flex-col items-center justify-center gap-6 sm:gap-7 sm:self-center">
               <img
-                src={`${basePath}image%208.svg`}
-                alt="Mobile Bottom Navigation Bar"
-                className="w-full max-w-[340px] max-h-[56px] object-contain drop-shadow-lg hover:scale-105 transition-transform duration-300"
+                src={`${componentsPath}route.png`}
+                alt="Selettore della tratta"
+                className="max-h-[124px] w-full object-contain drop-shadow-xl transition-transform duration-300 hover:scale-[1.025]"
+                loading="eager"
+              />
+              <img
+                src={`${componentsPath}passengers.png`}
+                alt="Selettore del numero di passeggeri"
+                className="max-h-[64px] w-full object-contain drop-shadow-xl transition-transform duration-300 hover:scale-[1.025]"
                 loading="eager"
               />
             </div>
@@ -147,47 +109,31 @@ export default function ItaloDesignSystemSection({ lang = 'it' }: ItaloDesignSys
         </div>
 
         {/* Right Side: Color Palette & Typography (lg:col-span-5) */}
-        <div className="lg:col-span-5 flex flex-col gap-6">
+        <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5 lg:gap-6">
           {/* Color Palette Principale */}
-          <div className="rounded-[2rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl p-8 flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group">
+          <div className="sm:col-span-2 lg:col-span-1 rounded-[2rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl p-6 sm:p-7 flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-br from-[#B50D3A]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-            <h3 className="text-xs font-mono uppercase tracking-widest text-neutral-400 font-bold mb-6 relative z-10 text-center">
-              Color Palette
-            </h3>
-
-            <div className="flex flex-wrap justify-center gap-6 relative z-10 w-full">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 justify-items-center gap-x-4 gap-y-5 relative z-10 w-full max-w-[520px]">
               {primaryColors.map((color) => (
-                <button
+                <div
                   key={color.hex}
-                  onClick={() => handleCopyHex(color.hex)}
-                  className="group/btn flex flex-col items-center gap-2 cursor-pointer"
-                  title="Clicca per copiare HEX"
+                  className="flex w-full flex-col items-center gap-2"
                 >
                   <div
-                    className={`w-12 h-12 rounded-full shadow-lg border border-white/15 shrink-0 transition-all duration-300 group-hover/btn:scale-110 group-hover/btn:shadow-[0_0_20px_rgba(181,13,58,0.4)] ${color.bgClass}`}
+                    className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full shadow-lg border border-white/15 shrink-0 ${color.bgClass}`}
                   />
                   <div className="text-center">
-                    <span className="text-xs text-white/90 font-medium block">
-                      {lang === 'it' ? color.nameIt : color.nameEn}
-                    </span>
-                    <span className="text-[10px] font-mono text-neutral-500 group-hover/btn:text-[#B50D3A] transition-colors flex items-center justify-center gap-1">
-                      {copiedColor === color.hex ? (
-                        <>
-                          <Check className="w-2.5 h-2.5 text-emerald-400" />
-                          <span className="text-emerald-400">Copiato!</span>
-                        </>
-                      ) : (
-                        color.hex
-                      )}
+                    <span className="text-[10px] font-mono text-neutral-500">
+                      {color.hex}
                     </span>
                   </div>
-                </button>
+                </div>
               ))}
             </div>
           </div>
 
           {/* Body Text Demo */}
-          <div className="rounded-[2rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl p-8 md:p-10 flex flex-col justify-center items-start shadow-2xl relative overflow-hidden group flex-1">
+          <div className="rounded-[2rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl p-6 sm:p-7 md:p-8 flex flex-col justify-center items-start shadow-2xl relative overflow-hidden group min-h-[210px]">
             <div className="absolute inset-0 bg-gradient-to-bl from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             <div className="flex flex-col gap-2 relative z-10 w-full">
               <span className="font-mono text-[11px] text-[#B50D3A] font-bold uppercase tracking-wider mb-1">
@@ -205,7 +151,7 @@ export default function ItaloDesignSystemSection({ lang = 'it' }: ItaloDesignSys
           </div>
 
           {/* H1 Demo */}
-          <div className="rounded-[2rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl p-8 md:p-10 flex flex-col justify-center items-start shadow-2xl relative overflow-hidden group flex-1">
+          <div className="rounded-[2rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl p-6 sm:p-7 md:p-8 flex flex-col justify-center items-start shadow-2xl relative overflow-hidden group min-h-[210px]">
             <div className="absolute inset-0 bg-gradient-to-tr from-[#B50D3A]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             <div className="flex flex-col gap-2 relative z-10 w-full">
               <span className="font-mono text-[11px] text-[#B50D3A] font-bold uppercase tracking-wider mb-2">
@@ -217,49 +163,6 @@ export default function ItaloDesignSystemSection({ lang = 'it' }: ItaloDesignSys
               >
                 {lang === 'it' ? 'Viaggia ad Alta Velocità' : 'High-Speed Journey'}
               </h1>
-            </div>
-          </div>
-        </div>
-
-        {/* 3. Bottom Card: Iconografia (lg:col-span-12) */}
-        <div className="lg:col-span-12 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl p-8 sm:p-12 md:p-14 shadow-2xl relative overflow-hidden group flex flex-col items-center justify-center">
-          <div className="absolute inset-0 bg-gradient-to-tr from-[#B50D3A]/5 via-transparent to-white/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-          <div className="w-full max-w-5xl xl:max-w-6xl mx-auto flex flex-col items-center justify-center relative z-10 py-3 sm:py-6 gap-6 sm:gap-8 md:gap-10">
-            {/* Row 1: 10 icons */}
-            <div className="grid grid-cols-5 sm:grid-cols-10 w-full justify-items-center items-center gap-y-6">
-              {row1.map((icon, index) => (
-                <div
-                  key={index}
-                  className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center transition-all duration-300 hover:scale-130 hover:drop-shadow-[0_0_12px_rgba(250,240,230,0.55)] cursor-pointer group/icon"
-                  title={icon.name}
-                >
-                  <img
-                    src={`${basePath}icons/${encodeURIComponent(icon.file)}`}
-                    alt={icon.name}
-                    className="w-full h-full object-contain filter transition-transform duration-300"
-                    loading="eager"
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Row 2: 10 icons */}
-            <div className="grid grid-cols-5 sm:grid-cols-10 w-full justify-items-center items-center gap-y-6">
-              {row2.map((icon, index) => (
-                <div
-                  key={index}
-                  className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center transition-all duration-300 hover:scale-130 hover:drop-shadow-[0_0_12px_rgba(250,240,230,0.55)] cursor-pointer group/icon"
-                  title={icon.name}
-                >
-                  <img
-                    src={`${basePath}icons/${encodeURIComponent(icon.file)}`}
-                    alt={icon.name}
-                    className="w-full h-full object-contain filter transition-transform duration-300"
-                    loading="eager"
-                  />
-                </div>
-              ))}
             </div>
           </div>
         </div>

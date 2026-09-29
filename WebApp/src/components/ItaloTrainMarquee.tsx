@@ -45,7 +45,7 @@ export const ItaloTrainMarquee = React.memo(function ItaloTrainMarquee({
 }: ItaloTrainMarqueeProps) {
   return (
     <div
-      className={`relative flex h-[42px] w-full select-none items-center overflow-hidden border-b border-[#B50D3A]/20 opacity-90 pointer-events-none ${className}`}
+      className={`relative flex h-[42px] w-full select-none items-center overflow-hidden opacity-90 pointer-events-none ${className}`}
       aria-label={label}
     >
       <div className="flex h-full w-max animate-train-scroll-seamless">

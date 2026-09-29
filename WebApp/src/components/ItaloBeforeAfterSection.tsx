@@ -114,6 +114,7 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
   ];
 
   const [activeTab, setActiveTab] = useState<string>('home');
+  const [comparisonPosition, setComparisonPosition] = useState(50);
   const activeScreen = screens.find((s) => s.id === activeTab) || screens[0];
 
   const oldBasePath = `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/old/`;
@@ -124,8 +125,15 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
       id="italo-treni-before-after"
       data-project-section="06-before-after"
       aria-labelledby="italo-before-after-title"
-      className="w-full min-h-[100svh] relative z-20 py-20 sm:py-24 lg:py-28 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto border-t border-white/5"
+      className="w-full min-h-[100svh] relative z-20 py-20 sm:py-24 lg:py-28 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto isolate"
     >
+      <div
+        className="absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          background: 'linear-gradient(135deg, #4A071C 0%, #8D0A30 42%, #B50D3A 72%, #650820 100%)',
+        }}
+      />
       {/* Section Title Header */}
       <div className="flex flex-col items-center justify-center text-center gap-3 mb-12 sm:mb-16">
         <h2
@@ -134,7 +142,6 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
         >
           {lang === 'it' ? 'Prima & Dopo' : 'Before & After'}
         </h2>
-        <div className="w-12 h-1 bg-[#B50D3A] mt-1 rounded-full" />
       </div>
 
       {/* Preload images for instant switching without lag */}
@@ -156,7 +163,10 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setComparisonPosition(50);
+                }}
                 className={`flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold tracking-wide transition-colors duration-200 relative z-10 whitespace-nowrap uppercase cursor-pointer ${
                   isActive ? 'text-white font-bold' : 'text-neutral-400 hover:text-white'
                 }`}
@@ -178,57 +188,46 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
         </div>
       </div>
 
-      {/* Comparison Container */}
-      <div className="w-full flex flex-col gap-12 sm:gap-16 items-center">
-        {/* Side-by-Side Comparison Mockups */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 w-full max-w-3xl justify-items-center items-start">
-          
-          {/* Left Card: PRIMA (Old Design) */}
-          <div className="flex flex-col items-center gap-4 w-full max-w-[230px] sm:max-w-[260px] md:max-w-[280px]">
-            {/* Badge */}
-            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-neutral-400 text-[11px] sm:text-xs font-mono tracking-wider uppercase font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-neutral-500" />
-              {lang === 'it' ? 'Prima / Vecchia App' : 'Before / Legacy App'}
+      {/* Before and after image comparison slider */}
+      <div className="w-full flex justify-center">
+        <div className="relative w-full max-w-[340px] rounded-[2.4rem] bg-gradient-to-b from-neutral-800/90 via-neutral-900 to-black p-2 sm:p-2.5 border border-white/15 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+          <div className="relative w-full aspect-[393/852] rounded-[1.9rem] overflow-hidden bg-neutral-950">
+            <img
+              key={`old-${activeScreen.id}`}
+              src={`${oldBasePath}${activeScreen.oldImg}`}
+              alt={`${activeScreen.labelIt} - Prima`}
+              className="absolute inset-0 h-full w-full object-cover"
+              loading="eager"
+              decoding="async"
+            />
+            <img
+              key={`new-${activeScreen.id}`}
+              src={`${newBasePath}${activeScreen.newImg}`}
+              alt={`${activeScreen.labelIt} - Redesign`}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ clipPath: `inset(0 ${100 - comparisonPosition}% 0 0)` }}
+              loading="eager"
+              decoding="async"
+            />
+            <div
+              className="absolute inset-y-0 z-10 w-0.5 -translate-x-1/2 bg-white shadow-[0_0_12px_rgba(0,0,0,0.7)] pointer-events-none"
+              style={{ left: `${comparisonPosition}%` }}
+              aria-hidden="true"
+            >
+              <span className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-[#B50D3A] text-white shadow-lg">
+                <span className="text-lg leading-none">↔</span>
+              </span>
             </div>
-
-            {/* Phone Frame */}
-            <div className="w-full rounded-[2.2rem] bg-gradient-to-b from-neutral-800/90 via-neutral-900 to-black p-2 sm:p-2.5 border border-white/10 shadow-lg relative overflow-hidden">
-              <div className="w-full rounded-[1.8rem] overflow-hidden bg-neutral-950 aspect-[504/1092] flex items-center justify-center">
-                <img
-                  key={`old-${activeScreen.id}`}
-                  src={`${oldBasePath}${activeScreen.oldImg}`}
-                  alt={`${activeScreen.labelIt} - Prima`}
-                  className="w-full h-full object-cover transition-opacity duration-200"
-                  loading="eager"
-                  decoding="async"
-                />
-              </div>
-            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={comparisonPosition}
+              onChange={(event) => setComparisonPosition(Number(event.target.value))}
+              aria-label={lang === 'it' ? 'Confronta versione originale e redesign' : 'Compare original and redesign'}
+              className="absolute inset-0 z-20 h-full w-full cursor-ew-resize opacity-0"
+            />
           </div>
-
-          {/* Right Card: DOPO (New Redesign) */}
-          <div className="flex flex-col items-center gap-4 w-full max-w-[230px] sm:max-w-[260px] md:max-w-[280px]">
-            {/* Badge */}
-            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#B50D3A]/20 border border-[#B50D3A]/50 text-white text-[11px] sm:text-xs font-mono tracking-wider uppercase font-semibold shadow-[0_0_12px_rgba(181,13,58,0.25)]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#B50D3A]" />
-              {lang === 'it' ? 'Dopo / Nuovo Redesign' : 'After / Redesign'}
-            </div>
-
-            {/* Phone Frame with Red Neon Border */}
-            <div className="w-full rounded-[2.2rem] bg-gradient-to-b from-neutral-800/90 via-neutral-900 to-black p-2 sm:p-2.5 border border-[#B50D3A]/50 shadow-[0_0_20px_rgba(181,13,58,0.15)] relative overflow-hidden">
-              <div className="w-full rounded-[1.8rem] overflow-hidden bg-neutral-950 aspect-[393/852] flex items-center justify-center">
-                <img
-                  key={`new-${activeScreen.id}`}
-                  src={`${newBasePath}${activeScreen.newImg}`}
-                  alt={`${activeScreen.labelIt} - Dopo`}
-                  className="w-full h-full object-cover transition-opacity duration-200"
-                  loading="eager"
-                  decoding="async"
-                />
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </section>

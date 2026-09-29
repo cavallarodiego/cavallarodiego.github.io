@@ -36,11 +36,11 @@
   --color-text-accent: #E8302A;
 }
 
-/* Base custom styles to respect selection and overall dark theme */
-/* ::selection {
-  background: #E8302A;
+/* Use the Italo brand red when text is selected. */
+::selection {
+  background: #B50D3A;
   color: #FFFFFF;
-} */
+}
 
 html, body {
   background-color: #050505;

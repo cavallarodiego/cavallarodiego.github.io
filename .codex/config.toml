@@ -1,0 +1,5 @@
+# Fast project-specific profile for ChatGPT Work/Codex.
+# Keeps the global model settings unchanged for every other project.
+model = "gpt-6-luna"
+model_reasoning_effort = "low"
+

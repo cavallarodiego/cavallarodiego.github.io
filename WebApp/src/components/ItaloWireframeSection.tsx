@@ -1,5 +1,6 @@
 import React from 'react';
 import WireframeComparisonCarousel from './WireframeComparisonCarousel';
+import { GridVignetteBackground } from './ui/vignette-grid-background';
 
 export function ItaloWireframeSection() {
   return (
@@ -7,9 +8,10 @@ export function ItaloWireframeSection() {
       id="italo-treni-wireframe"
       data-project-section="04-wireframe"
       aria-labelledby="italo-wireframe-title"
-      className="w-full min-h-[100svh] relative z-20 flex items-center justify-center py-20 sm:py-24 lg:py-28 px-6 sm:px-12 border-t border-white/5"
+      className="w-full min-h-[100svh] relative z-20 isolate flex items-center justify-center py-20 sm:py-24 lg:py-28 px-6 sm:px-12"
     >
-      <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20 w-full max-w-6xl mx-auto">
+      <GridVignetteBackground className="opacity-100" horizontalVignetteSize={50} verticalVignetteSize={50} intensity={100} />
+      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20 w-full max-w-6xl mx-auto">
         <div className="w-full lg:w-[520px] shrink-0 flex flex-col items-start text-left gap-6 relative">
           <div
             className="absolute -top-32 -left-32 sm:-top-44 sm:-left-44 w-[600px] sm:w-[750px] lg:w-[850px] h-[600px] sm:h-[750px] lg:h-[850px] rounded-full bg-[radial-gradient(circle_at_center,rgba(181,13,58,0.28)_0%,rgba(158,28,31,0.12)_45%,transparent_70%)] blur-[35px] sm:blur-[50px] transform-gpu -z-10 pointer-events-none"
