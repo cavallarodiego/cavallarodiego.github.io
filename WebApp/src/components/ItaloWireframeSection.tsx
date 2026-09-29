@@ -1,6 +1,5 @@
 import React from 'react';
 import WireframeComparisonCarousel from './WireframeComparisonCarousel';
-import { GridVignetteBackground } from './ui/vignette-grid-background';
 
 export function ItaloWireframeSection() {
   return (
@@ -10,7 +9,6 @@ export function ItaloWireframeSection() {
       aria-labelledby="italo-wireframe-title"
       className="w-full min-h-[100svh] relative z-20 isolate flex items-center justify-center py-20 sm:py-24 lg:py-28 px-6 sm:px-12"
     >
-      <GridVignetteBackground className="opacity-100" horizontalVignetteSize={50} verticalVignetteSize={50} intensity={100} />
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20 w-full max-w-6xl mx-auto">
         <div className="w-full lg:w-[520px] shrink-0 flex flex-col items-start text-left gap-6 relative">
           <div

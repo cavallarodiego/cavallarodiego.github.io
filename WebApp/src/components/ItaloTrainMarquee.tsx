@@ -5,35 +5,21 @@ interface ItaloTrainMarqueeProps {
   className?: string;
 }
 
-const MARQUEE_ITEMS = 5;
-
-function TrainShape() {
-  const trainSrc = `${import.meta.env.BASE_URL}train_divider.svg`;
-
-  return (
-    <svg
-      viewBox="0 0 1194 145"
-      aria-hidden="true"
-      className="h-full w-auto aspect-[1194/145] shrink-0"
-    >
-      <image href={trainSrc} width="2153" height="145" preserveAspectRatio="xMinYMid meet" />
-    </svg>
-  );
-}
+const MARQUEE_ITEMS = 6;
 
 function MarqueeTrack({ label, clone = false }: { label: string; clone?: boolean }) {
   return (
     <div
-      className="flex h-full shrink-0 items-center gap-8 pr-8 sm:gap-12 sm:pr-12"
+      className="flex h-full shrink-0 items-center gap-12 pr-12 sm:gap-20 sm:pr-20"
       aria-hidden={clone || undefined}
     >
       {Array.from({ length: MARQUEE_ITEMS }, (_, index) => (
-        <React.Fragment key={`${clone ? 'clone' : 'primary'}-${index}`}>
-          <span className="shrink-0 whitespace-nowrap font-sans text-[18px] font-black uppercase tracking-tight text-white sm:text-[24px] lg:text-[30px]">
-            {label}
-          </span>
-          <TrainShape />
-        </React.Fragment>
+        <span
+          key={`${clone ? 'clone' : 'primary'}-${index}`}
+          className="shrink-0 whitespace-nowrap font-sans text-[18px] font-black uppercase tracking-tight text-white sm:text-[24px] lg:text-[30px]"
+        >
+          {label}
+        </span>
       ))}
     </div>
   );
@@ -45,7 +31,7 @@ export const ItaloTrainMarquee = React.memo(function ItaloTrainMarquee({
 }: ItaloTrainMarqueeProps) {
   return (
     <div
-      className={`relative flex h-[42px] w-full select-none items-center overflow-hidden opacity-90 pointer-events-none ${className}`}
+      className={`relative flex h-[56px] w-full select-none items-center overflow-hidden bg-[#B50D3A] pointer-events-none sm:h-[64px] ${className}`}
       aria-label={label}
     >
       <div className="flex h-full w-max animate-train-scroll-seamless">
