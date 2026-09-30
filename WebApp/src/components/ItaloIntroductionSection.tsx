@@ -1,9 +1,27 @@
+import { Fragment } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 export function ItaloIntroductionSection() {
   const reduceMotion = useReducedMotion();
   const assetBase = `${import.meta.env.BASE_URL}Images/Project 03/introduction/3d/`;
   const brandRedColorCorrection = 'hue-rotate(-8deg) saturate(1.2) brightness(1.22)';
+  const introText = "Il redesign dell'applicazione di Italo Treno si concentra sull'abbattimento del carico cognitivo durante la ricerca, selezione e pagamento delle tratte ad alta velocità.";
+  const emphasizedWordCount = "Il redesign dell'applicazione di Italo Treno".split(' ').length;
+  const introWords = introText.split(' ');
+  const introTextVariants = {
+    hidden: {},
+    visible: {
+      transition: { delayChildren: 0.12, staggerChildren: 0.035 },
+    },
+  };
+  const introWordVariants = {
+    hidden: { y: '110%', opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
+    },
+  };
 
   const floatingMotion = (
     duration: number,
@@ -81,10 +99,31 @@ export function ItaloIntroductionSection() {
         />
       </div>
       <div className="relative z-20 flex-1 flex items-center justify-center px-6 sm:px-12 md:px-16 w-full max-w-[1600px] mx-auto">
-        <p className="text-white font-urbanist text-xl md:text-2xl lg:text-3xl leading-[1.4] font-light tracking-tight text-center max-w-4xl">
-          <span className="font-semibold text-[#B50D3A]">Il redesign dell'applicazione di Italo Treno</span>{' '}
-          si concentra sull'abbattimento del carico cognitivo durante la ricerca, selezione e pagamento delle tratte ad alta velocità.
-        </p>
+        <motion.p
+          aria-label={introText}
+          initial={reduceMotion ? false : 'hidden'}
+          whileInView={reduceMotion ? undefined : 'visible'}
+          viewport={{ once: true, amount: 0.2 }}
+          variants={introTextVariants}
+          className="text-white font-urbanist text-xl md:text-2xl lg:text-3xl leading-[1.4] font-light tracking-tight text-center max-w-4xl"
+        >
+          <span className="sr-only">{introText}</span>
+          <span aria-hidden="true">
+            {introWords.map((word, index) => (
+              <Fragment key={`${word}-${index}`}>
+                {index > 0 ? ' ' : null}
+                <span className="inline-block overflow-hidden align-bottom pb-[0.08em]">
+                  <motion.span
+                    variants={reduceMotion ? undefined : introWordVariants}
+                    className={`inline-block ${index < emphasizedWordCount ? 'font-semibold text-[#B50D3A]' : ''}`}
+                  >
+                    {word}
+                  </motion.span>
+                </span>
+              </Fragment>
+            ))}
+          </span>
+        </motion.p>
       </div>
     </section>
   );

@@ -187,6 +187,7 @@ class Media {
   screen: { width: number; height: number };
   viewport: { width: number; height: number };
   bend: number;
+  mobileLayout: boolean;
   textColor: string;
   borderRadius: number;
   font: string;
@@ -213,6 +214,7 @@ class Media {
     screen,
     viewport,
     bend,
+    mobileLayout,
     textColor,
     borderRadius = 0,
     font,
@@ -227,6 +229,7 @@ class Media {
     screen: { width: number; height: number };
     viewport: { width: number; height: number };
     bend: number;
+    mobileLayout: boolean;
     textColor: string;
     borderRadius: number;
     font: string;
@@ -241,6 +244,7 @@ class Media {
     this.screen = screen;
     this.viewport = viewport;
     this.bend = bend;
+    this.mobileLayout = mobileLayout;
     this.textColor = textColor;
     this.borderRadius = borderRadius;
     this.font = font;
@@ -397,7 +401,7 @@ class Media {
       this.plane.scale.x,
       this.plane.scale.y,
     ];
-    this.padding = 2;
+    this.padding = this.mobileLayout ? this.plane.scale.x * 0.14 : 2;
     this.width = this.plane.scale.x + this.padding;
     this.widthTotal = this.width * this.length;
     this.x = this.width * this.index;
@@ -503,6 +507,9 @@ class App {
     borderRadius: number,
     font: string,
   ) {
+    // Keep the desktop arc, but soften its curvature on narrow viewports where
+    // the same bend produces a much more pronounced card tilt.
+    const responsiveBend = this.screen.width < 768 ? bend * 0.35 : bend;
     const defaultItems: GalleryItem[] = [
       { 
         title: "User Research & Analisi", 
@@ -524,7 +531,8 @@ class App {
         scene: this.scene,
         screen: this.screen,
         viewport: this.viewport,
-        bend,
+        bend: responsiveBend,
+        mobileLayout: this.screen.width < 768,
         textColor,
         borderRadius,
         font,
@@ -657,6 +665,8 @@ const CircularGallery = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    const isMobileViewport = window.matchMedia("(max-width: 767px)").matches;
+
     // Get computed styles for theme-adaptive text
     const computedStyle = getComputedStyle(containerRef.current);
     const computedColor = computedStyle.color || "hsl(var(--foreground))";
@@ -668,7 +678,7 @@ const CircularGallery = ({
 
     const app = new App(containerRef.current, {
       items,
-      bend,
+      bend: isMobileViewport ? Math.min(bend * 0.12, 0.35) : bend,
       textColor: computedColor,
       borderRadius,
       font: computedFont,

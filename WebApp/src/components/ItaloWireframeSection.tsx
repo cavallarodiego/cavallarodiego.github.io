@@ -1,7 +1,61 @@
-import React from 'react';
+import { Fragment } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import WireframeComparisonCarousel from './WireframeComparisonCarousel';
 
 export function ItaloWireframeSection() {
+  const reduceMotion = useReducedMotion();
+  const paragraphs = [
+    {
+      text: 'Sono stati analizzati i flussi principali degli utenti e le funzionalità più utilizzate.',
+      className: '',
+    },
+    {
+      text: 'Successivamente è stato sviluppato un wireframe a bassa fedeltà per definire la struttura della schermata, la disposizione dei contenuti e la gerarchia delle informazioni.',
+      className: 'text-neutral-400 text-base sm:text-lg leading-relaxed',
+    },
+  ];
+  const textVariants = {
+    hidden: {},
+    visible: { transition: { delayChildren: 0.12, staggerChildren: 0.035 } },
+  };
+  const wordVariants = {
+    hidden: { y: '110%', opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
+    },
+  };
+
+  const renderAnimatedText = (text: string, className: string) => (
+    <motion.p
+      key={text}
+      aria-label={text}
+      initial={reduceMotion ? false : 'hidden'}
+      whileInView={reduceMotion ? undefined : 'visible'}
+      viewport={{ once: true, amount: 0.2 }}
+      variants={textVariants}
+      className={className}
+    >
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
+        {text.split(' ').map((word, index) => (
+          <Fragment key={`${word}-${index}`}>
+            {index > 0 ? ' ' : null}
+            <span className="inline-block overflow-hidden align-bottom pb-[0.08em]">
+              <motion.span
+                variants={reduceMotion ? undefined : wordVariants}
+                className="inline-block"
+              >
+                {word}
+              </motion.span>
+            </span>
+          </Fragment>
+        ))}
+      </span>
+    </motion.p>
+  );
+
   return (
     <section
       id="italo-treni-wireframe"
@@ -27,10 +81,7 @@ export function ItaloWireframeSection() {
           </div>
 
           <div className="flex flex-col gap-5 text-neutral-300 font-urbanist text-lg sm:text-xl leading-relaxed font-light relative z-10">
-            <p>Sono stati analizzati i flussi principali degli utenti e le funzionalità più utilizzate.</p>
-            <p className="text-neutral-400 text-base sm:text-lg leading-relaxed">
-              Successivamente è stato sviluppato un wireframe a bassa fedeltà per definire la struttura della schermata, la disposizione dei contenuti e la gerarchia delle informazioni.
-            </p>
+            {paragraphs.map(({ text, className }) => renderAnimatedText(text, className))}
           </div>
         </div>
 

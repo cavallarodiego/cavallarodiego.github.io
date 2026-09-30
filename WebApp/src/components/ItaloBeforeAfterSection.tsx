@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Home, Search, Ticket, Sparkles } from 'lucide-react';
+import { AnimatedMenuText } from './ui/animated-menu';
 
 interface ItaloBeforeAfterSectionProps {
   lang: 'it' | 'en';
@@ -128,19 +128,19 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
       className="w-full min-h-[100svh] relative z-20 py-20 sm:py-24 lg:py-28 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto isolate"
     >
       <div
-        className="absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 pointer-events-none"
+        className="absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 pointer-events-none opacity-40"
         aria-hidden="true"
         style={{
           background: 'linear-gradient(135deg, #4A071C 0%, #8D0A30 42%, #B50D3A 72%, #650820 100%)',
         }}
       />
       {/* Section Title Header */}
-      <div className="flex flex-col items-center justify-center text-center gap-3 mb-12 sm:mb-16">
+      <div className="flex flex-col items-center justify-center text-center gap-3 mb-16 sm:mb-20 lg:mb-24">
         <h2
           id="italo-before-after-title"
           className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase font-sans text-center"
         >
-          {lang === 'it' ? 'Prima & Dopo' : 'Before & After'}
+          {lang === 'it' ? 'Prima e Dopo' : 'Before & After'}
         </h2>
       </div>
 
@@ -154,43 +154,40 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
         ))}
       </div>
 
-      {/* Horizontal Capsule Tab Menu */}
-      <div className="flex justify-center w-full mb-12 sm:mb-16">
-        <div className="flex bg-[#121315] border border-white/10 p-1.5 rounded-2xl shrink-0 shadow-lg relative w-fit max-w-full overflow-x-auto scrollbar-none">
-          {screens.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  setActiveTab(tab.id);
-                  setComparisonPosition(50);
-                }}
-                className={`flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold tracking-wide transition-colors duration-200 relative z-10 whitespace-nowrap uppercase cursor-pointer ${
-                  isActive ? 'text-white font-bold' : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="active-before-after-tab-bg"
-                    className="absolute inset-0 bg-[#B50D3A] rounded-xl shadow-[0_0_15px_rgba(181,13,58,0.4)]"
-                    transition={{ type: 'spring', stiffness: 400, damping: 35 }}
-                  />
-                )}
-                <span className="relative flex items-center gap-2">
-                  <Icon className="w-4 h-4" />
-                  {lang === 'it' ? tab.labelIt : tab.labelEn}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <div className="mx-auto grid w-full max-w-[900px] grid-cols-1 items-center gap-8 md:grid-cols-[300px_minmax(0,1fr)] md:gap-12 lg:gap-16">
+        {/* Animated vertical menu */}
+        <nav aria-label={lang === 'it' ? 'Schermate del confronto' : 'Comparison screens'} className="order-1 mx-auto w-full max-w-[340px] md:order-2">
+          <ul className="flex w-full flex-col items-stretch justify-center gap-1.5 rounded-2xl border border-white/15 bg-white/[0.06] p-3 shadow-[0_12px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl sm:p-4">
+            {screens.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              const label = lang === 'it' ? tab.labelIt : tab.labelEn;
+              return (
+                <li key={tab.id}>
+                  <button
+                    type="button"
+                    aria-current={isActive ? 'page' : undefined}
+                    onClick={() => {
+                      setActiveTab(tab.id);
+                      setComparisonPosition(50);
+                    }}
+                    className={`group relative flex min-h-12 w-full items-center gap-3 overflow-hidden rounded-xl px-4 py-3 text-left uppercase transition-colors duration-200 ${isActive ? 'bg-[#B50D3A] text-white shadow-[0_0_15px_rgba(181,13,58,0.28)]' : 'text-neutral-400 hover:bg-white/[0.06] hover:text-white'}`}
+                  >
+                    <span className="relative z-10 flex w-full items-center gap-3">
+                      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <AnimatedMenuText center className="text-sm font-bold tracking-wide sm:text-base">
+                        {label}
+                      </AnimatedMenuText>
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
-      {/* Before and after image comparison slider */}
-      <div className="w-full flex justify-center">
-        <div className="relative w-full max-w-[340px] rounded-[2.4rem] bg-gradient-to-b from-neutral-800/90 via-neutral-900 to-black p-2 sm:p-2.5 border border-white/15 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+        {/* Before and after image comparison slider */}
+        <div className="relative mx-auto order-2 w-full max-w-[280px] rounded-[2.1rem] bg-gradient-to-b from-neutral-800/90 via-neutral-900 to-black p-2 sm:p-2.5 border border-white/15 shadow-[0_24px_80px_rgba(0,0,0,0.45)] md:order-1">
           <div className="relative w-full aspect-[393/852] rounded-[1.9rem] overflow-hidden bg-neutral-950">
             <img
               key={`new-${activeScreen.id}`}

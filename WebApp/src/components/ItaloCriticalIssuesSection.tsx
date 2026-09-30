@@ -72,9 +72,15 @@ export function ItaloCriticalIssuesSection() {
       id="italo-treni-critical-issues"
       data-project-section="03-critical-issues"
       aria-labelledby="italo-critical-issues-title"
-      className="w-full min-h-[100svh] relative z-20 flex items-center justify-center overflow-hidden py-20 sm:py-24 lg:py-28"
-      style={{ backgroundColor: '#000000' }}
+      className="w-full min-h-[100svh] relative z-20 flex items-center justify-center overflow-hidden py-20 sm:py-24 lg:py-28 isolate"
     >
+      <div
+        className="absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 pointer-events-none opacity-40"
+        aria-hidden="true"
+        style={{
+          background: 'linear-gradient(135deg, #4A071C 0%, #8D0A30 42%, #B50D3A 72%, #650820 100%)',
+        }}
+      />
       <div className="relative z-20 flex flex-col items-center gap-12 w-full max-w-[90rem] px-6 pointer-events-auto">
         <div className="flex flex-col items-center gap-4 text-center">
           <h2

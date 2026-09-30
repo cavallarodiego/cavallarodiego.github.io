@@ -582,7 +582,7 @@ export default function App() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-            className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-end text-sm tracking-wider"
+            className="relative z-10 grid grid-cols-[auto_1fr] md:grid-cols-2 gap-3 sm:gap-6 items-end text-sm tracking-wider"
             id="app-footer"
           >
             {/* Left Side: Social Icons */}
@@ -617,20 +617,20 @@ export default function App() {
             {/* Right Side: Role & Domain Description */}
             <div className="text-right flex flex-col md:items-end justify-end gap-1 font-mono text-white/40">
               <span className="text-white">{"// Junior"}</span>
-              <span className="uppercase text-sm tracking-[0.2em] text-white/60">{lang === 'it' ? "UX/UI e Visual Designer" : "UX/UI & Visual Designer"}</span>
+              <span className="uppercase text-sm tracking-[0.2em] text-white/60 whitespace-pre-line md:whitespace-normal">{"UX/UI\nVisual\nDesigner"}</span>
             </div>
           </motion.footer>
         </section>
 
         {/* SECTION 1.5: CIRCULAR GALLERY & TOOLS (Now acts as About Me) */}
-        <section className="relative w-full bg-[#050505] text-white py-12 sm:py-16 md:py-20 border-t border-[#2A2A2A] overflow-hidden" id="about-me-section">
+        <section className="relative w-full bg-[#050505] text-white pt-20 pb-12 sm:py-16 md:py-20 border-t border-[#2A2A2A] overflow-hidden" id="about-me-section">
           <GridVignetteBackground className="opacity-100" x={50} y={50} intensity={100} horizontalVignetteSize={50} verticalVignetteSize={30} />
           <div className="relative z-10 w-full mx-auto">
-            <div className="flex flex-col items-center text-center mb-6 sm:mb-8 px-6 sm:px-10 md:px-14">
+            <div className="flex flex-col items-center text-center mb-2 sm:mb-8 px-6 sm:px-10 md:px-14">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[-0.03em] text-white leading-[1.06] font-jakarta" data-reveal data-delay="80">
                 Skills
               </h2>
-              <p className="mt-8 text-sm sm:text-base text-white/60 font-light max-w-lg mx-auto" data-reveal data-delay="120">
+              <p className="mt-4 sm:mt-8 text-sm sm:text-base text-white/60 font-light max-w-lg mx-auto" data-reveal data-delay="120">
                 {lang === 'it' ? 'Trascina le cards per scorrere tra le skills' : 'Drag the cards to scroll through the skills'}
               </p>
             </div>
@@ -652,13 +652,13 @@ export default function App() {
           </div>
 
           {/* SECTION 3: CREATIVE PARTNERSHIP / COLLABORATION SECTION */}
-          <section className="relative w-full text-white py-24 sm:py-32 md:py-40 px-6 sm:px-10 md:px-14" id="collaboration-section">
+          <section className="relative w-full text-white pt-16 pb-24 sm:py-32 md:py-40 px-6 sm:px-10 md:px-14" id="collaboration-section">
 
 
-            <div className="relative z-10 max-w-[1600px] mx-auto w-full px-6 sm:px-12 md:px-16 lg:px-20 flex flex-col items-center text-center">
+            <div className="relative z-10 max-w-[1600px] mx-auto w-full px-0 sm:px-12 md:px-16 lg:px-20 flex flex-col items-center text-center">
 
               {/* Header Block: Centered master section title */}
-              <div className="flex flex-col items-center mb-16 sm:mb-24 relative z-50">
+              <div className="flex flex-col items-center mb-12 sm:mb-24 relative z-50">
                 <div className="flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-white/40 mb-3 font-mono">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E8302A]" />
                   <span>Portfolio</span>
@@ -669,7 +669,7 @@ export default function App() {
               </div>
 
               {/* THE 3 STYLISH ROTATED / HOVER-EXPANDABLE CARDS */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 md:gap-8 w-full max-w-[1440px] mb-16 sm:mb-24 justify-center items-center" id="collaboration-cards-container">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 md:gap-8 w-full max-w-[1440px] mb-0 sm:mb-24 justify-center items-center" id="collaboration-cards-container">
 
                 {/* Card 1: Left Card (Slightly tilted on desktop) */}
                 <GlowCard
@@ -748,22 +748,6 @@ export default function App() {
 
               </div>
 
-              {/* LOWER HEADER CALL TO ACTION */}
-              <div className="max-w-2xl px-4" id="collaboration-cta-block" data-reveal data-delay="0">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[-0.03em] text-white leading-[1.1] font-jakarta mb-10 sm:mb-12">
-                  {lang === 'it' ? 'Realizziamo insieme qualcosa di unico' : "Let's Create Something Unique"}
-                </h2>
-
-                <button
-                  id="collab-contact-cta"
-                  onClick={() => scrollToSection('direct-contact-section')}
-                  className="px-8 py-4 bg-gradient-to-r from-[#E8302A] to-red-700 text-white font-bold tracking-widest text-sm uppercase rounded-full inline-flex items-center gap-3 hover:scale-105 active:scale-95 transition-all cursor-pointer shadow-lg shadow-red-950/20 hover:shadow-red-600/10"
-                >
-                  <span>{lang === 'it' ? 'Contattami' : 'Contact me'}</span>
-                  <ArrowDown className="w-4 h-4 text-white" />
-                </button>
-              </div>
-
             </div>
           </section>
 
@@ -780,52 +764,47 @@ export default function App() {
               className="absolute bottom-[-15%] left-[20%] w-[900px] h-[900px] bg-[radial-gradient(circle,rgba(232,48,42,0.12)_0%,rgba(232,48,42,0.02)_40%,transparent_80%)] pointer-events-none z-0"
             />
 
-            <div className="relative z-10 max-w-[1600px] mx-auto w-full px-6 sm:px-12 md:px-16 lg:px-20">
+            <div className="relative z-10 max-w-[1600px] mx-auto w-full px-0 sm:px-12 md:px-16 lg:px-20">
 
               <div className="relative grid grid-cols-1 xl:grid-cols-12 gap-12 lg:gap-16 items-stretch z-10 animate-fade-in">
 
                 {/* Left Column (Glassmorphic Contact Card Group with matching height) */}
                 <div className="lg:col-span-12 xl:col-span-5 h-full flex flex-col" id="sec4-info-container" data-reveal data-delay="0">
-                  <div className="bg-[#121312]/70 border border-white/10 backdrop-blur-[16px] rounded-[2rem] p-6 sm:p-10 shadow-2xl relative overflow-hidden h-full flex flex-col justify-between hover:border-[#E8302A]/40 hover:bg-[#151615]/80 custom-card-transition duration-500 ease-[0.16,1,0.3,1]">
+                  <div className="bg-[#121312]/70 border border-white/10 backdrop-blur-[16px] rounded-[2rem] p-5 pt-8 pb-8 sm:p-10 shadow-2xl relative overflow-hidden h-full flex flex-col justify-between hover:border-[#E8302A]/40 hover:bg-[#151615]/80 custom-card-transition duration-500 ease-[0.16,1,0.3,1]">
                     {/* Subtle soft gradient background glow inside the box */}
                     <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-[#E8302A]/15 via-transparent to-transparent pointer-events-none rounded-full blur-3xl" />
 
-                    <div className="relative z-10 flex flex-col gap-6 lg:gap-8">
-                      {/* Custom capsule badge */}
-                      <div className="inline-flex items-center gap-2 self-start bg-[#151615] border border-[#E8302A]/30 px-4 py-2 rounded-full shadow-lg backdrop-blur-sm">
-                        <span className="text-sm font-mono uppercase tracking-widest text-[#E8302A] font-bold">{lang === 'it' ? 'Contatti' : 'Contact'}</span>
-                      </div>
-
+                    <div className="relative z-10 flex flex-col gap-5 sm:gap-6 lg:gap-8">
                       {/* Title */}
                       <div>
-                        <h2 className="text-4xl sm:text-5xl font-extrabold tracking-[-0.03em] text-white font-jakarta">
+                        <h2 className="text-center sm:text-left text-3xl sm:text-5xl font-extrabold tracking-[-0.03em] text-white font-jakarta">
                           {lang === 'it' ? 'Contattami' : 'Get in touch'}
                         </h2>
                       </div>
                     </div>
 
                     {/* 3 Clickable capsule lines */}
-                    <div className="relative z-10 flex flex-col gap-4 mt-12">
+                    <div className="relative z-10 flex flex-col gap-3 sm:gap-4 mt-8 sm:mt-12">
 
                       {/* Line 1: Email */}
                       <a
                         href="https://mail.google.com/mail/?view=cm&fs=1&to=diegocavallaro8@gmail.com"
                         target="_blank"
                         rel="noreferrer"
-                        className="flex justify-between items-center p-5 bg-[#151615]/90 border border-white/10 rounded-2xl group transition-all duration-300 cursor-pointer shadow-lg active:scale-[0.98] hover:border-[#E8302A]/50 hover:bg-[#1A1D1A]"
+                        className="flex justify-between items-center gap-3 p-4 sm:p-5 bg-[#151615]/90 border border-white/10 rounded-2xl group transition-all duration-300 cursor-pointer shadow-lg active:scale-[0.98] hover:border-[#E8302A]/50 hover:bg-[#1A1D1A]"
                       >
-                        <div className="flex items-center gap-4 min-w-0 flex-1 pr-4">
+                        <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1 pr-1 sm:pr-4">
                           <div className="w-11 h-11 rounded-xl bg-[#E8302A]/10 border border-[#E8302A]/20 flex items-center justify-center text-[#E8302A] group-hover:bg-[#E8302A] group-hover:text-white group-hover:border-[#E8302A] transition-all duration-300 shrink-0">
                             <Mail className="w-5 h-5" />
                           </div>
-                          <div className="flex flex-col min-w-0">
-                            <span className="text-sm font-mono text-white/80 uppercase tracking-widest font-semibold">Email</span>
-                            <span className="text-sm sm:text-sm font-semibold text-white tracking-tight break-all font-mono">
+                          <div className="flex flex-col min-w-0 gap-1">
+                            <span className="text-xs sm:text-sm font-jakarta text-white/80 uppercase tracking-[0.12em] sm:tracking-widest font-semibold">Email</span>
+                            <span className="text-sm sm:text-sm font-semibold text-white tracking-tight break-words [overflow-wrap:anywhere] leading-snug font-jakarta">
                               diegocavallaro8@gmail.com
                             </span>
                           </div>
                         </div>
-                        <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-neutral-300 group-hover:bg-[#E8302A] group-hover:text-white group-hover:border-[#E8302A] transition-all duration-300 shrink-0">
+                        <div className="hidden sm:flex w-8 h-8 rounded-full bg-white/5 border border-white/10 items-center justify-center text-neutral-300 group-hover:bg-[#E8302A] group-hover:text-white group-hover:border-[#E8302A] transition-all duration-300 shrink-0">
                           <ArrowUpRight className="w-4 h-4" />
                         </div>
                       </a>
@@ -833,35 +812,35 @@ export default function App() {
                       {/* Line 2: Call */}
                       <a
                         href="tel:+393515485740"
-                        className="flex justify-between items-center p-5 bg-[#151615]/90 border border-white/10 rounded-2xl group transition-all duration-300 cursor-pointer shadow-lg active:scale-[0.98] hover:border-[#E8302A]/50 hover:bg-[#1A1D1A]"
+                        className="flex justify-between items-center gap-3 p-4 sm:p-5 bg-[#151615]/90 border border-white/10 rounded-2xl group transition-all duration-300 cursor-pointer shadow-lg active:scale-[0.98] hover:border-[#E8302A]/50 hover:bg-[#1A1D1A]"
                       >
-                        <div className="flex items-center gap-4 min-w-0 flex-1 pr-4">
+                        <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1 pr-1 sm:pr-4">
                           <div className="w-11 h-11 rounded-xl bg-[#E8302A]/10 border border-[#E8302A]/20 flex items-center justify-center text-[#E8302A] group-hover:bg-[#E8302A] group-hover:text-white group-hover:border-[#E8302A] transition-all duration-300 shrink-0">
                             <Phone className="w-5 h-5 animate-pulse" />
                           </div>
-                          <div className="flex flex-col min-w-0">
-                            <span className="text-sm font-mono text-white/80 uppercase tracking-widest font-semibold">{lang === 'it' ? 'Chiamami' : 'Call me'}</span>
-                            <span className="text-sm sm:text-sm font-semibold text-white tracking-tight font-mono">
+                          <div className="flex flex-col min-w-0 gap-1">
+                            <span className="text-xs sm:text-sm font-jakarta text-white/80 uppercase tracking-[0.12em] sm:tracking-widest font-semibold">{lang === 'it' ? 'Chiamami' : 'Call me'}</span>
+                            <span className="text-sm sm:text-sm font-semibold text-white tracking-tight leading-snug font-jakarta">
                               +39 3515485740
                             </span>
                           </div>
                         </div>
-                        <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-neutral-300 group-hover:bg-[#E8302A] group-hover:text-white group-hover:border-[#E8302A] transition-all duration-300 shrink-0">
+                        <div className="hidden sm:flex w-8 h-8 rounded-full bg-white/5 border border-white/10 items-center justify-center text-neutral-300 group-hover:bg-[#E8302A] group-hover:text-white group-hover:border-[#E8302A] transition-all duration-300 shrink-0">
                           <ArrowUpRight className="w-4 h-4" />
                         </div>
                       </a>
 
                       {/* Line 3: Location */}
                       <div
-                        className="flex justify-between items-center p-5 bg-[#151615]/90 border border-white/10 rounded-2xl shadow-lg"
+                        className="flex justify-between items-center gap-3 p-4 sm:p-5 bg-[#151615]/90 border border-white/10 rounded-2xl shadow-lg"
                       >
-                        <div className="flex items-center gap-4">
-                          <div className="w-11 h-11 rounded-xl bg-[#E8302A]/10 border border-[#E8302A]/20 flex items-center justify-center text-[#E8302A]">
+                        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                          <div className="w-11 h-11 rounded-xl bg-[#E8302A]/10 border border-[#E8302A]/20 flex items-center justify-center text-[#E8302A] shrink-0">
                             <MapPin className="w-5 h-5" />
                           </div>
-                          <div className="flex flex-col">
-                            <span className="text-sm font-mono text-white/80 uppercase tracking-widest font-semibold">{lang === 'it' ? 'La mia posizione' : 'My location'}</span>
-                            <span className="text-sm sm:text-sm font-semibold text-white tracking-tight">
+                          <div className="flex flex-col min-w-0 gap-1">
+                            <span className="text-xs sm:text-sm font-jakarta text-white/80 uppercase tracking-[0.12em] sm:tracking-widest font-semibold leading-snug">{lang === 'it' ? 'La mia posizione' : 'My location'}</span>
+                            <span className="text-sm sm:text-sm font-semibold text-white tracking-tight leading-snug font-jakarta">
                               {lang === 'it' ? 'Catania, Italia' : 'Catania, Italy'}
                             </span>
                           </div>
@@ -884,15 +863,14 @@ export default function App() {
                       <form onSubmit={handleSec4FormSubmit} className="flex flex-col gap-6 relative z-10 w-full text-left">
 
                         {/* Name Input */}
-                        <div className="flex flex-col gap-2">
-                          <label className="text-sm font-mono uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
+                        <div className="flex flex-col gap-4 sm:gap-2">
+                          <label className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#E8302A] shrink-0 animate-pulse" />
                             <span>{lang === 'it' ? 'Nome' : 'Name'}</span>
                           </label>
                           <input
                             type="text"
                             required
-                            placeholder={lang === 'it' ? 'Il tuo nome completo' : 'Your full name'}
                             value={sec4Form.name}
                             onChange={(e) => setSec4Form({ ...sec4Form, name: e.target.value })}
                             className="w-full bg-[#161716] text-white border border-white/10 focus:border-[#E8302A] focus:ring-1 focus:ring-[#E8302A] text-sm py-4 px-5 rounded-2xl transition-all duration-300 focus:outline-none placeholder-neutral-500 font-jakarta shadow-inner"
@@ -900,15 +878,14 @@ export default function App() {
                         </div>
 
                         {/* Email Input */}
-                        <div className="flex flex-col gap-2">
-                          <label className="text-sm font-mono uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
+                        <div className="flex flex-col gap-4 sm:gap-2">
+                          <label className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#E8302A] shrink-0 animate-pulse" />
                             <span>Email</span>
                           </label>
                           <input
                             type="email"
                             required
-                            placeholder={lang === 'it' ? 'latua.email@esempio.com' : 'your.email@example.com'}
                             value={sec4Form.email}
                             onChange={(e) => setSec4Form({ ...sec4Form, email: e.target.value })}
                             className="w-full bg-[#161716] text-white border border-white/10 focus:border-[#E8302A] focus:ring-1 focus:ring-[#E8302A] text-sm py-4 px-5 rounded-2xl transition-all duration-300 focus:outline-none placeholder-neutral-500 font-jakarta shadow-inner"
@@ -916,15 +893,14 @@ export default function App() {
                         </div>
 
                         {/* Message Input */}
-                        <div className="flex flex-col gap-2">
-                          <label className="text-sm font-mono uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
+                        <div className="flex flex-col gap-4 sm:gap-2">
+                          <label className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#E8302A] shrink-0 animate-pulse" />
                             <span>{lang === 'it' ? 'Messaggio' : 'Message'}</span>
                           </label>
                           <textarea
                             required
                             rows={4}
-                            placeholder={lang === 'it' ? 'Parlami del tuo progetto...' : 'Tell me about your project...'}
                             value={sec4Form.message}
                             onChange={(e) => setSec4Form({ ...sec4Form, message: e.target.value })}
                             className="w-full bg-[#161716] text-white border border-white/10 focus:border-[#E8302A] focus:ring-1 focus:ring-[#E8302A] text-sm py-4 px-5 rounded-2xl transition-all duration-300 focus:outline-none placeholder-neutral-500 font-jakarta resize-none shadow-inner"
@@ -935,7 +911,7 @@ export default function App() {
                         <button
                           type="submit"
                           disabled={sec4Submitting}
-                          className="w-full mt-2 py-4 sm:py-5 bg-gradient-to-r from-[#E8302A] to-red-700 text-white font-bold tracking-widest text-sm uppercase rounded-full flex items-center justify-center gap-3 hover:scale-105 active:scale-95 disabled:scale-100 disabled:opacity-50 transition-all cursor-pointer shadow-lg shadow-red-950/20 hover:shadow-red-600/10"
+                          className="w-full mt-2 py-4 sm:py-5 bg-gradient-to-r from-[#E8302A] to-red-700 text-white font-jakarta font-bold tracking-widest text-sm uppercase rounded-full flex items-center justify-center gap-3 hover:scale-105 active:scale-95 disabled:scale-100 disabled:opacity-50 transition-all cursor-pointer shadow-lg shadow-red-950/20 hover:shadow-red-600/10"
                         >
                           {sec4Submitting ? (
                             <>
@@ -983,13 +959,23 @@ export default function App() {
         </div>
 
         {/* ADDITIONAL GENERAL FOOTER AT THE VERY BOTTOM OF THE LONG SCROLL PAGE */}
-        <footer className="w-full bg-black border-t border-white/5 py-8 px-6 sm:px-10 md:px-14 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm font-mono text-white/30" id="main-footer">
-          <span>{lang === 'it' ? '© 2026 Diego Cavallaro. Tutti i diritti riservati.' : '© 2026 Diego Cavallaro. All rights reserved.'}</span>
-          <div className="flex gap-6 items-center">
-            <button onClick={() => scrollToSection('hero-section')} className="hover:text-white transition-colors cursor-pointer font-mono">{lang === 'it' ? 'Torna su' : 'Back to top'}</button>
-            <button onClick={() => scrollToSection('about-me-section')} className="hover:text-white transition-colors cursor-pointer font-mono">{lang === 'it' ? 'Skills' : 'Skills'}</button>
-            <button onClick={() => scrollToSection('collaboration-section')} className="hover:text-white transition-colors cursor-pointer font-mono">{lang === 'it' ? 'Progetti' : 'Projects'}</button>
-            <button onClick={() => scrollToSection('direct-contact-section')} className="hover:text-white transition-colors cursor-pointer font-mono uppercase tracking-widest text-[#E8302A]">{lang === 'it' ? 'Contatti' : 'Contact'}</button>
+        <footer className="w-full bg-black border-t border-white/5 py-8 px-6 sm:px-10 md:px-14 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm font-jakarta text-white/30" id="main-footer">
+          <div className="flex flex-col items-center gap-7 w-full sm:hidden">
+            <div className="flex gap-8 items-center">
+              <button onClick={() => scrollToSection('hero-section')} className="text-white hover:text-white transition-colors cursor-pointer font-jakarta">{lang === 'it' ? 'Torna su' : 'Back to top'}</button>
+              <button onClick={() => scrollToSection('about-me-section')} className="text-white hover:text-white transition-colors cursor-pointer font-jakarta">{lang === 'it' ? 'Skills' : 'Skills'}</button>
+              <button onClick={() => scrollToSection('collaboration-section')} className="text-white hover:text-white transition-colors cursor-pointer font-jakarta">{lang === 'it' ? 'Progetti' : 'Projects'}</button>
+              <button onClick={() => scrollToSection('direct-contact-section')} className="hover:text-white transition-colors cursor-pointer font-jakarta uppercase tracking-widest text-[#E8302A]">{lang === 'it' ? 'Contatti' : 'Contact'}</button>
+            </div>
+            <div className="w-full border-t border-white/10" />
+            <span>{lang === 'it' ? '© 2026 Diego Cavallaro. Tutti i diritti riservati.' : '© 2026 Diego Cavallaro. All rights reserved.'}</span>
+          </div>
+          <span className="hidden sm:inline">{lang === 'it' ? '© 2026 Diego Cavallaro. Tutti i diritti riservati.' : '© 2026 Diego Cavallaro. All rights reserved.'}</span>
+          <div className="hidden sm:flex gap-6 items-center">
+            <button onClick={() => scrollToSection('hero-section')} className="text-white/30 hover:text-white transition-colors cursor-pointer font-jakarta">{lang === 'it' ? 'Torna su' : 'Back to top'}</button>
+            <button onClick={() => scrollToSection('about-me-section')} className="text-white/30 hover:text-white transition-colors cursor-pointer font-jakarta">{lang === 'it' ? 'Skills' : 'Skills'}</button>
+            <button onClick={() => scrollToSection('collaboration-section')} className="text-white/30 hover:text-white transition-colors cursor-pointer font-jakarta">{lang === 'it' ? 'Progetti' : 'Projects'}</button>
+            <button onClick={() => scrollToSection('direct-contact-section')} className="hover:text-white transition-colors cursor-pointer font-jakarta uppercase tracking-widest text-[#E8302A]">{lang === 'it' ? 'Contatti' : 'Contact'}</button>
           </div>
         </footer>
 

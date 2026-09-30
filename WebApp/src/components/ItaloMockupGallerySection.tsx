@@ -9,7 +9,7 @@ const galleryCards = [
 
 export function ItaloMockupGallerySection() {
   return (
-    <section id="italo-treni-mockup-gallery" data-project-section="07-mockup-gallery" aria-label="Galleria mockup Italo">
+    <section id="italo-treni-mockup-gallery" data-project-section="07-mockup-gallery" aria-label="Galleria mockup Italo" className="bg-[#050505] pt-12 sm:pt-16 lg:pt-20">
       <StickyCard002 cards={galleryCards} imageClassName="[clip-path:inset(0_2px_0_0)]" />
     </section>
   );

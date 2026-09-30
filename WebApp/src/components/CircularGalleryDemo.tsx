@@ -10,7 +10,7 @@ export function CircularGalleryDemo({ lang }: { lang: 'it' | 'en' }) {
   const items = useMemo(() => getGalleryItems(lang), [lang]);
 
   return (
-    <div className="relative h-[600px] w-full bg-transparent">
+    <div className="relative h-[480px] sm:h-[600px] w-full bg-transparent">
       <CircularGallery
         items={items}
         bend={3}

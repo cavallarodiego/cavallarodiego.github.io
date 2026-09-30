@@ -37,7 +37,7 @@ export default function ItaloPrototypeSection({ lang }: ItaloPrototypeSectionPro
 
   return (
     <section
-      className="w-full min-h-[100svh] relative z-10 pt-20 pb-0 sm:pt-24 lg:pt-28 px-6 sm:px-12 md:px-16 flex justify-center items-center"
+      className="w-full relative z-10 pt-16 pb-6 sm:pt-20 sm:pb-8 lg:pt-24 lg:pb-10 px-6 sm:px-12 md:px-16 flex justify-center items-center"
       id="italo-interactive-prototypes-section"
       data-project-section="08-prototype"
       aria-labelledby="italo-prototype-title"
@@ -52,7 +52,7 @@ export default function ItaloPrototypeSection({ lang }: ItaloPrototypeSectionPro
             data-hide-cursor="true"
             onMouseEnter={() => window.dispatchEvent(new CustomEvent('hide-custom-cursor'))}
             onMouseLeave={() => window.dispatchEvent(new CustomEvent('show-custom-cursor'))}
-            className="relative w-[340px] sm:w-[380px] md:w-[400px] h-[650px] sm:h-[740px] lg:h-[800px] flex justify-center items-center"
+            className="relative w-[340px] sm:w-[380px] md:w-[400px] h-[560px] sm:h-[620px] lg:h-[680px] flex justify-center items-center"
           >
             <iframe
               id="italo-prototype-iframe"
