@@ -76,7 +76,7 @@ export default function TimelineAccordion({
   phases?: PhaseData[]
 }) {
   return (
-    <div className="pointer-events-auto col-span-full duration-500 ease-in-out lg:col-span-4 w-full max-w-lg font-raleway mx-auto lg:ml-12 grid auto-rows-fr">
+    <div className="pointer-events-auto col-span-full duration-500 ease-in-out lg:col-span-4 w-full max-w-lg font-raleway mx-auto lg:ml-12 grid auto-rows-fr max-md:auto-rows-auto max-md:content-start">
       {phases.map((phase, index) => {
         const isActive = activePhase === phase.id;
         const colors = phase.textColors;
@@ -97,14 +97,14 @@ export default function TimelineAccordion({
             aria-expanded={isActive}
           >
             {/* Top Separator Line for inactive items (except first) */}
-            {index > 0 && !isActive && (
-              <span className="h-[1px] absolute top-0 left-0 w-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-opacity duration-300"></span>
+            {index > 0 && (
+              <span className="h-[1px] absolute top-0 left-0 w-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-opacity duration-300 max-md:via-white/20"></span>
             )}
             
-            <div className="phase-content relative flex lg:block flex-wrap w-full">
+            <div className="phase-content relative flex lg:block flex-wrap w-full max-md:flex-nowrap max-md:items-start max-md:gap-4">
               {/* Vertical Connection Line */}
               <span 
-                className="left-6 lg:-left-12 absolute top-0 h-[calc(100%+3rem)] w-[1px] border-l border-dashed border-white/20"
+                className="left-6 lg:-left-12 absolute top-0 h-[calc(100%+3rem)] w-[1px] border-l border-dashed border-white/20 max-md:hidden"
               >
                 {/* Active gradient overlay line inside */}
                 <motion.span 
@@ -137,10 +137,10 @@ export default function TimelineAccordion({
               </div>
 
               {/* Accordion Content */}
-              <div className="relative ml-20 lg:ml-0 w-full">
+              <div className="relative ml-20 lg:ml-0 w-full max-md:ml-0 max-md:min-w-0 max-md:flex-1">
                 
                 {/* Title */}
-                <div className="flex items-center lg:min-h-12 lg:-translate-y-2">
+                <div className="flex items-center lg:min-h-12 lg:-translate-y-2 max-md:min-h-12">
                   <p className={`text-xl font-bold transition-colors duration-300 ${isActive ? colors.active : `text-white/60 ${colors.hover}`}`}>
                     {phase.title}
                   </p>

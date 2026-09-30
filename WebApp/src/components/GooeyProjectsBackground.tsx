@@ -11,6 +11,14 @@ export const GooeyProjectsBackground: React.FC = () => {
     if (!text1 || !text2) return;
 
     const texts = ["Diego Cavallaro", "Portfolio"];
+    const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
+    const setDisplayText = (element: HTMLHeadingElement, text: string) => {
+      if (isMobileViewport && text === "Diego Cavallaro") {
+        element.innerHTML = "Diego<br />Cavallaro";
+      } else {
+        element.textContent = text;
+      }
+    };
     const morphTime = 1;
     const cooldownTime = 3;
 
@@ -19,8 +27,8 @@ export const GooeyProjectsBackground: React.FC = () => {
     let morph = 0;
     let cooldown = cooldownTime;
 
-    text1.textContent = texts[textIndex % texts.length];
-    text2.textContent = texts[(textIndex + 1) % texts.length];
+    setDisplayText(text1, texts[textIndex % texts.length]);
+    setDisplayText(text2, texts[(textIndex + 1) % texts.length]);
 
     let animationFrameId: number;
 
@@ -46,8 +54,8 @@ export const GooeyProjectsBackground: React.FC = () => {
       text1.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
       text1.style.opacity = `${Math.pow(fraction, 0.4)}`;
       
-      text1.textContent = texts[textIndex % texts.length];
-      text2.textContent = texts[(textIndex + 1) % texts.length];
+      setDisplayText(text1, texts[textIndex % texts.length]);
+      setDisplayText(text2, texts[(textIndex + 1) % texts.length]);
     }
 
     function doCooldown() {
@@ -109,7 +117,7 @@ export const GooeyProjectsBackground: React.FC = () => {
         {`
           @media (max-width: 768px) {
             #text1, #text2 {
-              font-size: clamp(4rem, 20vw, 8rem) !important;
+              font-size: clamp(4.5rem, 22vw, 8.5rem) !important;
               white-space: normal !important;
               width: 90vw !important;
               max-width: 90vw !important;

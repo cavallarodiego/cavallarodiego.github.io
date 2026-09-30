@@ -75,48 +75,65 @@ export function OrtoResearchMethodologySection({ activeResearchTab, setActiveRes
   useGSAP(() => {
     if (!pinRef.current) return;
 
-    ScrollTrigger.create({
-      trigger: pinRef.current,
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: true,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        const targetTab = progress > 0.66 ? 'interviste' : progress > 0.33 ? 'sondaggi' : 'desk';
-
-        if (activeTabRef.current !== targetTab) {
-          setActiveResearchTab(targetTab);
-        }
-      },
+    const responsiveTriggers = gsap.matchMedia();
+    responsiveTriggers.add('(min-width: 768px)', () => {
+      ScrollTrigger.create({
+        trigger: pinRef.current,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: true,
+        onUpdate: (self) => {
+          if (window.matchMedia('(max-width: 767px)').matches) return;
+          const targetTab = self.progress > 0.66 ? 'interviste' : self.progress > 0.33 ? 'sondaggi' : 'desk';
+          if (activeTabRef.current !== targetTab) setActiveResearchTab(targetTab);
+        },
+      });
     });
+
+    const stopMobileAutoSelection = () => {
+      if (window.matchMedia('(max-width: 767px)').matches) {
+        ScrollTrigger.getAll()
+          .filter((trigger) => trigger.trigger === pinRef.current || trigger.trigger === document.getElementById('research-methodology'))
+          .forEach((trigger) => trigger.kill());
+      }
+    };
+    window.addEventListener('resize', stopMobileAutoSelection);
+    window.addEventListener('scroll', stopMobileAutoSelection, { passive: true });
+    stopMobileAutoSelection();
+
+    return () => {
+      window.removeEventListener('resize', stopMobileAutoSelection);
+      window.removeEventListener('scroll', stopMobileAutoSelection);
+      responsiveTriggers.revert();
+    };
   }, { scope: pinRef });
 
   const handleTabClick = (tab: string, index: number) => {
-    if (!pinRef.current) return;
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      setActiveResearchTab(tab);
+      return;
+    }
 
+    if (!pinRef.current) return;
     const trigger = ScrollTrigger.getAll().find((item) => item.trigger === pinRef.current);
     if (!trigger) return;
 
     const progress = index === 0 ? 0.15 : index === 1 ? 0.5 : 0.85;
     const scrollPos = trigger.start + (trigger.end - trigger.start) * progress;
-
-    if ((window as any).__lenis) {
-      (window as any).__lenis.scrollTo(scrollPos);
-    } else {
-      window.scrollTo({ top: scrollPos, behavior: 'smooth' });
-    }
+    if ((window as any).__lenis) (window as any).__lenis.scrollTo(scrollPos);
+    else window.scrollTo({ top: scrollPos, behavior: 'smooth' });
   };
 
   return (
-    <section ref={pinRef} id="research-methodology" className="relative left-1/2 -translate-x-1/2 w-[100vw] h-[300vh] z-10">
-      <div className="orto-research-sticky sticky top-0 w-full h-[100svh] overflow-hidden flex flex-col pb-10 sm:pb-20">
-        <AuroraBackground className="orto-research-aurora !bg-transparent h-full w-full pt-24 sm:pt-40 pb-10 sm:pb-20">
-          <div className="w-full max-w-7xl mx-auto px-5 relative z-10 flex flex-col h-full">
+    <section ref={pinRef} id="research-methodology" className="relative left-1/2 -translate-x-1/2 w-[100vw] h-[300vh] max-md:h-auto z-10">
+      <div className="orto-research-sticky sticky top-0 w-full h-[100svh] overflow-hidden flex flex-col pb-10 sm:pb-20 max-md:relative max-md:top-auto max-md:h-auto max-md:min-h-[100svh] max-md:overflow-visible">
+        <AuroraBackground className="orto-research-aurora !bg-transparent h-full w-full pt-24 sm:pt-40 pb-10 sm:pb-20 max-md:!h-auto max-md:min-h-[100svh]">
+          <div className="w-full max-w-7xl mx-auto px-5 relative z-10 flex flex-col h-full max-md:h-auto max-md:min-h-[100svh] max-md:pb-12">
             <div className="flex flex-col gap-4">
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-raleway">Metodologia di Ricerca</h2>
+              <h2 className="text-3xl sm:text-3xl font-bold tracking-tight text-white font-raleway text-center md:text-left">Metodologia <span className="max-md:block">di Ricerca</span></h2>
             </div>
 
-            <div className="orto-research-tabs flex gap-8 sm:gap-12 shrink-0 self-start relative overflow-x-auto scrollbar-none w-full sm:w-auto border-b border-white/10 pb-3 px-2 mt-8 sm:mt-16">
+            <div className="orto-research-tabs flex gap-8 sm:gap-12 shrink-0 self-start relative overflow-x-auto scrollbar-none w-full sm:w-auto border-b border-white/10 pb-3 px-2 mt-8 sm:mt-16 max-md:mt-16 max-md:w-fit max-md:self-center">
               {['desk', 'sondaggi', 'interviste'].map((tab, index) => (
                 <button
                   key={tab}
@@ -136,7 +153,7 @@ export function OrtoResearchMethodologySection({ activeResearchTab, setActiveRes
               ))}
             </div>
 
-            <div className="orto-research-content flex-1 relative w-full mt-10 sm:mt-24">
+            <div className="orto-research-content flex-1 relative w-full mt-10 sm:mt-24 max-md:flex-none">
               <AnimatePresence mode="wait">
                 {activeResearchTab === 'desk' && (
                   <motion.div
@@ -145,11 +162,11 @@ export function OrtoResearchMethodologySection({ activeResearchTab, setActiveRes
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                     transition={{ duration: 0.4, ease: 'easeInOut' }}
-                    className="relative flex md:grid md:grid-cols-3 gap-6 max-w-5xl mx-auto overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-none pb-4 md:pb-0"
+                    className="relative mx-auto flex w-full max-w-5xl flex-col items-center gap-6 overflow-visible pb-4 md:grid md:grid-cols-3 md:items-stretch md:overflow-visible md:pb-0"
                   >
-                    <HighlightCard animatedBorder className="min-w-[260px] md:min-w-0 snap-center" title="Orientamento" description={["Nessuna guida per non esperti."]} icon={<MapPin className="w-8 h-8 text-white" />} />
-                    <HighlightCard animatedBorder className="min-w-[260px] md:min-w-0 snap-center" title="Coinvolgimento" description={["Esperienza passiva e veloce (5 min)."]} icon={<Clock className="w-8 h-8 text-white" />} />
-                    <HighlightCard animatedBorder className="min-w-[260px] md:min-w-0 snap-center" title="Informazioni" description={["Mancano spiegazioni oltre al nome scientifico."]} icon={<FileQuestion className="w-8 h-8 text-white" />} />
+                    <HighlightCard animatedBorder className="w-full max-w-[360px] min-w-0" title="Orientamento" description={["Nessuna guida per non esperti."]} icon={<MapPin className="w-8 h-8 text-white" />} />
+                    <HighlightCard animatedBorder className="w-full max-w-[360px] min-w-0" title="Coinvolgimento" description={["Esperienza passiva e veloce (5 min)."]} icon={<Clock className="w-8 h-8 text-white" />} />
+                    <HighlightCard animatedBorder className="w-full max-w-[360px] min-w-0" title="Informazioni" description={["Mancano spiegazioni oltre al nome scientifico."]} icon={<FileQuestion className="w-8 h-8 text-white" />} />
                   </motion.div>
                 )}
 
@@ -160,15 +177,15 @@ export function OrtoResearchMethodologySection({ activeResearchTab, setActiveRes
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                     transition={{ duration: 0.4, ease: 'easeInOut' }}
-                    className="relative flex md:grid md:grid-cols-2 gap-8 max-w-4xl mx-auto overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-none pb-4 md:pb-0"
+                    className="relative mx-auto flex w-full max-w-4xl flex-col items-center gap-8 overflow-visible pb-4 md:grid md:grid-cols-2 md:items-stretch md:overflow-visible md:pb-0"
                   >
-                    <HighlightCard animatedBorder title="Come ti orienti?" className="min-w-[260px] md:min-w-0 snap-center">
+                    <HighlightCard animatedBorder title="Come ti orienti?" className="w-full max-w-[420px] min-w-0">
                       <div className="flex w-full justify-between gap-8 mt-2 mb-8 max-w-[320px] mx-auto">
                         <div className="w-1/2"><NeonGauge percentage="20%" color="#FFFFFF" label="Segnaletica" level={0.2} /></div>
                         <div className="w-1/2"><NeonGauge percentage="70%" color="#068B35" label="Casuale" level={0.7} /></div>
                       </div>
                     </HighlightCard>
-                    <HighlightCard animatedBorder title="Useresti QR code interattivi?" className="min-w-[260px] md:min-w-0 snap-center">
+                    <HighlightCard animatedBorder title="Useresti QR code interattivi?" className="w-full max-w-[420px] min-w-0">
                       <div className="flex w-full justify-between gap-8 mt-2 mb-8 max-w-[320px] mx-auto">
                         <div className="w-1/2"><NeonGauge percentage="25%" color="#FFFFFF" label="Forse" level={0.25} /></div>
                         <div className="w-1/2"><NeonGauge percentage="75%" color="#068B35" label="Sì" level={0.75} /></div>
@@ -184,15 +201,15 @@ export function OrtoResearchMethodologySection({ activeResearchTab, setActiveRes
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                     transition={{ duration: 0.4, ease: 'easeInOut' }}
-                    className="relative flex md:grid md:grid-cols-2 gap-8 max-w-4xl mx-auto overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-none pb-4 md:pb-0"
+                    className="relative mx-auto flex w-full max-w-4xl flex-col items-center gap-8 overflow-visible pb-4 md:grid md:grid-cols-2 md:items-stretch md:overflow-visible md:pb-0"
                   >
-                    <HighlightCard animatedBorder title="Utilità di un Totem Digitale?" className="min-w-[260px] md:min-w-0 snap-center">
+                    <HighlightCard animatedBorder title="Utilità di un Totem Digitale?" className="w-full max-w-[420px] min-w-0">
                       <div className="flex flex-col items-center gap-4 text-center">
                         <span className="w-12 h-12 rounded-full bg-[#068B35]/10 text-[#068B35] flex items-center justify-center font-bold font-raleway border border-[#068B35]/20 shrink-0">Q1</span>
                         <p className="text-sm leading-relaxed text-neutral-400 font-light border-l-2 border-[#068B35] pl-4 italic">"Migliorerebbe l'esperienza, permettendo di orientarsi e prepararsi prima della visita."</p>
                       </div>
                     </HighlightCard>
-                    <HighlightCard animatedBorder title="Mancanze Informative?" className="min-w-[260px] md:min-w-0 snap-center">
+                    <HighlightCard animatedBorder title="Mancanze Informative?" className="w-full max-w-[420px] min-w-0">
                       <div className="flex flex-col items-center gap-4 text-center">
                         <span className="w-12 h-12 rounded-full bg-[#068B35]/10 text-[#068B35] flex items-center justify-center font-bold font-raleway border border-[#068B35]/20 shrink-0">Q2</span>
                         <p className="text-sm leading-relaxed text-neutral-400 font-light border-l-2 border-[#068B35] pl-4 italic">"Sì, mancano dettagli scientifici chiari oltre al nome della pianta."</p>

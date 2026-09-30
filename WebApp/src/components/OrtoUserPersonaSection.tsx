@@ -76,7 +76,7 @@ export function OrtoUserPersonaSection() {
         </p>
       </div>
 
-      <div className="relative w-full max-w-4xl aspect-square md:aspect-[4/3] flex items-center justify-center">
+      <div className="relative hidden w-full max-w-4xl aspect-square md:aspect-[4/3] md:flex items-center justify-center">
         <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" preserveAspectRatio="none">
           <line x1="15%" y1="15%" x2="50%" y2="50%" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" strokeOpacity="1" />
           <circle cx="15%" cy="15%" r="4" fill="rgba(255,255,255,0.15)" />
@@ -95,6 +95,23 @@ export function OrtoUserPersonaSection() {
 
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
           <PersonaPortrait />
+        </div>
+      </div>
+
+      <div className="relative z-20 flex w-full max-w-none flex-col items-center gap-20 px-4 md:hidden">
+        <PersonaPortrait />
+        <div className="mt-20 grid w-full grid-cols-2 gap-3">
+          {[
+            ['Status', 'Nuova residente a Catania (Studentessa).'],
+            ['Necessità', 'Informazioni repentine tramite smartphone.'],
+            ['Obiettivo', 'Esplorazione scientifica intuitiva.'],
+            ['Origine', 'Colombia, ricca di biodiversità.'],
+          ].map(([label, content]) => (
+            <div key={label} className="flex min-h-32 flex-col justify-center rounded-2xl border border-white/10 bg-[#030604]/80 p-4 text-center backdrop-blur-xl">
+              <span className="mb-2 text-[10px] font-raleway font-bold uppercase tracking-widest text-[#068B35]">{label}</span>
+              <p className="text-xs font-light leading-relaxed text-white">{content}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

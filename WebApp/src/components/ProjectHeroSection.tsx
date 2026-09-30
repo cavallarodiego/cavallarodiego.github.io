@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Center, Environment, Html, Resize } from '@react-three/drei';
 import * as THREE from 'three';
@@ -37,6 +37,7 @@ export function ProjectHeroSection({
   category,
   heroImage,
 }: ProjectHeroSectionProps) {
+  const ortoVideoRef = useRef<HTMLVideoElement>(null);
   const sectionIdentity = isKinetics
     ? {
         id: 'urban-streetart-hero',
@@ -55,16 +56,47 @@ export function ProjectHeroSection({
           label: isAetheris ? 'Hero Orto Botanico' : undefined,
         };
 
+  useEffect(() => {
+    if (!isAetheris) return;
+
+    const video = ortoVideoRef.current;
+    if (!video) return;
+
+    const startTime = window.matchMedia('(max-width: 767px)').matches ? 3.5 : 3;
+    const endTime = 15;
+    const seekToStart = () => {
+      if (video.currentTime < startTime || video.currentTime >= endTime) {
+        video.currentTime = startTime;
+      }
+    };
+    const keepWithinSegment = () => {
+      if (video.currentTime >= endTime) {
+        video.currentTime = startTime;
+        void video.play();
+      }
+    };
+
+    video.addEventListener('loadedmetadata', seekToStart);
+    video.addEventListener('timeupdate', keepWithinSegment);
+    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) seekToStart();
+
+    return () => {
+      video.removeEventListener('loadedmetadata', seekToStart);
+      video.removeEventListener('timeupdate', keepWithinSegment);
+    };
+  }, [isAetheris]);
+
   return (
     <section
       id={sectionIdentity.id}
       data-project-section={sectionIdentity.order}
       aria-label={sectionIdentity.label}
-      className={`relative w-full pt-20 min-h-[100svh] flex flex-col justify-end p-6 sm:p-12 md:p-16 overflow-hidden ${isKinetics ? 'bg-[#0D0D0D]' : ''}`}
+      className={`relative w-full pt-20 min-h-[100svh] max-md:min-h-[65svh] flex flex-col justify-end p-6 sm:p-12 md:p-16 overflow-hidden ${isKinetics ? 'bg-[#0D0D0D]' : ''}`}
     >
       <div className="absolute inset-0 z-0">
         {isAetheris ? (
           <video
+            ref={ortoVideoRef}
             src="./Video/Project 01/hero_video.mov"
             autoPlay
             loop
@@ -140,7 +172,7 @@ export function ProjectHeroSection({
           </h1>
         )}
         {(isAetheris || isChronos || isKinetics) && (
-          <div className="flex flex-col gap-1 w-full items-center justify-center mb-4">
+          <div className={`flex flex-col gap-1 w-full items-center justify-center mb-4 ${isAetheris ? 'hidden md:flex' : ''}`}>
             <div className="flex flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 w-full">
               <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-md shadow-sm">
                 <span className={`text-sm font-raleway uppercase tracking-wider ${isKinetics ? 'text-[#FCD306]' : isChronos ? 'text-[#B40E3C]' : 'text-[#068B35]'}`}>Year:</span>

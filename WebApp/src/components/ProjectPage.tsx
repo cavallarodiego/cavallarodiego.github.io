@@ -205,6 +205,7 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
   // General States
   const [copiedColor, setCopiedColor] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLogoDetailsOpen, setIsLogoDetailsOpen] = useState(false);
 
   const currentIndex = allProjects.findIndex(p => p.id === project.id);
   const prevProject = allProjects[(currentIndex - 1 + allProjects.length) % allProjects.length];
@@ -302,15 +303,46 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
         {/* 1. FIXED TOP HEADER (Hamburger Menu) */}
         <button
           onClick={() => setIsMenuOpen(true)}
-          className="fixed top-6 left-6 z-[100] w-12 h-12 flex items-center justify-center rounded-full bg-black/50 backdrop-blur-xl border border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.5)] hover:scale-105 transition-transform duration-300"
+          className="fixed top-6 left-6 z-[100] w-12 h-12 flex items-center justify-center rounded-full bg-black/50 backdrop-blur-xl border border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.5)] hover:scale-105 transition-transform duration-300 md:top-6 max-md:top-8"
         >
           <Menu className="w-6 h-6 text-white" />
         </button>
 
         {/* Orto Botanico Logo Card */}
         {isAetheris && (
-          <div className="fixed top-6 right-6 z-[100] h-16 md:h-20 px-8 md:px-10 flex items-center justify-center rounded-full bg-black/50 backdrop-blur-xl border border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.5)]">
-            <img src="./Images/Project 01/logo_orto_botanico_testo_bianco.png" alt="Orto Botanico Logo" className="h-10 md:h-12 w-auto object-contain" />
+          <div className="fixed top-6 right-6 z-[160] flex flex-col items-end">
+            <button
+              type="button"
+              aria-label={lang === 'it' ? 'Apri dettagli progetto' : 'Open project details'}
+              aria-expanded={isLogoDetailsOpen}
+              onClick={() => setIsLogoDetailsOpen((open) => !open)}
+              className="relative h-16 md:h-20 w-[220px] md:w-auto px-5 md:px-10 flex items-center justify-start md:justify-center rounded-full bg-black/50 backdrop-blur-xl border border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.5)] max-md:cursor-pointer md:pointer-events-none"
+            >
+              <img src="./Images/Project 01/logo_orto_botanico_testo_bianco.png" alt="Orto Botanico Logo" className="h-10 md:h-12 w-auto object-contain" />
+              <ChevronDown className={`absolute right-4 w-4 h-4 shrink-0 text-white/80 transition-transform duration-200 md:hidden ${isLogoDetailsOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
+            </button>
+            <AnimatePresence>
+              {isLogoDetailsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="mt-2 flex flex-col items-center gap-2 rounded-3xl border border-white/15 bg-black/50 p-3 shadow-[0_8px_30px_rgb(0,0,0,0.5)] backdrop-blur-xl md:hidden"
+                >
+                  {[
+                    ['Year:', project.year],
+                    ['Role:', project.role],
+                    ['Type:', 'Team Project'],
+                  ].map(([label, value]) => (
+                    <div key={label} className="flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 shadow-sm">
+                      <span className="text-sm font-raleway uppercase tracking-wider text-[#068B35]">{label}</span>
+                      <span className="text-sm font-semibold text-white">{value}</span>
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )}
 
@@ -1777,7 +1809,7 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
           )}
 
         </div>
-        <div className={`max-w-[1600px] mx-auto px-6 sm:px-12 md:px-16 w-full relative z-10 ${isAetheris ? 'pt-24 md:pt-32' : 'pt-8'}`}>
+        <div className={`max-w-[1600px] mx-auto px-6 sm:px-12 md:px-16 w-full relative z-10 ${isAetheris ? 'pt-8 md:pt-32' : 'pt-8'}`}>
 
           {/* COLOR PALETTE & TYPOGRAPHY STYLE GUIDE */}
           {isAetheris ? (

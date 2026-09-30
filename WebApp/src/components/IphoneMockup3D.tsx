@@ -285,7 +285,7 @@ function AnimatedScene({ containerRef, titleRef, cardsRef, imagePath }: { contai
     gsap.set(groupRef.current.position, {
       // The phone leads the composition so the following cards never cross it.
       x: isMobile ? 55 : isTablet ? 70 : 100,
-      y: 0,
+      y: isMobile ? -95 : 0,
       z: 0
     });
 
@@ -296,7 +296,7 @@ function AnimatedScene({ containerRef, titleRef, cardsRef, imagePath }: { contai
         : window.innerWidth < 1536
           ? -170
           : -170;
-    const endY = 0;
+    const endY = isMobile ? -95 : 0;
     
     // Setup initial position
     // Starting at -Math.PI * 2 - (Math.PI / 4) will make it spin 360+45 degrees and end exactly at 0!
@@ -403,18 +403,12 @@ export default function IphoneMockup3D({ imagePath }: { imagePath?: string } = {
 
   return (
     <ErrorBoundary fallback={(err) => <div className="text-red-500 p-4 border border-red-500 rounded bg-red-900/20">Error 3D: {err.message}</div>}>
-      <div ref={containerRef} id="orto-iphone-3d-section" className="relative left-1/2 w-screen -translate-x-1/2 h-[300svh]">
-        <div className="sticky top-0 w-screen h-[100svh] overflow-hidden">
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-0 top-0 z-30 h-[clamp(8rem,20vh,15rem)] pointer-events-none bg-gradient-to-b from-[#050505] via-[#050505]/80 to-transparent"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-0 bottom-0 z-30 h-[clamp(8rem,20vh,15rem)] pointer-events-none bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent"
-          />
-          <AuroraBackground className="!bg-transparent h-full w-full">
-            <div className="absolute inset-0 pointer-events-none flex flex-col justify-center pl-[5%] md:pl-[10%] lg:pl-[12%] pr-[5%] z-10">
+      <div ref={containerRef} id="orto-iphone-3d-section" className="relative left-1/2 w-screen -translate-x-1/2 h-[300svh] max-md:h-auto">
+        <div className="sticky top-0 w-screen h-[100svh] overflow-hidden max-md:relative max-md:top-auto max-md:h-auto max-md:min-h-[100svh] max-md:overflow-visible">
+          <div aria-hidden="true" className="absolute inset-x-0 top-0 z-30 hidden h-[clamp(8rem,20vh,15rem)] pointer-events-none bg-gradient-to-b from-[#050505] via-[#050505]/80 to-transparent md:block" />
+          <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-30 hidden h-[clamp(8rem,20vh,15rem)] pointer-events-none bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent md:block" />
+          <AuroraBackground className="!bg-transparent h-full w-full max-md:!h-auto max-md:!min-h-[100svh]">
+            <div className="absolute inset-0 pointer-events-none hidden flex-col justify-center pl-[5%] pr-[5%] z-10 md:flex md:pl-[10%] lg:pl-[12%]">
               <div ref={titleRef} className="flex flex-col gap-6 max-w-xl md:max-w-2xl">
                 <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white max-w-max leading-none">
                    Cos'è<br />
@@ -425,25 +419,36 @@ export default function IphoneMockup3D({ imagePath }: { imagePath?: string } = {
                 </p>
               </div>
             </div>
-            
-            <div ref={cardsRef} style={{ opacity: 0 }} className="orto-feature-cards absolute right-[2%] md:right-[4%] lg:right-[19%] xl:right-[24%] 2xl:right-[28%] top-[50%] -translate-y-1/2 w-[95vw] max-w-[320px] md:max-w-none md:w-[44vw] lg:w-[43vw] xl:w-[40vw] 2xl:w-[38vw] z-10 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-4 lg:gap-5 xl:gap-6 [&_h3]:md:text-xl [&_h3]:xl:text-2xl [&_p]:md:text-[11px] [&_p]:xl:text-xs">
+            <div ref={cardsRef} style={{ opacity: 0 }} className="orto-feature-cards absolute right-[2%] md:right-[4%] lg:right-[19%] xl:right-[24%] 2xl:right-[28%] top-[50%] -translate-y-1/2 hidden w-[95vw] max-w-[320px] md:grid md:max-w-none md:w-[44vw] md:grid-cols-3 md:gap-4 lg:w-[43vw] lg:gap-5 xl:w-[40vw] xl:gap-6 xl:w-[40vw] 2xl:w-[38vw] z-10 [&_h3]:md:text-xl [&_h3]:xl:text-2xl [&_p]:md:text-[11px] [&_p]:xl:text-xs">
+              <HighlightCard animatedBorder={true} title="Interattività" description={["Pannelli digitali e QR accrescono la conoscenza."]} icon={<Compass className="w-6 h-6 text-[#068B35]" />} />
+              <HighlightCard animatedBorder={true} title="Percorsi Agili" description={["Itinerari scelti tramite i Totem all'ingresso."]} icon={<ArrowRight className="w-6 h-6 text-[#068B35]" />} />
+              <HighlightCard animatedBorder={true} title="Accessibilità" description={["App user-friendly e mappe inclusive per tutti."]} icon={<MapIcon className="w-6 h-6 text-[#068B35]" />} />
+            </div>
+            <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col justify-center gap-10 px-6 py-20 md:hidden">
+              <div className="flex flex-col gap-6 max-w-xl max-md:text-center">
+                <h2 className="text-5xl font-bold text-white leading-none">
+                  Cos'è<br />
+                  <span className="text-[#068b35]">Bussola Verde?</span>
+                </h2>
+                <p className="text-lg text-neutral-400 font-light leading-relaxed">
+                  Un ecosistema digitale che trasforma il parco in un percorso su misura, rendendo il visitatore esploratore attivo.
+                </p>
+              </div>
+              <div className="orto-feature-cards relative z-10 mx-auto grid w-full max-w-[320px] grid-cols-1 gap-4 [&_h3]:text-xl [&_p]:text-xs">
                <HighlightCard animatedBorder={true} title="Interattività" description={["Pannelli digitali e QR accrescono la conoscenza."]} icon={<Compass className="w-6 h-6 text-[#068B35]" />} />
                <HighlightCard animatedBorder={true} title="Percorsi Agili" description={["Itinerari scelti tramite i Totem all'ingresso."]} icon={<ArrowRight className="w-6 h-6 text-[#068B35]" />} />
                <HighlightCard animatedBorder={true} title="Accessibilità" description={["App user-friendly e mappe inclusive per tutti."]} icon={<MapIcon className="w-6 h-6 text-[#068B35]" />} />
             </div>
-            <Canvas camera={{ position: [0, 0, 300], fov: 45 }} className="!absolute inset-0 w-full h-full z-0">
+            </div>
+            <Canvas camera={{ position: [0, 0, 300], fov: 45 }} className="!absolute inset-0 hidden h-full w-full z-0 md:block">
               <Suspense fallback={<Html center><div className="text-white text-xl">Caricamento 3D in corso...</div></Html>}>
                 <Environment preset="city" />
                 <ambientLight intensity={0.4} />
-                {/* Main subtle light */}
                 <directionalLight position={[10, 20, 15]} intensity={1} />
-                {/* Strong green lights to match the theme */}
                 <directionalLight position={[-10, -10, -10]} intensity={3} color="#0A8232" />
                 <pointLight position={[0, 0, 10]} intensity={200} distance={100} color="#0A8232" />
                 <pointLight position={[0, -20, -10]} intensity={300} distance={150} color="#0A8232" />
-                
                 <AnimatedScene containerRef={containerRef} titleRef={titleRef} cardsRef={cardsRef} imagePath={imagePath} />
-                
               </Suspense>
             </Canvas>
           </AuroraBackground>

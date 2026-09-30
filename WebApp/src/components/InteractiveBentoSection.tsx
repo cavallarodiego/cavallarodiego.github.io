@@ -60,7 +60,7 @@ export default function InteractiveBentoSection({
           </div>
           
           {/* Right Side: Bento Grid */}
-          <div className="flex-1 w-full max-w-xl mt-12 xl:mt-20 2xl:mt-24">
+          <div className="flex-1 w-full max-w-xl mt-12 xl:mt-20 2xl:mt-24 max-md:hidden">
             <BentoGrid 
               activePhase={activePhase} 
               problemsFeatures={problemsFeatures}
