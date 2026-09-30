@@ -109,11 +109,11 @@ export const GooeyProjectsBackground: React.FC = () => {
         {`
           @media (max-width: 768px) {
             #text1, #text2 {
-              font-size: clamp(7rem, 30vw, 10rem) !important;
+              font-size: clamp(4rem, 20vw, 8rem) !important;
               white-space: normal !important;
               width: 90vw !important;
-              max-width: 80vw !important;
-              line-height: 0.8 !important;
+              max-width: 90vw !important;
+              line-height: 0.88 !important;
             }
           }
         `}

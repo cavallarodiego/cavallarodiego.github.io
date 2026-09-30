@@ -663,7 +663,7 @@ export default function App() {
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E8302A]" />
                   <span>Portfolio</span>
                 </div>
-                <h2 className="text-4xl sm:text-5xl md:text-[3.5rem] font-extrabold tracking-[-0.03em] text-white leading-[1.06] font-jakarta">
+                <h2 className="text-3xl sm:text-5xl md:text-[3.5rem] font-extrabold tracking-[-0.03em] text-white leading-[1.06] font-jakarta">
                   {lang === 'it' ? 'I miei progetti' : 'My Projects'}
                 </h2>
               </div>

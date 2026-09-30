@@ -135,7 +135,7 @@ export function ProjectHeroSection({
           <span className="text-sm font-raleway uppercase tracking-[0.25em] text-[#E8302A]">{category}</span>
         )}
         {!isKinetics && (
-          <h1 className={`font-black tracking-tighter uppercase mb-2 ${(isAetheris || isChronos) ? 'text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-raleway font-bold text-white' : 'text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-sans text-white'}`}>
+          <h1 className={`font-black tracking-tighter uppercase mb-2 ${(isAetheris || isChronos) ? 'text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-raleway font-bold text-white' : 'text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-sans text-white'}`}>
             {isAetheris ? <span className="sr-only">{project.title}</span> : !(isAetheris || isChronos) ? project.title : null}
           </h1>
         )}

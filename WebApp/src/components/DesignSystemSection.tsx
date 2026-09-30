@@ -20,7 +20,7 @@ export const DesignSystemSection: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-5xl md:text-7xl lg:text-[100px] font-urbanist font-black tracking-tighter leading-none mb-6 uppercase"
+            className="text-4xl md:text-7xl lg:text-[100px] font-urbanist font-black tracking-tighter leading-none mb-6 uppercase"
           >
             Design <span className="text-[#FCD306]">System</span>
           </motion.h2>
@@ -29,7 +29,7 @@ export const DesignSystemSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-2xl text-neutral-400 font-light max-w-3xl leading-[1.5] mx-auto"
+            className="text-base md:text-2xl text-neutral-400 font-light max-w-3xl leading-[1.6] mx-auto"
           >
             Un'estetica moderna, urbana e ad alto contrasto. L'identità visiva è progettata per far risaltare le opere d'arte di strada, utilizzando una base scura punteggiata da accenti geometrici e di colore decisi.
           </motion.p>

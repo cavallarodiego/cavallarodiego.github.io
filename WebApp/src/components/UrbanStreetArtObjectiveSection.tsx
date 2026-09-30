@@ -20,10 +20,10 @@ export function UrbanStreetArtObjectiveSection() {
       </svg>
 
       <div className="relative z-10 flex flex-col items-center">
-        <h2 className="text-7xl sm:text-[100px] md:text-[140px] font-urbanist font-black tracking-tighter leading-none mb-6 sm:mb-8 text-center uppercase">
+        <h2 className="text-5xl sm:text-[100px] md:text-[140px] font-urbanist font-black tracking-tighter leading-none mb-6 sm:mb-8 text-center uppercase">
           Obiettivo
         </h2>
-        <p className="max-w-4xl text-center text-lg sm:text-xl md:text-3xl font-light leading-[1.4] tracking-tight text-[#111111]/90">
+        <p className="max-w-4xl text-center text-base sm:text-xl md:text-3xl font-light leading-[1.55] sm:leading-[1.4] tracking-tight text-[#111111]/90">
           Creare un’identità visiva forte, contemporanea e coerente, capace di rappresentare l’energia dell’arte urbana e rendere il progetto riconoscibile su tutti i canali digitali.
         </p>
       </div>
