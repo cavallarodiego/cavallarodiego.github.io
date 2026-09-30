@@ -28,7 +28,7 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
       labelIt: 'Home',
       labelEn: 'Home',
       icon: Home,
-      oldImg: 'home.png',
+      oldImg: 'home.jpg',
       newImg: '1_home.png',
       titleIt: 'Home Screen & Prenotazione Rapida',
       titleEn: 'Home Screen & Quick Booking',
@@ -50,7 +50,7 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
       labelIt: 'Cerca Biglietto',
       labelEn: 'Search Route',
       icon: Search,
-      oldImg: 'cerca_biglietto.png',
+      oldImg: 'search-results.jpg',
       newImg: '4_cerca_biglietto.png',
       titleIt: 'Selezione Tratta & Parametri di Viaggio',
       titleEn: 'Route Selection & Travel Parameters',
@@ -72,7 +72,7 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
       labelIt: 'I tuoi biglietti',
       labelEn: 'Select Ticket',
       icon: Ticket,
-      oldImg: 'scegli_biglietto.png',
+      oldImg: 'my-trips.jpg',
       newImg: '3_ticket.png',
       titleIt: 'Risultati di Ricerca & Tariffe',
       titleEn: 'Search Results & Travel Tariffs',
@@ -94,7 +94,7 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
       labelIt: 'Offerte',
       labelEn: 'Offers',
       icon: Sparkles,
-      oldImg: 'offerte.png',
+      oldImg: 'offers.jpg',
       newImg: '2_offerte.png',
       titleIt: 'Offerte & Vantaggi Italo Più',
       titleEn: 'Offers & Italo Più Perks',
@@ -117,7 +117,7 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
   const [comparisonPosition, setComparisonPosition] = useState(50);
   const activeScreen = screens.find((s) => s.id === activeTab) || screens[0];
 
-  const oldBasePath = `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/old/`;
+  const oldBasePath = `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/legacy/`;
   const newBasePath = `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/redesign/`;
 
   return (
@@ -193,19 +193,19 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
         <div className="relative w-full max-w-[340px] rounded-[2.4rem] bg-gradient-to-b from-neutral-800/90 via-neutral-900 to-black p-2 sm:p-2.5 border border-white/15 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
           <div className="relative w-full aspect-[393/852] rounded-[1.9rem] overflow-hidden bg-neutral-950">
             <img
+              key={`new-${activeScreen.id}`}
+              src={`${newBasePath}${activeScreen.newImg}`}
+              alt={`${activeScreen.labelIt} - Redesign`}
+              className="absolute inset-0 h-full w-full object-cover"
+              loading="eager"
+              decoding="async"
+            />
+            <img
               key={`old-${activeScreen.id}`}
               src={`${oldBasePath}${activeScreen.oldImg}`}
               alt={`${activeScreen.labelIt} - Prima`}
               className="absolute inset-0 h-full w-full object-cover"
               style={{ clipPath: `inset(0 ${100 - comparisonPosition}% 0 0)` }}
-              loading="eager"
-              decoding="async"
-            />
-            <img
-              key={`new-${activeScreen.id}`}
-              src={`${newBasePath}${activeScreen.newImg}`}
-              alt={`${activeScreen.labelIt} - Redesign`}
-              className="absolute inset-0 h-full w-full object-cover"
               loading="eager"
               decoding="async"
             />

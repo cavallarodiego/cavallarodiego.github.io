@@ -2209,6 +2209,7 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
           lang={lang}
           onNavigateToProject={onNavigateToProject}
           onBackToHome={onClose}
+          compactTopSpacing={isChronos}
         />
 
       </div>

@@ -8,6 +8,7 @@ interface ProjectFooterProps {
   lang: string;
   onNavigateToProject: (project: Project) => void;
   onBackToHome: () => void;
+  compactTopSpacing?: boolean;
 }
 
 const projectCardStyles: Record<string, { asset: string; color: string; glow: string }> = {
@@ -36,11 +37,12 @@ export function ProjectFooter({
   lang,
   onNavigateToProject,
   onBackToHome,
+  compactTopSpacing = false,
 }: ProjectFooterProps) {
   const visibleProjects = projects.filter(({ id }) => id !== currentProjectId);
 
   return (
-    <footer className="max-w-[1600px] mx-auto px-6 sm:px-12 md:px-16 mt-20 border-t border-white/5 pt-16">
+    <footer className={`max-w-[1600px] mx-auto px-6 sm:px-12 md:px-16 ${compactTopSpacing ? 'mt-0 pt-8' : 'mt-20 pt-16'} border-t border-white/5`}>
       <h3 className="mb-10 text-center text-2xl sm:text-3xl font-bold tracking-tight text-white">
         {lang === 'it' ? 'Esplora altri progetti' : 'Explore other projects'}
       </h3>

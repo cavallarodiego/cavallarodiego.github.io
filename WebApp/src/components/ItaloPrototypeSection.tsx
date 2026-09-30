@@ -37,7 +37,7 @@ export default function ItaloPrototypeSection({ lang }: ItaloPrototypeSectionPro
 
   return (
     <section
-      className="w-full min-h-[100svh] relative z-10 py-20 sm:py-24 lg:py-28 px-6 sm:px-12 md:px-16 flex justify-center items-center"
+      className="w-full min-h-[100svh] relative z-10 pt-20 pb-0 sm:pt-24 lg:pt-28 px-6 sm:px-12 md:px-16 flex justify-center items-center"
       id="italo-interactive-prototypes-section"
       data-project-section="08-prototype"
       aria-labelledby="italo-prototype-title"
