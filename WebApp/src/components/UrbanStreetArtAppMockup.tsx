@@ -47,8 +47,8 @@ export const UrbanStreetArtAppMockup: React.FC = () => {
       aria-label="Applicazione responsive Urban StreetArt Sicily"
       className="relative w-full flex flex-col xl:flex-row items-center justify-center gap-12 xl:gap-20 py-4 md:py-32 px-6 xl:px-12 max-w-[1800px] mx-auto"
     >
-      <h2 className="relative z-10 w-full text-center text-3xl font-urbanist font-black uppercase tracking-tight text-white md:hidden">
-        Prototipo App
+      <h2 className="relative z-10 w-full text-center text-[24px] font-urbanist font-black uppercase tracking-tight text-white md:hidden">
+        Prototipo <span className="text-[#FCD306]">App</span>
       </h2>
       
       {/* Background Ambient Blobs */}
@@ -145,7 +145,7 @@ export const UrbanStreetArtAppMockup: React.FC = () => {
       </div>
 
       {/* MOBILE MOCKUP */}
-      <div className="relative w-full max-w-[380px] aspect-[9/19.5] xl:aspect-auto xl:max-w-none xl:w-[245px] xl:h-[530px] bg-[#111111] rounded-[45px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5),_0_0_0_2px_#333,_0_0_0_12px_#1a1a1a] overflow-hidden order-1 xl:order-2 shrink-0">
+      <div className="relative w-full max-w-[280px] md:max-w-[380px] aspect-[9/19.5] xl:aspect-auto xl:max-w-none xl:w-[245px] xl:h-[530px] bg-[#111111] rounded-[45px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5),_0_0_0_2px_#333,_0_0_0_12px_#1a1a1a] overflow-hidden order-1 xl:order-2 shrink-0">
         
         {/* Status Bar removed as requested */}
 

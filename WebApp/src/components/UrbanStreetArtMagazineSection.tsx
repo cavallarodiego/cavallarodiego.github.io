@@ -11,7 +11,7 @@ export function UrbanStreetArtMagazineSection() {
       <img
         src="./Images/Project 02/Mockup/mockup_magazine.jpg"
         alt="Urban StreetArt Sicily Magazine Mockup"
-        className="absolute inset-0 w-full h-full object-contain md:object-cover"
+        className="absolute inset-0 w-full h-full object-cover scale-[1.28] md:scale-100"
       />
     </section>
   );

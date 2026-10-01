@@ -42,7 +42,7 @@ export function ProjectFooter({
   const visibleProjects = projects.filter(({ id }) => id !== currentProjectId);
 
   return (
-    <footer className={`max-w-[1600px] mx-auto px-6 sm:px-12 md:px-16 ${compactTopSpacing ? 'mt-0 pt-8' : 'mt-20 pt-16'} border-t border-white/5`}>
+    <footer className={`max-w-[1600px] mx-auto px-6 sm:px-12 md:px-16 ${compactTopSpacing ? 'mt-0 pt-8' : currentProjectId === 'kinetics' ? 'mt-20 pt-16 max-md:mt-0 max-md:pt-8' : 'mt-20 pt-16'} border-t border-white/5`}>
       <h3 className="mb-10 text-center text-2xl sm:text-3xl font-bold tracking-tight text-white">
         {lang === 'it' ? 'Esplora altri progetti' : 'Explore other projects'}
       </h3>

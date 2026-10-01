@@ -6,7 +6,7 @@ export function UrbanStreetArtIntroductionSection() {
   return (
     <section id="urban-streetart-introduction" data-project-section="02-introduction" aria-label="Introduzione Urban StreetArt Sicily" className="relative z-20 w-full">
       <div className="relative left-1/2 -translate-x-1/2 w-[100vw] overflow-hidden border-b-2 border-[#0D0D0D] py-2 sm:py-3 flex items-center bg-[#FCD306]">
-        <motion.div animate={{ x: ['0%', '-50%'] }} transition={{ repeat: Infinity, ease: 'linear', duration: 20 }} className="flex whitespace-nowrap gap-8 text-[#0D0D0D] font-urbanist font-black text-xl sm:text-2xl uppercase tracking-widest">
+        <motion.div animate={{ x: ['0%', '-50%'] }} transition={{ repeat: Infinity, ease: 'linear', duration: 20 }} className="flex whitespace-nowrap gap-8 text-[#0D0D0D] font-urbanist font-black text-[18px] sm:text-2xl uppercase tracking-widest">
           {[...Array(20)].map((_, index) => (
             <React.Fragment key={index}>
               <span>INTRODUZIONE</span>
@@ -21,11 +21,19 @@ export function UrbanStreetArtIntroductionSection() {
           <div className="flex flex-col items-center justify-center gap-8">
             <LogoMorph />
           </div>
-          <div className="md:hidden justify-self-center w-16 h-px bg-[#FCD306]/70" aria-hidden="true" />
           <div className="flex flex-col items-center md:items-start">
-            <p className="text-white font-urbanist text-xl md:text-2xl lg:text-[28px] leading-[1.4] font-light tracking-tight">
-              <span className="font-semibold text-[#FCD306]">Rebranding dell'identità visiva di Urban StreetArt Sicily:</span>{' '}
-              pagina Instagram dedicata alla diffusione dell'arte urbana in Sicilia, con l'obiettivo di trasformarla in un vero e proprio portale digitale.
+            <p className="text-white font-urbanist text-xl md:text-2xl lg:text-[28px] leading-[1.4] font-light tracking-tight text-center md:text-left">
+              <span className="block font-semibold text-[18px] md:text-inherit text-[#FCD306] mb-4">
+                Rebranding dell'identità visiva<br />
+                di Urban StreetArt Sicily
+              </span>
+              <span className="block text-[16px] md:text-inherit">
+                Pagina Instagram dedicata alla<br />
+                diffusione dell'arte urbana in<br />
+                Sicilia, con l'obiettivo di<br />
+                trasformarla in un vero e proprio<br />
+                portale digitale.
+              </span>
             </p>
           </div>
         </div>

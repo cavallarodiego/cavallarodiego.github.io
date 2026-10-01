@@ -197,6 +197,7 @@ const MapScene = ({ region, onRegionSelect }: { region: RegionKey, onRegionSelec
     <>
       <OrbitControls 
         ref={controlsRef}
+        enableRotate={!isMobile}
         enableZoom={false} 
         enablePan={false} // Disable manual pan to keep the focus on the active region
         minPolarAngle={Math.PI / 6}
@@ -241,7 +242,7 @@ const AdattabilitaMarquee = () => {
       <motion.div
         animate={{ x: ["0%", "-50%"] }}
         transition={{ repeat: Infinity, ease: "linear", duration: 20 }}
-        className="flex whitespace-nowrap gap-8 text-[#0D0D0D] font-urbanist font-black text-xl sm:text-2xl uppercase tracking-widest"
+        className="flex whitespace-nowrap gap-8 text-[#0D0D0D] font-urbanist font-black text-[18px] sm:text-2xl uppercase tracking-widest"
       >
         {[...Array(20)].map((_, i) => (
           <React.Fragment key={i}>
