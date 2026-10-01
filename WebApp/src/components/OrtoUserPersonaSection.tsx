@@ -107,9 +107,10 @@ export function OrtoUserPersonaSection() {
             ['Obiettivo', 'Esplorazione scientifica intuitiva.'],
             ['Origine', 'Colombia, ricca di biodiversità.'],
           ].map(([label, content]) => (
-            <div key={label} className="flex min-h-32 flex-col justify-center rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-7 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_32px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
-              <span className="mb-2 text-[16px] font-raleway font-bold uppercase tracking-widest text-[#068B35]">{label}</span>
-              <p className="text-[14px] font-light leading-relaxed text-white">{content}</p>
+            <div key={label} className="relative flex min-h-32 flex-col justify-center overflow-hidden rounded-2xl border border-white/20 bg-white/[0.04] px-4 py-7 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.24),inset_0_-1px_0_rgba(255,255,255,0.06),0_8px_32px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
+              <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 rounded-2xl bg-gradient-to-br from-white/[0.09] via-transparent to-white/[0.02]" />
+              <span className="relative z-10 mb-2 text-[16px] font-raleway font-bold uppercase tracking-widest text-[#068B35]">{label}</span>
+              <p className="relative z-10 text-[14px] font-light leading-relaxed text-white">{content}</p>
             </div>
           ))}
         </div>

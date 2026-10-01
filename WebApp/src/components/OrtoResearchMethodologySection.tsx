@@ -225,8 +225,8 @@ export function OrtoResearchMethodologySection({ activeResearchTab, setActiveRes
           </div>
         </AuroraBackground>
 
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#050505] from-10% via-[#050505]/80 to-transparent pointer-events-none z-0" />
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent pointer-events-none z-0" />
+        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#050505] from-10% via-[#050505]/80 to-transparent pointer-events-none z-0 max-md:hidden" />
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent pointer-events-none z-0 max-md:hidden" />
       </div>
       <div aria-hidden="true" className="absolute bottom-0 left-1/2 z-20 hidden h-px w-[80%] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#068B35]/50 to-transparent max-md:block" />
     </section>
