@@ -45,8 +45,11 @@ export const UrbanStreetArtAppMockup: React.FC = () => {
       id="urban-streetart-responsive-app"
       data-project-section="07-responsive-app"
       aria-label="Applicazione responsive Urban StreetArt Sicily"
-      className="relative w-full flex flex-col xl:flex-row items-center justify-center gap-12 xl:gap-20 py-32 px-6 xl:px-12 max-w-[1800px] mx-auto"
+      className="relative w-full flex flex-col xl:flex-row items-center justify-center gap-12 xl:gap-20 py-4 md:py-32 px-6 xl:px-12 max-w-[1800px] mx-auto"
     >
+      <h2 className="relative z-10 w-full text-center text-3xl font-urbanist font-black uppercase tracking-tight text-white md:hidden">
+        Prototipo App
+      </h2>
       
       {/* Background Ambient Blobs */}
       <div className="absolute top-1/4 left-[10%] w-[500px] h-[500px] bg-[#FCD306]/20 rounded-full blur-[140px] pointer-events-none z-0" />

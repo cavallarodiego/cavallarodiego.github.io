@@ -11,6 +11,7 @@ export const DesignSystemSection: React.FC = () => {
     >
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#FCD306] opacity-[0.02] blur-[150px] pointer-events-none rounded-full translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute inset-x-0 bottom-0 h-24 md:h-0 bg-gradient-to-b from-transparent to-[#0D0D0D] pointer-events-none z-20" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         
@@ -39,12 +40,12 @@ export const DesignSystemSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full">
           
           {/* Left: Color Palette (Triangles) */}
-          <div className="md:col-span-7 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl p-8 md:p-12 shadow-2xl relative overflow-hidden group flex flex-col gap-12">
+          <div className="md:col-span-7 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl p-10 md:p-12 shadow-2xl relative overflow-hidden group flex flex-col gap-12">
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             
             <h3 className="text-sm font-urbanist uppercase tracking-widest text-neutral-400 font-bold relative z-10 text-center">Color Palette</h3>
             
-            <div className="grid grid-cols-2 gap-8 md:gap-12 w-full max-w-lg mx-auto relative z-10">
+            <div className="grid grid-cols-2 gap-4 md:gap-12 w-full max-w-[220px] md:max-w-lg mx-auto relative z-10">
               <div className="relative w-full aspect-[230/208] group/tri cursor-pointer">
                 <svg viewBox="0 0 230 208" className="absolute inset-0 w-full h-full drop-shadow-lg overflow-visible scale-x-[-1] transition-transform duration-500 group-hover/tri:scale-105 group-hover/tri:-scale-x-105">
                   <path d="M229.9 0L229.8 208L0 0Z" fill="#111111" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeLinejoin="round" />
@@ -84,7 +85,7 @@ export const DesignSystemSection: React.FC = () => {
           <div className="md:col-span-5 flex flex-col gap-6">
             
             {/* H1 Demo */}
-            <div className="rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-xl p-8 md:p-12 flex flex-col justify-center items-start shadow-2xl relative overflow-hidden group flex-1">
+            <div className="rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-xl p-10 md:p-12 flex flex-col justify-center items-start shadow-2xl relative overflow-hidden group flex-1">
               <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="flex flex-col gap-2 relative z-10 w-full">
                 <span className="font-urbanist text-[11px] text-[#FCD306] font-bold uppercase tracking-wider mb-4">H1 / Urbanist, Black</span>
@@ -98,7 +99,7 @@ export const DesignSystemSection: React.FC = () => {
             </div>
 
             {/* Body Demo */}
-            <div className="rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-xl p-8 md:p-10 flex flex-col justify-center items-start shadow-2xl relative overflow-hidden group flex-1">
+            <div className="rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-xl p-10 md:p-10 flex flex-col justify-center items-start shadow-2xl relative overflow-hidden group flex-1">
               <div className="absolute inset-0 bg-gradient-to-bl from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="flex flex-col gap-2 relative z-10">
                 <span className="font-urbanist text-[11px] text-[#FCD306] font-bold uppercase tracking-wider mb-4">Body / Urbanist, Regular</span>

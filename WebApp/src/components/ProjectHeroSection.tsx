@@ -172,7 +172,7 @@ export function ProjectHeroSection({
           </h1>
         )}
         {(isAetheris || isChronos || isKinetics) && (
-          <div className={`flex flex-col gap-1 w-full items-center justify-center mb-4 ${isAetheris ? 'hidden md:flex' : ''}`}>
+          <div className={`flex flex-col gap-1 w-full items-center justify-center mb-4 ${isAetheris || isKinetics ? 'hidden md:flex' : ''}`}>
             <div className="flex flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 w-full">
               <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-md shadow-sm">
                 <span className={`text-sm font-raleway uppercase tracking-wider ${isKinetics ? 'text-[#FCD306]' : isChronos ? 'text-[#B40E3C]' : 'text-[#068B35]'}`}>Year:</span>

@@ -243,6 +243,19 @@ export default function KineticsLowerSections({
 
       <LogoGridConstruction />
 
+      <section
+        id="urban-streetart-logo-negative"
+        data-project-section="04-logo-negative"
+        aria-label="Versione negativa del logo Urban StreetArt Sicily"
+        className="md:hidden relative z-20 -mt-24 w-screen left-1/2 -translate-x-1/2 h-[280px] flex items-center justify-center bg-[#F7F9FB] overflow-hidden"
+      >
+        <img
+          src="./Images/Project 02/Logo/nero_logotipo.svg"
+          alt="Urban StreetArt Sicily logo negativo"
+          className="w-[45%] max-w-[220px] h-auto object-contain"
+        />
+      </section>
+
       <UrbanStreetArtMockupShowcaseSection />
 
       {/* DESIGN SYSTEM SECTION */}

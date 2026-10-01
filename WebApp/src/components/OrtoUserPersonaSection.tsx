@@ -65,7 +65,7 @@ export function OrtoUserPersonaSection() {
     <section id="user-persona" className="py-20 md:py-32 relative z-10 w-[100vw] ml-[calc(50%-50vw)] flex flex-col items-center overflow-hidden">
       <GridVignetteBackground className="opacity-100" horizontalVignetteSize={50} verticalVignetteSize={50} intensity={100} />
 
-      <div className="flex flex-col items-center gap-6 w-[90vw] max-w-2xl mb-16 md:mb-24 relative z-30">
+      <div className="flex flex-col items-center gap-6 max-md:gap-10 w-[90vw] max-w-2xl mb-24 md:mb-24 relative z-30">
         <h3 className="text-4xl sm:text-5xl font-raleway tracking-wide drop-shadow-md leading-none text-center">
           <span className="font-black text-[#068B35]">Mirella</span>
           <span className="text-neutral-500 font-light mx-3 sm:mx-4">•</span>
@@ -98,16 +98,16 @@ export function OrtoUserPersonaSection() {
         </div>
       </div>
 
-      <div className="relative z-20 flex w-full max-w-none flex-col items-center gap-20 px-4 md:hidden">
+      <div className="relative z-20 flex w-full max-w-none flex-col items-center gap-10 px-4 md:hidden">
         <PersonaPortrait />
-        <div className="mt-20 grid w-full grid-cols-2 gap-3">
+        <div className="grid w-full grid-cols-2 gap-3">
           {[
             ['Status', 'Nuova residente a Catania (Studentessa).'],
             ['Necessità', 'Informazioni repentine tramite smartphone.'],
             ['Obiettivo', 'Esplorazione scientifica intuitiva.'],
             ['Origine', 'Colombia, ricca di biodiversità.'],
           ].map(([label, content]) => (
-            <div key={label} className="flex min-h-32 flex-col justify-center rounded-2xl border border-white/10 bg-[#030604]/80 p-4 text-center backdrop-blur-xl">
+            <div key={label} className="flex min-h-32 flex-col justify-center rounded-2xl border border-white/15 bg-white/[0.06] p-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_32px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
               <span className="mb-2 text-[10px] font-raleway font-bold uppercase tracking-widest text-[#068B35]">{label}</span>
               <p className="text-xs font-light leading-relaxed text-white">{content}</p>
             </div>

@@ -16,12 +16,13 @@ export function UrbanStreetArtIntroductionSection() {
         </motion.div>
       </div>
 
-      <div className="w-full flex flex-col items-center justify-center min-h-screen py-20 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto">
-        <div className="w-full max-w-5xl p-10 md:p-16 lg:p-0 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
+      <div className="w-full flex flex-col items-center justify-center min-h-[65svh] md:min-h-screen py-12 md:py-20 px-6 sm:px-12 md:px-16 max-w-[1600px] mx-auto">
+        <div className="w-full max-w-5xl p-10 md:p-16 lg:p-0 grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-20 items-center">
           <div className="flex flex-col items-center justify-center gap-8">
             <LogoMorph />
           </div>
-          <div className="flex items-center">
+          <div className="md:hidden justify-self-center w-16 h-px bg-[#FCD306]/70" aria-hidden="true" />
+          <div className="flex flex-col items-center md:items-start">
             <p className="text-white font-urbanist text-xl md:text-2xl lg:text-[28px] leading-[1.4] font-light tracking-tight">
               <span className="font-semibold text-[#FCD306]">Rebranding dell'identità visiva di Urban StreetArt Sicily:</span>{' '}
               pagina Instagram dedicata alla diffusione dell'arte urbana in Sicilia, con l'obiettivo di trasformarla in un vero e proprio portale digitale.

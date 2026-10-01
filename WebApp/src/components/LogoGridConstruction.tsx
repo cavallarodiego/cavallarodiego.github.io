@@ -49,9 +49,9 @@ export default function LogoGridConstruction() {
       id="urban-streetart-logo-construction"
       data-project-section="04-logo-construction"
       aria-label="Costruzione del logo Urban StreetArt Sicily"
-      className="relative z-20 w-full min-h-screen flex items-center justify-center overflow-hidden py-12"
+      className="relative z-20 w-full h-[280px] min-h-0 max-xl:!h-[280px] max-xl:!min-h-0 xl:h-auto xl:min-h-screen flex items-center justify-center overflow-hidden py-12"
     >
-      <div className="relative w-[60%] max-w-[500px] flex items-center justify-center">
+      <div className="relative w-[45%] md:w-[60%] max-w-[500px] mx-auto -translate-y-10 md:translate-y-0 flex items-center justify-center">
         
         {/* --- PERFECT INLINE SVG --- */}
         <svg 
@@ -110,7 +110,7 @@ export default function LogoGridConstruction() {
         className="absolute inset-0 z-30 pointer-events-none bg-[#f0f0f0] flex items-center justify-center overflow-hidden"
         style={{ clipPath, WebkitClipPath: clipPath as any }}
       >
-        <div className="relative w-[60%] max-w-[500px] flex items-center justify-center">
+        <div className="relative w-[45%] md:w-[60%] max-w-[500px] flex items-center justify-center">
           <svg 
             viewBox="0 0 1118 475" 
             className="relative w-full h-auto overflow-visible"

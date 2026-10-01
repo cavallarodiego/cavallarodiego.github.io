@@ -17,8 +17,8 @@ type RegionKey = keyof typeof REGIONS;
 const DynamicLogo = ({ region, onClick }: { region: RegionKey, onClick: () => void }) => {
   const color = REGIONS[region].color;
   return (
-    <div className="flex items-center gap-8 z-10 relative drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
-      <svg width="120" height="120" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div className="flex items-center gap-4 md:gap-8 z-10 relative drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
+      <svg width="80" height="80" className="md:w-[120px] md:h-[120px]" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M486.461 266.834L486.341 474.767L256.534 266.701L486.461 266.834Z" fill={color} className="transition-colors duration-500"/>
         <path d="M72.7467 32.0347L141.491 383.165L127.607 383.821L58.7347 32.0347H0V474.701H229.865V32.0347H72.7467Z" fill="#F7F9FB"/>
         <path d="M256.534 32.0347V166.148L342.068 149.368L344.8 159.333L256.534 176.648V240.035H486.4V122.701L391.027 105.503L392.998 95.4493L486.398 112.292L486.4 122.701V101.849V32.0347H256.534Z" fill="#F7F9FB"/>
@@ -27,9 +27,9 @@ const DynamicLogo = ({ region, onClick }: { region: RegionKey, onClick: () => vo
         onClick={onClick}
         className="flex flex-col text-left hover:scale-105 transition-transform duration-300 group cursor-pointer"
       >
-        <span className="font-urbanist font-medium text-[36px] leading-none text-white tracking-tight group-hover:text-white/80 transition-colors">Urban</span>
-        <span className="font-urbanist font-medium text-[36px] leading-none text-white tracking-tight group-hover:text-white/80 transition-colors">StreetArt</span>
-        <span className="font-urbanist font-medium text-[32px] leading-none mt-2 transition-colors duration-500" style={{ color }}>{region}</span>
+        <span className="font-urbanist font-medium text-[26px] md:text-[36px] leading-none text-white tracking-tight group-hover:text-white/80 transition-colors">Urban</span>
+        <span className="font-urbanist font-medium text-[26px] md:text-[36px] leading-none text-white tracking-tight group-hover:text-white/80 transition-colors">StreetArt</span>
+        <span className="font-urbanist font-medium text-[24px] md:text-[32px] leading-none mt-1 md:mt-2 transition-colors duration-500" style={{ color }}>{region}</span>
       </button>
     </div>
   );
@@ -145,6 +145,7 @@ const Marker = ({ position, color, name, active, onClick }: any) => {
 // Map Scene wrapper to handle animated rotation and zoom
 const MapScene = ({ region, onRegionSelect }: { region: RegionKey, onRegionSelect: (r: RegionKey) => void }) => {
   const controlsRef = useRef<any>(null);
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches;
 
   // Create points for the glowing path connecting the regions
   const pathPoints = useMemo(() => {
@@ -166,12 +167,14 @@ const MapScene = ({ region, onRegionSelect }: { region: RegionKey, onRegionSelec
 
     // FORCE VERTICAL CENTERING AND RIGHT ALIGNMENT: 
     // By locking X and Y, we prevent the map from panning wildly when changing regions.
-    lookAtPoint.x = -3.5;
+    lookAtPoint.x = isMobile ? 0 : -3.5;
     lookAtPoint.y = 0.5; 
     const actualLookAt = lookAtPoint;
 
     // Bring the camera closer to make the map large!
-    const baseCameraOffset = new THREE.Vector3(0, 8.5, 12.5);
+    const baseCameraOffset = isMobile
+      ? new THREE.Vector3(0, 11.5, 17)
+      : new THREE.Vector3(0, 8.5, 12.5);
     
     // Apply a gentle back-and-forth swaying motion (pendulum effect)
     const swaySpeed = state.clock.elapsedTime * 0.3; 
@@ -300,7 +303,7 @@ export const UrbanStreetArtMapSection: React.FC = () => {
       />
 
       {/* 3D Map Background */}
-      <div className="absolute inset-0 w-full h-full z-0 cursor-move">
+      <div className="absolute inset-x-0 top-44 bottom-0 md:inset-0 z-0 cursor-move">
         <Canvas camera={{ position: [0, 6, 8], fov: 45 }}>
           <ambientLight intensity={0.5} />
           <Suspense fallback={null}>
@@ -310,7 +313,7 @@ export const UrbanStreetArtMapSection: React.FC = () => {
       </div>
 
       {/* UI Overlay */}
-      <div className="absolute inset-0 w-full max-w-[1400px] mx-auto px-6 sm:px-12 md:px-16 flex items-center z-10 pointer-events-none">
+      <div className="absolute inset-0 w-full max-w-[1400px] mx-auto px-6 sm:px-12 md:px-16 flex items-start pt-48 md:items-center md:pt-0 z-10 pointer-events-none">
         {/* Left Side: Logo */}
         <div className="w-full md:w-[45%] flex justify-center pointer-events-auto">
           <DynamicLogo region={region} onClick={cycleRegion} />

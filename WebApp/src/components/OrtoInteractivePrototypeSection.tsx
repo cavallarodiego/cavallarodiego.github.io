@@ -10,7 +10,7 @@ export function OrtoInteractivePrototypeSection({ lang }: { lang: string }) {
 
   return (
     <section className="max-w-[1300px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center justify-items-center mt-24 md:mt-32 mb-16 w-full" id="orto-interactive-prototypes-section" aria-label="Prototipo interattivo Orto Botanico">
-      <div className="flex flex-col gap-6 items-center justify-center w-full">
+      <div className="flex flex-col gap-6 items-center justify-center w-full max-md:hidden">
         <div className="flex justify-center w-full">
           <div className="flex bg-[#131514] border border-white/5 p-1 rounded-2xl shrink-0 shadow-inner relative w-fit max-w-full overflow-x-auto scrollbar-none">
             {(['mobile', 'totem'] as const).map((tab) => {
