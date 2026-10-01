@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { AlertTriangle, Lightbulb, Check } from 'lucide-react';
+import { AlertTriangle, Lightbulb, Check, X } from 'lucide-react';
 
 export interface PhaseData {
   id: string;
@@ -86,7 +86,7 @@ export default function TimelineAccordion({
             key={phase.id}
             role="button" 
             tabIndex={0} 
-            className="phase-item py-6 relative flex cursor-pointer gap-4 outline-none group"
+            className={`phase-item py-6 max-md:py-10 relative flex cursor-pointer gap-4 outline-none group ${index === 0 ? 'max-md:pt-4' : ''}`}
             onClick={() => onPhaseChange(phase.id)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
@@ -101,7 +101,7 @@ export default function TimelineAccordion({
               <span className="h-[1px] absolute top-0 left-0 w-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-opacity duration-300 max-md:via-white/20"></span>
             )}
             
-            <div className="phase-content relative flex lg:block flex-wrap w-full max-md:flex-nowrap max-md:items-start max-md:gap-4">
+              <div className="phase-content relative flex lg:block flex-wrap w-full max-md:flex-nowrap max-md:gap-4 max-md:flex-col max-md:items-center">
               {/* Vertical Connection Line */}
               <span 
                 className="left-6 lg:-left-12 absolute top-0 h-[calc(100%+3rem)] w-[1px] border-l border-dashed border-white/20 max-md:hidden"
@@ -137,27 +137,34 @@ export default function TimelineAccordion({
               </div>
 
               {/* Accordion Content */}
-              <div className="relative ml-20 lg:ml-0 w-full max-md:ml-0 max-md:min-w-0 max-md:flex-1">
+              <div className="relative ml-20 lg:ml-0 w-full max-md:ml-0 max-md:min-w-0 max-md:flex-none">
                 
                 {/* Title */}
-                <div className="flex items-center lg:min-h-12 lg:-translate-y-2 max-md:min-h-12">
-                  <p className={`text-xl font-bold transition-colors duration-300 ${isActive ? colors.active : `text-white/60 ${colors.hover}`}`}>
+                <div className="flex items-center lg:min-h-12 lg:-translate-y-2 max-md:min-h-12 max-md:justify-center">
+                  <p className={`text-xl max-md:text-[20px] font-bold transition-colors duration-300 ${isActive ? colors.active : `text-white/60 ${colors.hover}`}`}>
                     {phase.title}
                   </p>
                 </div>
                 
                 {/* Expandable Body */}
-                <div className={`grid overflow-hidden transition-[grid-template-rows] duration-500 ease-in-out ${isActive ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'} lg:-mt-2`}>
+                <div className={`grid overflow-hidden transition-[grid-template-rows] duration-500 ease-in-out ${isActive ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'} lg:-mt-2 max-md:mt-4`}>
                   <div className="min-h-0">
                     <div className="relative space-y-4 text-white pb-4 pt-2">
                       
                       {/* Features List */}
-                      <ul className="m-0 list-none space-y-2 p-0">
+                      <ul className="m-0 list-none space-y-2 max-md:space-y-5 p-0 max-md:w-full max-md:max-w-[280px] max-md:mx-auto">
                         {phase.features.map((feature, idx) => (
                           <li key={idx} className="list-none">
                             <div className="flex items-center gap-2">
-                              <Check className={`w-4 h-4 shrink-0 ${colors.check}`} strokeWidth={2.5} />
-                              <p className="text-sm text-white/90 font-light">{feature}</p>
+                              {phase.id === 'problems' ? (
+                                <>
+                                  <Check className={`hidden md:block w-4 h-4 shrink-0 ${colors.check}`} strokeWidth={2.5} />
+                                  <X className={`md:hidden w-4 h-4 shrink-0 ${colors.check}`} strokeWidth={2.5} />
+                                </>
+                              ) : (
+                                <Check className={`w-4 h-4 shrink-0 ${colors.check}`} strokeWidth={2.5} />
+                              )}
+                              <p className="min-w-0 text-sm max-md:text-[16px] text-white/90 font-light max-md:text-white/75">{feature}</p>
                             </div>
                           </li>
                         ))}

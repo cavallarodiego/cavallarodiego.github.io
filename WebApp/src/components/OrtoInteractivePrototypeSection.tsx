@@ -60,12 +60,12 @@ export function OrtoInteractivePrototypeSection({ lang }: { lang: string }) {
       </div>
 
       <div className="flex justify-center items-center w-full">
-        <div className="flex flex-col items-start text-left gap-6 lg:gap-8 max-w-[420px] w-full">
-          <h2 className="text-5xl md:text-7xl lg:text-[80px] font-bold tracking-tight text-[#068B35] font-raleway leading-none uppercase text-left">Provalo</h2>
-          <p className="text-xl md:text-2xl lg:text-3xl text-white font-medium leading-relaxed font-raleway text-left">
+        <div className="flex flex-col items-start max-md:items-center text-left max-md:text-center gap-6 lg:gap-8 max-w-[420px] w-full">
+          <h2 className="text-5xl md:text-7xl lg:text-[80px] font-bold tracking-tight text-[#068B35] font-raleway leading-none uppercase text-left max-md:text-center">Provalo</h2>
+          <p className="text-xl max-md:max-w-[340px] max-md:mx-auto max-md:text-[16px] md:text-2xl lg:text-3xl text-white font-medium leading-relaxed font-raleway text-left max-md:text-center">
             {lang === 'it' ? "Puoi provare il prototipo dall'anteprima a sinistra o cliccando sul pulsante qui sotto" : 'You can test the prototype from the preview on the left or by clicking the button below'}
           </p>
-          <div className="mt-2 flex items-start">
+          <div className="mt-2 flex items-start max-md:justify-center">
             <a href={activeTab === 'totem' ? 'https://www.figma.com/proto/mI6bKgIz6OfwPeo7GeoaDK/ORTO-BOTANICO?node-id=10026-27922&scaling=scale-down&content-scaling=fixed&page-id=0%3A1' : 'https://www.figma.com/proto/mI6bKgIz6OfwPeo7GeoaDK/ORTO-BOTANICO?node-id=154-6774&scaling=scale-down&content-scaling=fixed&page-id=1%3A2&starting-point-node-id=154%3A6774'} target="_blank" rel="noopener noreferrer" className="block w-fit group">
               <motion.span whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="relative flex items-center gap-3 px-8 py-4 bg-[#068B35] hover:bg-[#057A2E] text-white rounded-full shadow-[0_0_20px_rgba(6,139,53,0.35)] transition-colors duration-300 overflow-hidden cursor-pointer">
                 <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />

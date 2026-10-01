@@ -18,7 +18,7 @@ export function AetherisLowerSections({
   setActiveResearchTab,
 }: Props) {
   return (
-    <div className="flex flex-col gap-24 md:gap-32 w-full pt-24 md:pt-32">
+    <div className="flex flex-col gap-24 md:gap-32 w-full pt-8 md:pt-32">
 
       <OrtoInteractivePhoneSection />
 

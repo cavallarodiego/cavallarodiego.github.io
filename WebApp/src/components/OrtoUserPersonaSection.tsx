@@ -62,16 +62,16 @@ function PersonaPortrait() {
 
 export function OrtoUserPersonaSection() {
   return (
-    <section id="user-persona" className="py-20 md:py-32 relative z-10 w-[100vw] ml-[calc(50%-50vw)] flex flex-col items-center overflow-hidden">
+    <section id="user-persona" className="py-20 max-md:pb-0 md:py-32 relative z-10 w-[100vw] ml-[calc(50%-50vw)] flex flex-col items-center overflow-hidden">
       <GridVignetteBackground className="opacity-100" horizontalVignetteSize={50} verticalVignetteSize={50} intensity={100} />
 
-      <div className="flex flex-col items-center gap-6 max-md:gap-10 w-[90vw] max-w-2xl mb-24 md:mb-24 relative z-30">
-        <h3 className="text-4xl sm:text-5xl font-raleway tracking-wide drop-shadow-md leading-none text-center">
+      <div className="flex flex-col items-center gap-6 max-md:gap-10 w-[90vw] max-w-2xl mb-24 max-md:mb-0 md:mb-24 relative z-30">
+        <h3 className="text-4xl max-md:text-[24px] sm:text-5xl font-raleway tracking-wide drop-shadow-md leading-none text-center">
           <span className="font-black text-[#068B35]">Mirella</span>
           <span className="text-neutral-500 font-light mx-3 sm:mx-4">•</span>
           <span className="font-light text-white">L'utente Ideale</span>
         </h3>
-        <p className="text-sm md:text-base italic text-neutral-200 font-light leading-relaxed text-center drop-shadow-md">
+        <p className="text-sm max-md:max-w-[300px] max-md:mx-auto max-md:text-[14px] md:text-base italic text-neutral-200 font-light leading-relaxed text-center drop-shadow-md">
           "Voglio connettermi alla natura e approfondire la mia conoscenza scientifica senza barriere, in modo dinamico e intuitivo."
         </p>
       </div>
@@ -98,7 +98,7 @@ export function OrtoUserPersonaSection() {
         </div>
       </div>
 
-      <div className="relative z-20 flex w-full max-w-none flex-col items-center gap-10 px-4 md:hidden">
+      <div className="relative z-20 mt-16 flex w-full max-w-none flex-col items-center gap-20 px-4 pt-12 pb-8 md:hidden">
         <PersonaPortrait />
         <div className="grid w-full grid-cols-2 gap-3">
           {[
@@ -107,9 +107,9 @@ export function OrtoUserPersonaSection() {
             ['Obiettivo', 'Esplorazione scientifica intuitiva.'],
             ['Origine', 'Colombia, ricca di biodiversità.'],
           ].map(([label, content]) => (
-            <div key={label} className="flex min-h-32 flex-col justify-center rounded-2xl border border-white/15 bg-white/[0.06] p-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_32px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
-              <span className="mb-2 text-[10px] font-raleway font-bold uppercase tracking-widest text-[#068B35]">{label}</span>
-              <p className="text-xs font-light leading-relaxed text-white">{content}</p>
+            <div key={label} className="flex min-h-32 flex-col justify-center rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-7 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_32px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
+              <span className="mb-2 text-[16px] font-raleway font-bold uppercase tracking-widest text-[#068B35]">{label}</span>
+              <p className="text-[14px] font-light leading-relaxed text-white">{content}</p>
             </div>
           ))}
         </div>

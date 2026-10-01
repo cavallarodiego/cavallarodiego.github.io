@@ -408,6 +408,8 @@ export default function IphoneMockup3D({ imagePath }: { imagePath?: string } = {
           <div aria-hidden="true" className="absolute inset-x-0 top-0 z-30 hidden h-[clamp(8rem,20vh,15rem)] pointer-events-none bg-gradient-to-b from-[#050505] via-[#050505]/80 to-transparent md:block" />
           <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-30 hidden h-[clamp(8rem,20vh,15rem)] pointer-events-none bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent md:block" />
           <AuroraBackground className="!bg-transparent h-full w-full max-md:!h-auto max-md:!min-h-[100svh]">
+            <div aria-hidden="true" className="absolute inset-x-0 top-0 z-0 h-40 pointer-events-none bg-gradient-to-b from-[#050505] via-[#050505]/75 to-transparent md:hidden" />
+            <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-0 h-40 pointer-events-none bg-gradient-to-t from-[#050505] via-[#050505]/75 to-transparent md:hidden" />
             <div className="absolute inset-0 pointer-events-none hidden flex-col justify-center pl-[5%] pr-[5%] z-10 md:flex md:pl-[10%] lg:pl-[12%]">
               <div ref={titleRef} className="flex flex-col gap-6 max-w-xl md:max-w-2xl">
                 <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white max-w-max leading-none">
@@ -424,20 +426,20 @@ export default function IphoneMockup3D({ imagePath }: { imagePath?: string } = {
               <HighlightCard animatedBorder={true} title="Percorsi Agili" description={["Itinerari scelti tramite i Totem all'ingresso."]} icon={<ArrowRight className="w-6 h-6 text-[#068B35]" />} />
               <HighlightCard animatedBorder={true} title="Accessibilità" description={["App user-friendly e mappe inclusive per tutti."]} icon={<MapIcon className="w-6 h-6 text-[#068B35]" />} />
             </div>
-            <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col justify-center gap-10 px-6 py-20 md:hidden">
+            <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col justify-start gap-10 px-6 pt-12 pb-20 md:hidden">
               <div className="flex flex-col gap-6 max-w-xl max-md:text-center">
-                <h2 className="text-5xl font-bold text-white leading-none">
+                <h2 className="text-[26px] font-bold text-white leading-[1.3]">
                   Cos'è<br />
                   <span className="text-[#068b35]">Bussola Verde?</span>
                 </h2>
-                <p className="text-lg text-neutral-400 font-light leading-relaxed">
+                <p className="max-w-[280px] mx-auto text-[16px] text-neutral-400 font-light leading-relaxed">
                   Un ecosistema digitale che trasforma il parco in un percorso su misura, rendendo il visitatore esploratore attivo.
                 </p>
               </div>
-              <div className="orto-feature-cards relative z-10 mx-auto grid w-full max-w-[320px] grid-cols-1 gap-4 [&_h3]:text-xl [&_p]:text-xs">
-               <HighlightCard animatedBorder={true} title="Interattività" description={["Pannelli digitali e QR accrescono la conoscenza."]} icon={<Compass className="w-6 h-6 text-[#068B35]" />} />
-               <HighlightCard animatedBorder={true} title="Percorsi Agili" description={["Itinerari scelti tramite i Totem all'ingresso."]} icon={<ArrowRight className="w-6 h-6 text-[#068B35]" />} />
-               <HighlightCard animatedBorder={true} title="Accessibilità" description={["App user-friendly e mappe inclusive per tutti."]} icon={<MapIcon className="w-6 h-6 text-[#068B35]" />} />
+              <div className="orto-feature-cards relative z-10 mx-auto grid w-full max-w-[280px] grid-cols-1 gap-4 [&_h3]:text-xl [&_p]:text-xs">
+               <HighlightCard animatedBorder={true} className="[&_.text-white.rounded-\[2rem\]]:max-md:py-8 [&_.relative.mb-8>div]:max-md:p-3 [&_.relative.mb-8>div>div>svg]:max-md:h-5 [&_.relative.mb-8>div>div>svg]:max-md:w-5 [&_h3]:max-md:mb-1 [&_.space-y-4]:max-md:mt-0" title="Interattività" description={["Pannelli digitali e QR accrescono la conoscenza."]} icon={<Compass className="w-6 h-6 text-[#068B35]" />} />
+               <HighlightCard animatedBorder={true} className="[&_.text-white.rounded-\[2rem\]]:max-md:py-8 [&_.relative.mb-8>div]:max-md:p-3 [&_.relative.mb-8>div>div>svg]:max-md:h-5 [&_.relative.mb-8>div>div>svg]:max-md:w-5 [&_h3]:max-md:mb-1 [&_.space-y-4]:max-md:mt-0" title="Percorsi Agili" description={["Itinerari scelti tramite i Totem all'ingresso."]} icon={<ArrowRight className="w-6 h-6 text-[#068B35]" />} />
+               <HighlightCard animatedBorder={true} className="[&_.text-white.rounded-\[2rem\]]:max-md:py-8 [&_.relative.mb-8>div]:max-md:p-3 [&_.relative.mb-8>div>div>svg]:max-md:h-5 [&_.relative.mb-8>div>div>svg]:max-md:w-5 [&_h3]:max-md:mb-1 [&_.space-y-4]:max-md:mt-0" title="Accessibilità" description={["App user-friendly e mappe inclusive per tutti."]} icon={<MapIcon className="w-6 h-6 text-[#068B35]" />} />
             </div>
             </div>
             <Canvas camera={{ position: [0, 0, 300], fov: 45 }} className="!absolute inset-0 hidden h-full w-full z-0 md:block">

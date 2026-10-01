@@ -357,7 +357,7 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
               aria-label={lang === 'it' ? 'Apri dettagli progetto' : 'Open project details'}
               aria-expanded={isLogoDetailsOpen}
               onClick={() => setIsLogoDetailsOpen((open) => !open)}
-              className="relative md:hidden h-16 w-[190px] px-5 flex items-center justify-start rounded-full bg-black/50 backdrop-blur-xl border border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.5)] cursor-pointer"
+              className="relative md:hidden h-16 w-[170px] px-4 flex items-center justify-start rounded-full bg-black/50 backdrop-blur-xl border border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.5)] cursor-pointer"
             >
               <img src="./Images/Project 02/Logo/logo_uss.png" alt="Urban StreetArt Sicily Logo" className="h-10 md:h-12 w-auto object-contain rounded-md" />
               <ChevronDown className={`absolute right-3 w-4 h-4 shrink-0 text-white/80 transition-transform duration-200 md:hidden ${isLogoDetailsOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
@@ -1843,12 +1843,12 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
           )}
 
         </div>
-        <div className={`max-w-[1600px] mx-auto px-6 sm:px-12 md:px-16 w-full relative z-10 ${isAetheris ? 'pt-24 md:pt-32' : 'pt-8'}`}>
+        <div className={`max-w-[1600px] mx-auto px-6 sm:px-12 md:px-16 w-full relative z-10 ${isAetheris ? 'pt-8 md:pt-32' : 'pt-8'}`}>
 
           {/* COLOR PALETTE & TYPOGRAPHY STYLE GUIDE */}
           {isAetheris ? (
             <>
-              <h2 className="mb-8 text-center font-raleway text-3xl font-bold text-white md:hidden">Design System</h2>
+              <h2 className="mb-8 text-center font-raleway text-[24px] font-bold text-white md:hidden">Design System</h2>
               <OrtoDesignSystemSection
                 lang={lang}
                 copiedColor={copiedColor}

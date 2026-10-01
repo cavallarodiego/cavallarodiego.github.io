@@ -53,11 +53,11 @@ function NeonGauge({ percentage, color, label, level }: { percentage: string; co
             className="transition-all duration-1000 ease-out"
           />
         </svg>
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center">
-          <span className="text-4xl font-urbanist font-medium tracking-tight text-white drop-shadow-lg">{percentage}</span>
+        <div className="absolute bottom-4 max-md:bottom-[-8px] left-1/2 -translate-x-1/2 flex flex-col items-center">
+          <span className="text-[26px] md:text-4xl font-urbanist font-medium tracking-tight text-white drop-shadow-lg">{percentage}</span>
         </div>
       </div>
-      <div className="mt-4 text-xs font-raleway text-neutral-400 uppercase tracking-widest font-semibold group-hover:text-neutral-200 transition-colors text-center">
+      <div className="mt-4 text-[10px] md:text-xs font-raleway text-neutral-400 uppercase tracking-widest font-semibold group-hover:text-neutral-200 transition-colors text-center">
         {label}
       </div>
     </div>
@@ -126,11 +126,12 @@ export function OrtoResearchMethodologySection({ activeResearchTab, setActiveRes
 
   return (
     <section ref={pinRef} id="research-methodology" className="relative left-1/2 -translate-x-1/2 w-[100vw] h-[300vh] max-md:h-auto z-10">
+      <div aria-hidden="true" className="absolute top-0 left-1/2 z-20 hidden h-px w-[80%] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#068B35]/50 to-transparent max-md:block" />
       <div className="orto-research-sticky sticky top-0 w-full h-[100svh] overflow-hidden flex flex-col pb-10 sm:pb-20 max-md:relative max-md:top-auto max-md:h-auto max-md:min-h-[100svh] max-md:overflow-visible">
         <AuroraBackground className="orto-research-aurora !bg-transparent h-full w-full pt-24 sm:pt-40 pb-10 sm:pb-20 max-md:!h-auto max-md:min-h-[100svh]">
           <div className="w-full max-w-7xl mx-auto px-5 relative z-10 flex flex-col h-full max-md:h-auto max-md:min-h-[100svh] max-md:pb-12">
             <div className="flex flex-col gap-4">
-              <h2 className="text-3xl sm:text-3xl font-bold tracking-tight text-white font-raleway text-center md:text-left">Metodologia <span className="max-md:block">di Ricerca</span></h2>
+              <h2 className="text-3xl sm:text-3xl max-md:text-[26px] font-bold tracking-tight text-white font-raleway text-center md:text-left">Metodologia <span className="max-md:block">di Ricerca</span></h2>
             </div>
 
             <div className="orto-research-tabs flex gap-8 sm:gap-12 shrink-0 self-start relative overflow-x-auto scrollbar-none w-full sm:w-auto border-b border-white/10 pb-3 px-2 mt-8 sm:mt-16 max-md:mt-16 max-md:w-fit max-md:self-center">
@@ -162,7 +163,7 @@ export function OrtoResearchMethodologySection({ activeResearchTab, setActiveRes
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                     transition={{ duration: 0.4, ease: 'easeInOut' }}
-                    className="relative mx-auto flex w-full max-w-5xl flex-col items-center gap-6 overflow-visible pb-4 md:grid md:grid-cols-3 md:items-stretch md:overflow-visible md:pb-0"
+                    className="relative mx-auto flex w-full max-w-5xl max-md:max-w-[280px] flex-col items-center gap-4 overflow-visible pb-4 md:grid md:grid-cols-3 md:items-stretch md:overflow-visible md:pb-0 [&_.text-white.rounded-\[2rem\]]:max-md:py-8 [&_.relative.mb-8>div]:max-md:p-3 [&_.relative.mb-8>div>div>svg]:max-md:h-5 [&_.relative.mb-8>div>div>svg]:max-md:w-5 [&_h3]:max-md:mb-1 [&_h3]:max-md:text-xl [&_.space-y-4]:max-md:mt-0 [&_p]:max-md:text-xs"
                   >
                     <HighlightCard animatedBorder className="w-full max-w-[360px] min-w-0" title="Orientamento" description={["Nessuna guida per non esperti."]} icon={<MapPin className="w-8 h-8 text-white" />} />
                     <HighlightCard animatedBorder className="w-full max-w-[360px] min-w-0" title="Coinvolgimento" description={["Esperienza passiva e veloce (5 min)."]} icon={<Clock className="w-8 h-8 text-white" />} />
@@ -177,7 +178,7 @@ export function OrtoResearchMethodologySection({ activeResearchTab, setActiveRes
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                     transition={{ duration: 0.4, ease: 'easeInOut' }}
-                    className="relative mx-auto flex w-full max-w-4xl flex-col items-center gap-8 overflow-visible pb-4 md:grid md:grid-cols-2 md:items-stretch md:overflow-visible md:pb-0"
+                    className="relative mx-auto flex w-full max-w-4xl max-md:max-w-[280px] flex-col items-center gap-4 overflow-visible pb-4 md:grid md:grid-cols-2 md:items-stretch md:overflow-visible md:pb-0 [&_.text-white.rounded-\[2rem\]]:max-md:py-8 [&_h3]:max-md:mb-1 [&_h3]:max-md:text-xl [&_p]:max-md:text-xs [&_p]:max-md:leading-relaxed"
                   >
                     <HighlightCard animatedBorder title="Come ti orienti?" className="w-full max-w-[420px] min-w-0">
                       <div className="flex w-full justify-between gap-8 mt-2 mb-8 max-w-[320px] mx-auto">
@@ -201,18 +202,20 @@ export function OrtoResearchMethodologySection({ activeResearchTab, setActiveRes
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                     transition={{ duration: 0.4, ease: 'easeInOut' }}
-                    className="relative mx-auto flex w-full max-w-4xl flex-col items-center gap-8 overflow-visible pb-4 md:grid md:grid-cols-2 md:items-stretch md:overflow-visible md:pb-0"
+                    className="relative mx-auto flex w-full max-w-4xl max-md:max-w-[280px] flex-col items-center gap-4 overflow-visible pb-4 md:grid md:grid-cols-2 md:items-stretch md:overflow-visible md:pb-0 [&_.text-white.rounded-\[2rem\]]:max-md:py-8 [&_h3]:max-md:mb-1 [&_h3]:max-md:text-[18px] [&_p]:max-md:text-xs [&_p]:max-md:text-[14px] [&_p]:max-md:leading-relaxed [&_span.rounded-full]:max-md:h-10 [&_span.rounded-full]:max-md:w-10 [&_span.rounded-full]:max-md:text-sm"
                   >
-                    <HighlightCard animatedBorder title="Utilità di un Totem Digitale?" className="w-full max-w-[420px] min-w-0">
-                      <div className="flex flex-col items-center gap-4 text-center">
-                        <span className="w-12 h-12 rounded-full bg-[#068B35]/10 text-[#068B35] flex items-center justify-center font-bold font-raleway border border-[#068B35]/20 shrink-0">Q1</span>
-                        <p className="text-sm leading-relaxed text-neutral-400 font-light border-l-2 border-[#068B35] pl-4 italic">"Migliorerebbe l'esperienza, permettendo di orientarsi e prepararsi prima della visita."</p>
+                    <HighlightCard animatedBorder title={<><span className="hidden max-md:inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#068B35]/20 bg-[#068B35]/10 text-xs text-[#068B35]">Q1</span><span>Utilità di un Totem Digitale?</span></>} className="w-full max-w-[420px] min-w-0 [&_h3]:max-md:mx-auto [&_h3]:max-md:w-fit [&_h3]:max-md:flex [&_h3]:max-md:!text-center [&_h3]:max-md:items-center [&_h3]:max-md:justify-center [&_h3]:max-md:gap-5 [&_h3>span:last-child]:max-md:text-left">
+                      <div className="flex flex-col items-center gap-4 text-center max-md:items-center max-md:text-center">
+                        <div aria-hidden="true" className="hidden max-md:my-2 max-md:block h-px w-3/4 self-center bg-white/20" />
+                        <span className="max-md:hidden w-12 h-12 rounded-full bg-[#068B35]/10 text-[#068B35] flex items-center justify-center font-bold font-raleway border border-[#068B35]/20 shrink-0">Q1</span>
+                        <p className="text-sm leading-relaxed text-neutral-400 font-light border-l-2 border-[#068B35] pl-4 italic max-md:border-l-0 max-md:pl-0">"Migliorerebbe l'esperienza, permettendo di orientarsi e prepararsi prima della visita."</p>
                       </div>
                     </HighlightCard>
-                    <HighlightCard animatedBorder title="Mancanze Informative?" className="w-full max-w-[420px] min-w-0">
-                      <div className="flex flex-col items-center gap-4 text-center">
-                        <span className="w-12 h-12 rounded-full bg-[#068B35]/10 text-[#068B35] flex items-center justify-center font-bold font-raleway border border-[#068B35]/20 shrink-0">Q2</span>
-                        <p className="text-sm leading-relaxed text-neutral-400 font-light border-l-2 border-[#068B35] pl-4 italic">"Sì, mancano dettagli scientifici chiari oltre al nome della pianta."</p>
+                    <HighlightCard animatedBorder title={<><span className="hidden max-md:inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#068B35]/20 bg-[#068B35]/10 text-xs text-[#068B35]">Q2</span><span>Mancanze Informative?</span></>} className="w-full max-w-[420px] min-w-0 [&_h3]:max-md:mx-auto [&_h3]:max-md:w-fit [&_h3]:max-md:flex [&_h3]:max-md:!text-center [&_h3]:max-md:items-center [&_h3]:max-md:justify-center [&_h3]:max-md:gap-5 [&_h3>span:last-child]:max-md:text-left">
+                      <div className="flex flex-col items-center gap-4 text-center max-md:items-center max-md:text-center">
+                        <div aria-hidden="true" className="hidden max-md:my-2 max-md:block h-px w-3/4 self-center bg-white/20" />
+                        <span className="max-md:hidden w-12 h-12 rounded-full bg-[#068B35]/10 text-[#068B35] flex items-center justify-center font-bold font-raleway border border-[#068B35]/20 shrink-0">Q2</span>
+                        <p className="text-sm leading-relaxed text-neutral-400 font-light border-l-2 border-[#068B35] pl-4 italic max-md:border-l-0 max-md:pl-0">"Sì, mancano dettagli scientifici chiari oltre al nome della pianta."</p>
                       </div>
                     </HighlightCard>
                   </motion.div>
@@ -225,6 +228,7 @@ export function OrtoResearchMethodologySection({ activeResearchTab, setActiveRes
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#050505] from-10% via-[#050505]/80 to-transparent pointer-events-none z-0" />
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent pointer-events-none z-0" />
       </div>
+      <div aria-hidden="true" className="absolute bottom-0 left-1/2 z-20 hidden h-px w-[80%] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#068B35]/50 to-transparent max-md:block" />
     </section>
   );
 }

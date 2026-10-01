@@ -28,17 +28,17 @@ export function OrtoTotemShowcaseSection() {
   }, [isDesktop]);
 
   return (
-    <section id="totem-showcase" className="relative z-10 w-full shrink-0 block">
+    <section id="totem-showcase" className="relative z-10 w-full shrink-0 block max-md:-mt-24">
       {isDesktop ? (
         <StickyCard002 cards={totemShowcaseCards} />
       ) : (
-        <div className="relative left-1/2 flex h-[78svh] min-h-[480px] max-h-[760px] w-screen -translate-x-1/2 items-center justify-center overflow-hidden rounded-none bg-[#050505] p-0" role="region" aria-label="Galleria automatica dei totem e della segnaletica">
+        <div className="relative left-1/2 flex h-[68svh] min-h-[420px] max-h-[640px] w-screen -translate-x-1/2 items-center justify-center overflow-hidden rounded-none bg-[#050505] p-0" role="region" aria-label="Galleria automatica dei totem e della segnaletica">
           {totemShowcaseCards.map((card, index) => (
             <img
               key={card.id}
               src={card.image}
               alt={card.alt || ''}
-              className={`absolute inset-0 h-full w-full rounded-none object-cover transition-opacity duration-700 ${index === activeImage ? 'opacity-100' : 'opacity-0'}`}
+              className={`absolute inset-0 h-full w-full rounded-none object-contain scale-[1.25] transition-opacity duration-700 ${index === activeImage ? 'opacity-100' : 'opacity-0'}`}
               aria-hidden={index !== activeImage}
             />
           ))}

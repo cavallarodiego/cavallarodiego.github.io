@@ -4,7 +4,7 @@ import React, { FC, ReactNode, useRef } from "react";
 import { Card } from "@/components/ui/card";
 
 interface ComponentProps {
-  title: string;
+  title: ReactNode;
   description?: string[];
   icon?: ReactNode;
   children?: ReactNode;

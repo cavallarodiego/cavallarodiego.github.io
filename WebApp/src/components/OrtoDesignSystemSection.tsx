@@ -41,7 +41,7 @@ export function OrtoDesignSystemSection({ lang, copiedColor, onCopyHex }: OrtoDe
           </div>
         </div>
 
-        <div className="md:col-span-9 rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-xl p-8 flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group">
+        <div className="md:col-span-9 max-md:hidden rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-xl p-8 flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-tl from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-5 relative z-10 w-full" id="orto-categories-row">
             {categoryColors.map((item, index) => (
@@ -56,7 +56,7 @@ export function OrtoDesignSystemSection({ lang, copiedColor, onCopyHex }: OrtoDe
           </div>
         </div>
 
-        <div className="md:col-span-7 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl p-8 md:p-12 shadow-2xl relative overflow-hidden group flex flex-col gap-12" id="orto-block-components">
+        <div className="md:col-span-7 max-md:hidden rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl p-8 md:p-12 shadow-2xl relative overflow-hidden group flex flex-col gap-12" id="orto-block-components">
           <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
           <div className="flex flex-col lg:flex-row justify-center gap-8 lg:gap-10 relative z-10 w-full items-start">
             <div className="flex flex-col gap-6 w-full lg:w-auto lg:min-w-[320px] xl:min-w-[380px]">
@@ -93,8 +93,9 @@ export function OrtoDesignSystemSection({ lang, copiedColor, onCopyHex }: OrtoDe
             <div className="absolute inset-0 bg-gradient-to-bl from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="flex flex-col gap-2 relative z-10">
               <span className="font-raleway text-[11px] text-[#068B35] font-bold uppercase tracking-wider mb-2">Body / Raleway, Regular, 28px</span>
-              <p style={{ fontFamily: "'Raleway', sans-serif" }} className="text-[#EBEBEB] text-xl md:text-2xl leading-relaxed font-light">
-                {lang === 'it' ? 'Esplora la ricca biodiversità della nostra collezione di piante tropicali, progettata per stupire e ispirare.' : 'Explore the rich biodiversity of our tropical plant collection, designed to amaze and inspire.'}
+              <p style={{ fontFamily: "'Raleway', sans-serif" }} className="text-[#EBEBEB] text-[16px] md:text-2xl leading-relaxed font-light">
+                <span className="md:hidden">Body</span>
+                <span className="hidden md:inline">{lang === 'it' ? 'Esplora la ricca biodiversità della nostra collezione di piante tropicali, progettata per stupire e ispirare.' : 'Explore the rich biodiversity of our tropical plant collection, designed to amaze and inspire.'}</span>
               </p>
             </div>
           </div>
@@ -102,8 +103,9 @@ export function OrtoDesignSystemSection({ lang, copiedColor, onCopyHex }: OrtoDe
             <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="flex flex-col gap-2 relative z-10 w-full">
               <span className="font-raleway text-[11px] text-[#068B35] font-bold uppercase tracking-wider mb-2">H1 / Raleway, Semibold, 62px</span>
-              <div style={{ fontFamily: "'Raleway', sans-serif" }} className="text-white text-4xl md:text-[56px] lg:text-[62px] font-semibold leading-tight tracking-tight">
-                {lang === 'it' ? 'Scegli il percorso' : 'Choose the path'}
+              <div style={{ fontFamily: "'Raleway', sans-serif" }} className="text-white text-[24px] md:text-[56px] lg:text-[62px] font-semibold leading-tight tracking-tight">
+                <span className="md:hidden">Title</span>
+                <span className="hidden md:inline">{lang === 'it' ? 'Scegli il percorso' : 'Choose the path'}</span>
               </div>
             </div>
           </div>
