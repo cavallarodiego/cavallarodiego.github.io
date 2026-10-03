@@ -1,7 +1,8 @@
 import React from 'react';
 import { UrbanStreetArtObjectiveSection } from './UrbanStreetArtObjectiveSection';
 import { UrbanStreetArtMockupShowcaseSection } from './UrbanStreetArtMockupShowcaseSection';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
+import { useUrbanMobile } from './useUrbanMobile';
 import { Compass, AlertTriangle, Check, ArrowRight, Star, MapPin, Clock, FileQuestion } from 'lucide-react';
 import { StickyCard002 } from './ui/sticky-card';
 import LogoGridConstruction from './LogoGridConstruction';
@@ -184,6 +185,7 @@ export default function KineticsLowerSections({
   setActiveResearchTab,
   lang
 }: Props) {
+  const { isMobile, reducedMotion } = useUrbanMobile();
   const pinRef = React.useRef<HTMLDivElement>(null);
 
   // Using a ref to hold the current tab for the GSAP callback
@@ -238,6 +240,7 @@ export default function KineticsLowerSections({
   };
 
   return (
+    <MotionConfig reducedMotion={isMobile ? 'user' : 'never'} transition={isMobile && reducedMotion ? { duration: 0 } : undefined}>
     <div className="flex flex-col gap-24 sm:gap-32 w-full">
       <UrbanStreetArtObjectiveSection />
 
@@ -272,5 +275,6 @@ export default function KineticsLowerSections({
       {/* MAGAZINE MOCKUP */}
       <UrbanStreetArtMagazineSection />
     </div>
+    </MotionConfig>
   );
 }

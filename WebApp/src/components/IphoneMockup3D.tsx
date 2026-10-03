@@ -10,6 +10,8 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { GLTF } from 'three-stdlib'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { useOrtoMobile } from './useOrtoMobile'
+import { useOrtoAutoplay } from './useOrtoAutoplay'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import AuroraBackground from '@/components/ui/aurora-background';
 import HighlightCard from '@/components/ui/highlight-card';
@@ -270,7 +272,9 @@ export function Model({ imagePath = '/models/iphone16_mockup/screen.jpg', ...pro
   )
 }
 
-useGLTF.preload(import.meta.env.BASE_URL + 'models/iphone16_mockup/iphone-16-pro.glb')
+if (!(window.matchMedia('(max-width: 767px)').matches && new URLSearchParams(window.location.search).get('project') === 'aetheris')) {
+  useGLTF.preload(import.meta.env.BASE_URL + 'models/iphone16_mockup/iphone-16-pro.glb')
+}
 
 function AnimatedScene({ containerRef, titleRef, cardsRef, imagePath }: { containerRef: React.RefObject<HTMLDivElement>, titleRef: React.RefObject<HTMLDivElement>, cardsRef: React.RefObject<HTMLDivElement>, imagePath?: string }) {
   const groupRef = useRef<THREE.Group>(null);
@@ -384,12 +388,14 @@ function AnimatedScene({ containerRef, titleRef, cardsRef, imagePath }: { contai
 }
 
 export default function IphoneMockup3D({ imagePath }: { imagePath?: string } = {}) {
+  const isMobile = useOrtoMobile();
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const autoplay = useOrtoAutoplay(containerRef);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (isMobile || !containerRef.current) return;
 
     const resizeObserver = new ResizeObserver(() => ScrollTrigger.refresh());
     resizeObserver.observe(containerRef.current);
@@ -399,7 +405,7 @@ export default function IphoneMockup3D({ imagePath }: { imagePath?: string } = {
       cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <ErrorBoundary fallback={(err) => <div className="text-red-500 p-4 border border-red-500 rounded bg-red-900/20">Error 3D: {err.message}</div>}>
@@ -407,7 +413,7 @@ export default function IphoneMockup3D({ imagePath }: { imagePath?: string } = {
         <div className="sticky top-0 w-screen h-[100svh] overflow-hidden max-md:relative max-md:top-auto max-md:h-auto max-md:min-h-[100svh] max-md:overflow-visible">
           <div aria-hidden="true" className="absolute inset-x-0 top-0 z-30 hidden h-[clamp(8rem,20vh,15rem)] pointer-events-none bg-gradient-to-b from-[#050505] via-[#050505]/80 to-transparent md:block" />
           <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-30 hidden h-[clamp(8rem,20vh,15rem)] pointer-events-none bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent md:block" />
-          <AuroraBackground className="!bg-transparent h-full w-full max-md:!h-auto max-md:!min-h-[100svh]">
+          <AuroraBackground motionEnabled={autoplay} containsContent={isMobile} className="!bg-transparent h-full w-full max-md:!h-auto max-md:!min-h-[100svh]">
             <div aria-hidden="true" className="absolute inset-x-0 top-0 z-0 h-40 pointer-events-none bg-gradient-to-b from-[#050505] via-[#050505]/75 to-transparent md:hidden" />
             <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-0 h-40 pointer-events-none bg-gradient-to-t from-[#050505] via-[#050505]/75 to-transparent md:hidden" />
             <div className="absolute inset-0 pointer-events-none hidden flex-col justify-center pl-[5%] pr-[5%] z-10 md:flex md:pl-[10%] lg:pl-[12%]">
@@ -426,7 +432,7 @@ export default function IphoneMockup3D({ imagePath }: { imagePath?: string } = {
               <HighlightCard animatedBorder={true} title="Percorsi Agili" description={["Itinerari scelti tramite i Totem all'ingresso."]} icon={<ArrowRight className="w-6 h-6 text-[#068B35]" />} />
               <HighlightCard animatedBorder={true} title="Accessibilità" description={["App user-friendly e mappe inclusive per tutti."]} icon={<MapIcon className="w-6 h-6 text-[#068B35]" />} />
             </div>
-            <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col justify-start gap-10 px-6 pt-12 pb-20 md:hidden">
+            <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col justify-start gap-10 px-6 pt-12 md:hidden">
               <div className="flex flex-col gap-6 max-w-xl max-md:text-center">
                 <h2 className="text-[26px] font-bold text-white leading-[1.3]">
                   Cos'è<br />
@@ -442,7 +448,7 @@ export default function IphoneMockup3D({ imagePath }: { imagePath?: string } = {
                <HighlightCard animatedBorder={true} className="[&_.text-white.rounded-\[2rem\]]:max-md:py-8 [&_.relative.mb-8>div]:max-md:p-3 [&_.relative.mb-8>div>div>svg]:max-md:h-5 [&_.relative.mb-8>div>div>svg]:max-md:w-5 [&_h3]:max-md:mb-1 [&_.space-y-4]:max-md:mt-0" title="Accessibilità" description={["App user-friendly e mappe inclusive per tutti."]} icon={<MapIcon className="w-6 h-6 text-[#068B35]" />} />
             </div>
             </div>
-            <Canvas camera={{ position: [0, 0, 300], fov: 45 }} className="!absolute inset-0 hidden h-full w-full z-0 md:block">
+            {!isMobile && <Canvas camera={{ position: [0, 0, 300], fov: 45 }} className="!absolute inset-0 hidden h-full w-full z-0 md:block">
               <Suspense fallback={<Html center><div className="text-white text-xl">Caricamento 3D in corso...</div></Html>}>
                 <Environment preset="city" />
                 <ambientLight intensity={0.4} />
@@ -452,7 +458,7 @@ export default function IphoneMockup3D({ imagePath }: { imagePath?: string } = {
                 <pointLight position={[0, -20, -10]} intensity={300} distance={150} color="#0A8232" />
                 <AnimatedScene containerRef={containerRef} titleRef={titleRef} cardsRef={cardsRef} imagePath={imagePath} />
               </Suspense>
-            </Canvas>
+            </Canvas>}
           </AuroraBackground>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Html, Line, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import { createNoise2D } from 'simplex-noise';
+import { useUrbanActivity } from './useUrbanMobile';
 
 const REGIONS = {
   Lombardy: { color: '#EE4256', pos: [-1.5, 1.5, -3.5] as [number, number, number], image: './Images/Project 02/Street Art Photos/Campania_Lombardia_Toscana/lombardy.jpg' },
@@ -102,12 +103,12 @@ const Terrain = () => {
 };
 
 // Interactive Hotspots
-const Marker = ({ position, color, name, active, onClick }: any) => {
+const Marker = ({ position, color, name, active, onClick, isMobile, reducedMotion }: any) => {
   const groupRef = useRef<THREE.Group>(null);
 
   // Subtle floating animation for the label
   useFrame((state) => {
-    if (groupRef.current) {
+    if (groupRef.current && !(isMobile && reducedMotion)) {
       groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 2 + position[0]) * 0.1;
     }
   });
@@ -121,9 +122,19 @@ const Marker = ({ position, color, name, active, onClick }: any) => {
       </mesh>
 
       {/* HTML Button */}
-      <Html position={[0, 0, 0]} center style={{ pointerEvents: 'none' }}>
+      <Html position={[0, 0, 0]} center zIndexRange={isMobile ? [30, 0] : undefined} style={{ pointerEvents: 'none' }}>
         <div 
           onClick={onClick}
+          role={isMobile ? 'button' : undefined}
+          data-region={isMobile ? name : undefined}
+          tabIndex={isMobile ? 0 : undefined}
+          aria-pressed={isMobile ? active : undefined}
+          onKeyDown={isMobile ? (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              onClick(event);
+            }
+          } : undefined}
           className={`px-6 py-3 rounded-full border-2 transition-all duration-300 backdrop-blur-md cursor-pointer whitespace-nowrap font-urbanist font-bold tracking-widest text-sm pointer-events-auto
             ${active 
               ? 'scale-110 shadow-2xl' 
@@ -143,9 +154,8 @@ const Marker = ({ position, color, name, active, onClick }: any) => {
 };
 
 // Map Scene wrapper to handle animated rotation and zoom
-const MapScene = ({ region, onRegionSelect }: { region: RegionKey, onRegionSelect: (r: RegionKey) => void }) => {
+const MapScene = ({ region, onRegionSelect, isMobile, reducedMotion }: { region: RegionKey, onRegionSelect: (r: RegionKey) => void, isMobile: boolean, reducedMotion: boolean }) => {
   const controlsRef = useRef<any>(null);
-  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches;
 
   // Create points for the glowing path connecting the regions
   const pathPoints = useMemo(() => {
@@ -178,17 +188,18 @@ const MapScene = ({ region, onRegionSelect }: { region: RegionKey, onRegionSelec
     
     // Apply a gentle back-and-forth swaying motion (pendulum effect)
     const swaySpeed = state.clock.elapsedTime * 0.3; 
-    const swayAmplitude = 0.2; // Reduced amplitude slightly so the sway doesn't throw the map out of bounds
+    const swayAmplitude = isMobile && reducedMotion ? 0 : 0.2;
     const rotatedOffset = baseCameraOffset.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.sin(swaySpeed) * swayAmplitude);
 
     const targetCameraPos = actualLookAt.clone().add(rotatedOffset);
 
     // Smoothly interpolate camera position
-    state.camera.position.lerp(targetCameraPos, delta * 2.5);
+    const interpolation = isMobile && reducedMotion ? 1 : delta * 2.5;
+    state.camera.position.lerp(targetCameraPos, interpolation);
 
     // Smoothly interpolate where the camera is looking
     if (controlsRef.current) {
-      controlsRef.current.target.lerp(actualLookAt, delta * 2.5);
+      controlsRef.current.target.lerp(actualLookAt, interpolation);
       controlsRef.current.update();
     }
   });
@@ -227,6 +238,8 @@ const MapScene = ({ region, onRegionSelect }: { region: RegionKey, onRegionSelec
               position={REGIONS[key].pos}
               color={REGIONS[key].color}
               active={region === key}
+              isMobile={isMobile}
+              reducedMotion={reducedMotion}
               onClick={(e: any) => { e.stopPropagation(); onRegionSelect(key); }}
             />
           ))}
@@ -236,12 +249,12 @@ const MapScene = ({ region, onRegionSelect }: { region: RegionKey, onRegionSelec
   );
 };
 
-const AdattabilitaMarquee = () => {
+const AdattabilitaMarquee = ({ active }: { active: boolean }) => {
   return (
     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] overflow-hidden py-2 sm:py-3 z-50 flex items-center bg-[#FCD306]">
       <motion.div
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ repeat: Infinity, ease: "linear", duration: 20 }}
+        animate={active ? { x: ["0%", "-50%"] } : { x: '0%' }}
+        transition={{ repeat: active ? Infinity : 0, ease: "linear", duration: active ? 20 : 0 }}
         className="flex whitespace-nowrap gap-8 text-[#0D0D0D] font-urbanist font-black text-[18px] sm:text-2xl uppercase tracking-widest"
       >
         {[...Array(20)].map((_, i) => (
@@ -257,6 +270,9 @@ const AdattabilitaMarquee = () => {
 
 export const UrbanStreetArtMapSection: React.FC = () => {
   const [region, setRegion] = useState<RegionKey>('Lombardy');
+  const { ref, isMobile, active, visible, reducedMotion } = useUrbanActivity<HTMLElement>();
+  const [hasEntered, setHasEntered] = useState(false);
+  useEffect(() => { if (visible) setHasEntered(true); }, [visible]);
 
   const cycleRegion = () => {
     const keys = Object.keys(REGIONS) as RegionKey[];
@@ -273,12 +289,13 @@ export const UrbanStreetArtMapSection: React.FC = () => {
   return (
     // Rimosso overflow-hidden per permettere al bagliore sfocato di sfumare dolcemente sopra e sotto senza tagli netti
     <section
+      ref={ref}
       id="urban-streetart-adaptability"
       data-project-section="08-adaptability"
       aria-label="Adattabilità Urban StreetArt Sicily"
       className="relative w-[100vw] left-1/2 -translate-x-1/2 min-h-[100vh] py-20 bg-transparent flex items-center justify-center"
     >
-      <AdattabilitaMarquee />
+      <AdattabilitaMarquee active={active} />
       
       {/* Dynamic Background Image for Region */}
       {Object.entries(REGIONS).map(([key, data]) => (
@@ -286,6 +303,8 @@ export const UrbanStreetArtMapSection: React.FC = () => {
           key={key}
           src={data.image}
           alt={`Urban Art in ${key}`}
+          loading={isMobile ? 'lazy' : undefined}
+          decoding={isMobile ? 'async' : undefined}
           className={`absolute left-0 top-0 w-full md:w-[45%] h-full object-cover grayscale transition-all duration-1000 ease-in-out z-0 pointer-events-none ${region === key ? 'opacity-30 scale-100' : 'opacity-0 scale-105'}`}
           style={{
             maskImage: 'linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%)',
@@ -305,12 +324,15 @@ export const UrbanStreetArtMapSection: React.FC = () => {
 
       {/* 3D Map Background */}
       <div className="absolute inset-x-0 top-44 bottom-0 md:inset-0 z-0 cursor-move">
-        <Canvas camera={{ position: [0, 6, 8], fov: 45 }}>
+        {(!isMobile || hasEntered) && <Canvas className="urban-map-canvas" camera={{ position: [0, 6, 8], fov: 45 }}
+          dpr={isMobile ? [1, 1.5] : undefined}
+          frameloop={!isMobile || active ? 'always' : reducedMotion && visible ? 'demand' : 'never'}
+          fallback={isMobile ? <img src="./Images/Project 02/italy_alpha.svg" alt="Mappa d’Italia: usa il nome della regione per cambiare selezione" className="w-full h-full object-contain" /> : undefined}>
           <ambientLight intensity={0.5} />
           <Suspense fallback={null}>
-            <MapScene region={region} onRegionSelect={handleMarkerClick} />
+            <MapScene region={region} onRegionSelect={handleMarkerClick} isMobile={isMobile} reducedMotion={reducedMotion} />
           </Suspense>
-        </Canvas>
+        </Canvas>}
       </div>
 
       {/* UI Overlay */}

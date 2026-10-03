@@ -1,0 +1,108 @@
+/* These rules only apply to the Home on smartphones. */
+@media (max-width: 767px) {
+  .home-page #hero-section {
+    min-height: 100svh;
+    padding-top: max(1.5rem, env(safe-area-inset-top));
+  }
+
+  .home-page #app-header {
+    top: max(1rem, env(safe-area-inset-top));
+  }
+
+  .home-page #home-menu-toggle,
+  .home-page #home-language-toggle:not([data-hidden='true']),
+  .home-page .home-center-logo {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .home-page #header-cta-container,
+  .home-page [data-home-desktop-language] {
+    display: none;
+  }
+
+  .home-page #home-menu {
+    top: calc(max(1rem, env(safe-area-inset-top)) + 4rem);
+    max-height: calc(100dvh - max(1rem, env(safe-area-inset-top)) - 5rem - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+
+  .home-page section[id] {
+    scroll-margin-top: calc(6rem + env(safe-area-inset-top));
+  }
+
+  .home-page #hero-section {
+    scroll-margin-top: 0;
+  }
+
+  .home-page #direct-contact-section input,
+  .home-page #direct-contact-section textarea {
+    font-size: 1rem;
+    min-width: 0;
+    scroll-margin-block: 6rem;
+  }
+
+  .home-page #main-footer > div:first-child > div:first-child {
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: clamp(0.75rem, 4vw, 2rem);
+    row-gap: 0.25rem;
+  }
+
+  .home-page #main-footer button,
+  .home-page #app-footer a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .home-page #main-footer {
+    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  }
+
+  .home-page :is(button, a, [role='link']):focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  .home-page .home-skills-gallery {
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .home-page .home-skills-fallback {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-inline: 15%;
+  }
+
+  .home-page .home-skills-fallback article {
+    flex: 0 0 100%;
+    max-width: 280px;
+    min-height: 290px;
+    padding: 2rem 1.5rem;
+    border: 1px solid #2b2b2b;
+    border-radius: 1rem;
+    background: #121212;
+    scroll-snap-align: center;
+    text-align: center;
+    font-family: Inter, sans-serif;
+  }
+
+  .home-page .home-skills-fallback img {
+    width: 48px;
+    height: 48px;
+    margin: 1rem auto 2rem;
+  }
+
+  .home-page .home-skills-fallback h3 { font-size: 1rem; }
+  .home-page .home-skills-fallback p { margin-top: 1rem; color: #aaa; font-size: 0.875rem; }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .home-page { scroll-behavior: auto; }
+}

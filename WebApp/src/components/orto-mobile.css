@@ -1,0 +1,69 @@
+/* Keep all corrections below the existing desktop breakpoint. */
+@media (max-width: 767px) {
+  [data-project="aetheris"] #orto-iphone-3d-section > .sticky {
+    /* The ID rule in index.css otherwise overrides max-md:h-auto. */
+    height: auto;
+    min-height: 100svh;
+  }
+
+  [data-project="aetheris"] .orto-project-logo {
+    top: max(1.5rem, env(safe-area-inset-top));
+    right: max(1.5rem, env(safe-area-inset-right));
+    max-width: calc(100vw - 3rem);
+    pointer-events: none;
+  }
+
+  [data-project="aetheris"] .orto-project-logo > * {
+    pointer-events: auto;
+  }
+
+  [data-project="aetheris"] .orto-project-logo > button {
+    width: min(220px, calc(100vw - 6.5rem));
+  }
+
+  [data-project="aetheris"] .orto-project-logo > button img {
+    min-width: 0;
+    max-width: calc(100% - 1rem);
+    object-fit: contain;
+  }
+
+  [data-project="aetheris"] .orto-project-logo--menu-open {
+    z-index: 130;
+  }
+
+  [data-project="aetheris"] [role="dialog"] {
+    overscroll-behavior-y: contain;
+    padding-top: max(2rem, env(safe-area-inset-top));
+    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  }
+
+  [data-project="aetheris"] [role="dialog"] > div {
+    height: auto;
+    min-height: 100%;
+    flex-shrink: 0;
+  }
+
+  [data-project="aetheris"] [role="dialog"] > button {
+    width: 44px;
+    height: 44px;
+  }
+
+  [data-project="aetheris"] .orto-research-tabs {
+    max-width: 100%;
+    gap: clamp(1rem, 5vw, 2rem);
+  }
+
+  [data-project="aetheris"] .orto-research-tabs button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  [data-project="aetheris"] :is(button, a, [role="button"]):focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  [data-project="aetheris"] #mobile-mockup-showcase {
+    height: 60svh;
+  }
+}

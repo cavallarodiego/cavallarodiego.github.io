@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowUpRight, Compass, Smartphone } from 'lucide-react';
+import { useOrtoMobile } from './useOrtoMobile';
 
 type PrototypeTab = 'mobile' | 'totem';
 
 export function OrtoInteractivePrototypeSection({ lang }: { lang: string }) {
+  const isMobile = useOrtoMobile();
   const [activeTab, setActiveTab] = useState<PrototypeTab>('mobile');
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
     <section className="max-w-[1300px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center justify-items-center mt-24 md:mt-32 mb-16 w-full" id="orto-interactive-prototypes-section" aria-label="Prototipo interattivo Orto Botanico">
-      <div className="flex flex-col gap-6 items-center justify-center w-full max-md:hidden">
+      {!isMobile && <div className="flex flex-col gap-6 items-center justify-center w-full max-md:hidden">
         <div className="flex justify-center w-full">
           <div className="flex bg-[#131514] border border-white/5 p-1 rounded-2xl shrink-0 shadow-inner relative w-fit max-w-full overflow-x-auto scrollbar-none">
             {(['mobile', 'totem'] as const).map((tab) => {
@@ -57,8 +59,7 @@ export function OrtoInteractivePrototypeSection({ lang }: { lang: string }) {
             <iframe id="mobile-prototype-iframe" title="Prototipo mobile Orto Botanico" style={{ border: 'none', width: '100%', height: '100%' }} width="100%" height="100%" loading="eager" allow="clipboard-read; clipboard-write; fullscreen" onLoad={() => setIsLoaded(true)} className={`orto-mobile-prototype-crop transition-opacity duration-500 ease-in-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`} src="https://embed.figma.com/proto/mI6bKgIz6OfwPeo7GeoaDK/ORTO-BOTANICO?node-id=154-6774&scaling=scale-down&content-scaling=fixed&page-id=1%3A2&starting-point-node-id=154%3A6774&show-proto-sidebar=0&hide-ui=1&embed-host=share&bg-color=050505" allowFullScreen />
           </motion.div>
         </div>
-      </div>
-
+      </div>}
       <div className="flex justify-center items-center w-full">
         <div className="flex flex-col items-start max-md:items-center text-left max-md:text-center gap-6 lg:gap-8 max-w-[420px] w-full">
           <h2 className="text-5xl md:text-7xl lg:text-[80px] font-bold tracking-tight text-[#068B35] font-raleway leading-none uppercase text-left max-md:text-center">Provalo</h2>

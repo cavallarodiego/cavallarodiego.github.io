@@ -36,6 +36,8 @@ import { ScrollProgress } from './components/ScrollProgress.tsx';
 import { ScrollReveal } from './components/ScrollReveal.tsx';
 import { CircularGalleryDemo } from './components/CircularGalleryDemo.tsx';
 import { GridVignetteBackground } from './components/ui/vignette-grid-background.tsx';
+import { useHomeMobile } from './components/useHomeMobile.ts';
+import './components/home-mobile.css';
 
 
 const PenNibIcon = ({ className, strokeWidth = 2 }: { className?: string; strokeWidth?: number }) => (
@@ -57,6 +59,7 @@ const PenNibIcon = ({ className, strokeWidth = 2 }: { className?: string; stroke
   </svg>
 );
 export default function App() {
+  const isHomeMobile = useHomeMobile();
   const [lang, setLang] = useState<'it' | 'en'>('it');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -81,6 +84,30 @@ export default function App() {
     }
     return null;
   });
+
+  useEffect(() => {
+    if (!isHomeMobile || activeProjectPage || !mobileMenuOpen) return;
+    const dismiss = (event: PointerEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('#home-menu, #home-menu-toggle')) setMobileMenuOpen(false);
+    };
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileMenuOpen(false);
+        document.getElementById('home-menu-toggle')?.focus();
+      }
+    };
+    document.addEventListener('pointerdown', dismiss);
+    document.addEventListener('keydown', escape);
+    return () => {
+      document.removeEventListener('pointerdown', dismiss);
+      document.removeEventListener('keydown', escape);
+    };
+  }, [isHomeMobile, activeProjectPage, mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!isHomeMobile) setMobileMenuOpen(false);
+  }, [isHomeMobile]);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -115,7 +142,7 @@ export default function App() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: isHomeMobile && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     }
   };
 
@@ -351,7 +378,7 @@ export default function App() {
       <CustomCursor />
       <ScrollProgress />
       <ScrollReveal />
-      <div className="relative min-h-screen bg-[#050505] text-white font-sans select-none flex flex-col scroll-smooth overflow-x-clip selection:bg-[#E8302A] selection:text-white">
+      <div className="home-page relative min-h-screen bg-[#050505] text-white font-sans select-none flex flex-col scroll-smooth overflow-x-clip selection:bg-[#E8302A] selection:text-white">
 
         {/* SECTION 1: HERO VIEW CONTAINER */}
         <section className="relative w-full min-h-screen flex flex-col justify-between p-6 sm:p-10 md:p-14 bg-[#050505] overflow-hidden" id="hero-section">
@@ -385,6 +412,9 @@ export default function App() {
             <div className="flex items-center gap-3 justify-start flex-shrink-0">
               {/* Mobile Only Language Switcher (Left Side) */}
               <button
+                id="home-language-toggle"
+                data-hidden={!isScrolled}
+                tabIndex={isHomeMobile && !isScrolled ? -1 : undefined}
                 onClick={() => {
                   setLang(lang === 'it' ? 'en' : 'it');
                   setMobileMenuOpen(false);
@@ -415,7 +445,7 @@ export default function App() {
             {/* Center Area: Mobile Only Logo & Desktop Center Navigation */}
             <div className={`absolute left-1/2 -translate-x-1/2 flex justify-center items-center transition-all duration-700 ease-[0.16,1,0.3,1] ${!isScrolled ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}>
               {/* Mobile Only Center Logo */}
-              <div className="flex md:hidden justify-center items-center cursor-pointer" onClick={() => { scrollToSection('hero-section'); setMobileMenuOpen(false); }}>
+              <div className="home-center-logo flex md:hidden justify-center items-center cursor-pointer" role={isHomeMobile ? 'button' : undefined} tabIndex={isHomeMobile && isScrolled ? 0 : undefined} aria-label={isHomeMobile ? (lang === 'it' ? 'Torna su' : 'Back to top') : undefined} onKeyDown={isHomeMobile ? (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); scrollToSection('hero-section'); setMobileMenuOpen(false); } } : undefined} onClick={() => { scrollToSection('hero-section'); setMobileMenuOpen(false); }}>
                 <img
                   src="./Images/Home/logo_diego_cavallaro.png"
                   className="w-5 h-5 object-contain"
@@ -474,6 +504,7 @@ export default function App() {
 
               {/* Language Switcher (Desktop Only on the right) */}
               <button
+                data-home-desktop-language
                 onClick={() => {
                   setLang(lang === 'it' ? 'en' : 'it');
                   setMobileMenuOpen(false);
@@ -486,6 +517,9 @@ export default function App() {
 
               {/* Hamburger Menu - Visible on Mobile ALWAYS, Visible on Desktop ONLY when !isScrolled */}
               <button
+                id="home-menu-toggle"
+                aria-expanded={mobileMenuOpen}
+                aria-controls="home-menu"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className={`items-center justify-center rounded-full border transition-all duration-700 ease-[0.16,1,0.3,1] text-white cursor-pointer active:scale-95 flex overflow-hidden shrink-0 ${!isScrolled ? 'w-10 h-10 border-white/10 backdrop-blur-md bg-white/[0.05] hover:bg-white/[0.1] opacity-100' : 'w-8 h-8 border-white/10 bg-white/[0.04] hover:bg-white/[0.1] md:w-0 md:h-0 md:opacity-0 md:border-transparent md:pointer-events-none'}`}
                 aria-label="Toggle Menu"
@@ -499,6 +533,9 @@ export default function App() {
           <AnimatePresence>
             {mobileMenuOpen && (
               <motion.div
+                id="home-menu"
+                role={isHomeMobile ? 'navigation' : undefined}
+                aria-label={isHomeMobile ? (lang === 'it' ? 'Navigazione principale' : 'Main navigation') : undefined}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -563,7 +600,7 @@ export default function App() {
           <main className="relative flex-1 flex flex-col justify-center items-center z-10 my-12 w-full max-w-6xl mx-auto px-4 text-center" id="hero-main">
 
             <div className="w-full max-w-4xl md:pt-[100px] flex flex-col items-center gap-6 text-center">
-              <GooeyProjectsBackground />
+              <GooeyProjectsBackground mobile={isHomeMobile} />
 
               {/* High-contrast elegant glass capsule for Based in Catania */}
               <motion.div
@@ -674,6 +711,10 @@ export default function App() {
                 {/* Card 1: Left Card (Slightly tilted on desktop) */}
                 <GlowCard
                   id="collab-card-1"
+                  interactivePointer={!isHomeMobile}
+                  role={isHomeMobile ? 'link' : undefined}
+                  tabIndex={isHomeMobile ? 0 : undefined}
+                  onKeyDown={isHomeMobile ? (event) => { if (event.key === 'Enter') setActiveProjectPage(PROJECTS[0]); } : undefined}
                   customSize={true}
                   glowColor="red"
                   radius={32}
@@ -699,6 +740,10 @@ export default function App() {
                 {/* Card 2: Center Card (Flat & Raised slightly) */}
                 <GlowCard
                   id="collab-card-2"
+                  interactivePointer={!isHomeMobile}
+                  role={isHomeMobile ? 'link' : undefined}
+                  tabIndex={isHomeMobile ? 0 : undefined}
+                  onKeyDown={isHomeMobile ? (event) => { if (event.key === 'Enter') setActiveProjectPage(PROJECTS[1]); } : undefined}
                   customSize={true}
                   glowColor="red"
                   radius={32}
@@ -724,6 +769,10 @@ export default function App() {
                 {/* Card 3: Right Card (Slightly tilted opposite on desktop) */}
                 <GlowCard
                   id="collab-card-3"
+                  interactivePointer={!isHomeMobile}
+                  role={isHomeMobile ? 'link' : undefined}
+                  tabIndex={isHomeMobile ? 0 : undefined}
+                  onKeyDown={isHomeMobile ? (event) => { if (event.key === 'Enter') setActiveProjectPage(PROJECTS[2]); } : undefined}
                   customSize={true}
                   glowColor="red"
                   radius={32}
@@ -864,13 +913,16 @@ export default function App() {
 
                         {/* Name Input */}
                         <div className="flex flex-col gap-4 sm:gap-2">
-                          <label className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
+                          <label htmlFor={isHomeMobile ? 'home-contact-name' : undefined} className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#E8302A] shrink-0 animate-pulse" />
                             <span>{lang === 'it' ? 'Nome' : 'Name'}</span>
                           </label>
                           <input
                             type="text"
                             required
+                            id="home-contact-name"
+                            aria-label={isHomeMobile ? (lang === 'it' ? 'Nome' : 'Name') : undefined}
+                            autoComplete={isHomeMobile ? 'name' : undefined}
                             value={sec4Form.name}
                             onChange={(e) => setSec4Form({ ...sec4Form, name: e.target.value })}
                             className="w-full bg-[#161716] text-white border border-white/10 focus:border-[#E8302A] focus:ring-1 focus:ring-[#E8302A] text-sm py-4 px-5 rounded-2xl transition-all duration-300 focus:outline-none placeholder-neutral-500 font-jakarta shadow-inner"
@@ -879,13 +931,16 @@ export default function App() {
 
                         {/* Email Input */}
                         <div className="flex flex-col gap-4 sm:gap-2">
-                          <label className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
+                          <label htmlFor={isHomeMobile ? 'home-contact-email' : undefined} className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#E8302A] shrink-0 animate-pulse" />
                             <span>Email</span>
                           </label>
                           <input
                             type="email"
                             required
+                            id="home-contact-email"
+                            aria-label={isHomeMobile ? 'Email' : undefined}
+                            autoComplete={isHomeMobile ? 'email' : undefined}
                             value={sec4Form.email}
                             onChange={(e) => setSec4Form({ ...sec4Form, email: e.target.value })}
                             className="w-full bg-[#161716] text-white border border-white/10 focus:border-[#E8302A] focus:ring-1 focus:ring-[#E8302A] text-sm py-4 px-5 rounded-2xl transition-all duration-300 focus:outline-none placeholder-neutral-500 font-jakarta shadow-inner"
@@ -894,12 +949,14 @@ export default function App() {
 
                         {/* Message Input */}
                         <div className="flex flex-col gap-4 sm:gap-2">
-                          <label className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
+                          <label htmlFor={isHomeMobile ? 'home-contact-message' : undefined} className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#E8302A] shrink-0 animate-pulse" />
                             <span>{lang === 'it' ? 'Messaggio' : 'Message'}</span>
                           </label>
                           <textarea
                             required
+                            id="home-contact-message"
+                            aria-label={isHomeMobile ? (lang === 'it' ? 'Messaggio' : 'Message') : undefined}
                             rows={4}
                             value={sec4Form.message}
                             onChange={(e) => setSec4Form({ ...sec4Form, message: e.target.value })}

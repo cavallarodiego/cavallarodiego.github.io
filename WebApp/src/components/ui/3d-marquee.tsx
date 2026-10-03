@@ -17,6 +17,8 @@ function cn(...inputs: any[]) { return twMerge(clsx(inputs)) }
 interface ThreeDMarqueeProps {
   images?: string[]
   className?: string
+  animate?: boolean
+  lazyImages?: boolean
 }
 
 const defaultImages = [
@@ -33,6 +35,8 @@ const defaultImages = [
 const ThreeDMarquee = ({
   images = defaultImages,
   className,
+  animate = true,
+  lazyImages = false,
 }: ThreeDMarqueeProps) => {
   const chunkSize = Math.ceil(images.length / 3)
   const chunks = Array.from({ length: 3 }, (_, colIndex) => {
@@ -56,12 +60,12 @@ const ThreeDMarquee = ({
             {chunks.map((subarray, colIndex) => (
               <motion.figure
                 animate={{
-                  y: colIndex % 2 === 0 ? ["-50%", "-33.333333%"] : ["-33.333333%", "-50%"]
+                  y: animate ? (colIndex % 2 === 0 ? ["-50%", "-33.333333%"] : ["-33.333333%", "-50%"]) : '-50%'
                 }}
                 transition={{
-                  duration: colIndex % 2 === 0 ? 40 : 50,
+                  duration: animate ? (colIndex % 2 === 0 ? 40 : 50) : 0,
                   ease: "linear",
-                  repeat: Infinity,
+                  repeat: animate ? Infinity : 0,
                   repeatType: "loop",
                 }}
                 key={colIndex + 'marquee'}
@@ -72,6 +76,8 @@ const ThreeDMarquee = ({
                     <img
                       className='aspect-[9/19.5] h-auto w-full rounded-2xl bg-neutral-100 object-cover select-none dark:bg-neutral-900 shadow-2xl'
                       src={src}
+                      loading={lazyImages ? 'lazy' : undefined}
+                      decoding={lazyImages ? 'async' : undefined}
                       draggable={false}
                       alt={`Image ${imageIndex + 1}`}
                     />

@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StickyCard002 } from './ui/sticky-card';
+import { useOrtoAutoplay } from './useOrtoAutoplay';
 
 const totemShowcaseCards = [
   { id: 1, image: './Images/Project 01/mockup_totem_3.jpg', alt: 'Totem Mockup 3' },
@@ -9,6 +10,8 @@ const totemShowcaseCards = [
 ];
 
 export function OrtoTotemShowcaseSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const autoplay = useOrtoAutoplay(sectionRef);
   const [isDesktop, setIsDesktop] = useState(() => window.matchMedia('(min-width: 768px)').matches);
   const [activeImage, setActiveImage] = useState(0);
 
@@ -20,15 +23,15 @@ export function OrtoTotemShowcaseSection() {
   }, []);
 
   useEffect(() => {
-    if (isDesktop) return;
+    if (isDesktop || !autoplay) return;
     const interval = window.setInterval(() => {
       setActiveImage((current) => (current + 1) % totemShowcaseCards.length);
     }, 4000);
     return () => window.clearInterval(interval);
-  }, [isDesktop]);
+  }, [isDesktop, autoplay]);
 
   return (
-    <section id="totem-showcase" className="relative z-10 w-full shrink-0 block max-md:-mt-24">
+    <section ref={sectionRef} id="totem-showcase" className="relative z-10 w-full shrink-0 block max-md:-mt-24">
       {isDesktop ? (
         <StickyCard002 cards={totemShowcaseCards} />
       ) : (
@@ -38,6 +41,8 @@ export function OrtoTotemShowcaseSection() {
               key={card.id}
               src={card.image}
               alt={card.alt || ''}
+              loading="lazy"
+              decoding="async"
               className={`absolute inset-0 h-full w-full rounded-none object-contain scale-[1.25] transition-opacity duration-700 ${index === activeImage ? 'opacity-100' : 'opacity-0'}`}
               aria-hidden={index !== activeImage}
             />

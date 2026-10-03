@@ -1,0 +1,122 @@
+/* Deliberately isolated from desktop and every other project. */
+@media (max-width: 767px) {
+  [data-project="kinetics"] #urban-streetart-introduction > div:last-child > div {
+    padding-inline: 0;
+    gap: 3rem;
+  }
+
+  [data-project="kinetics"] #urban-streetart-introduction p {
+    max-width: 22rem;
+  }
+
+  [data-project="kinetics"] #urban-streetart-objective h2 {
+    font-size: clamp(1.5rem, 5vw, 2.4rem);
+  }
+
+  [data-project="kinetics"] #urban-streetart-responsive-app > .absolute.rounded-full {
+    width: 90%;
+    height: auto;
+    aspect-ratio: 1;
+    filter: blur(70px);
+  }
+
+  [data-project="kinetics"] #urban-streetart-adaptability {
+    min-height: max(42rem, 100svh);
+    isolation: isolate;
+  }
+
+  [data-project="kinetics"] #urban-streetart-adaptability > img {
+    scale: 1;
+  }
+
+  [data-project="kinetics"] #urban-streetart-adaptability > .rounded-full {
+    width: 90%;
+    height: auto;
+    aspect-ratio: 1;
+    filter: blur(70px);
+  }
+
+  /* OrbitControls writes touch-action inline even when rotation is disabled. */
+  [data-project="kinetics"] #urban-streetart-adaptability canvas,
+  [data-project="kinetics"] .urban-map-canvas {
+    touch-action: pan-y !important;
+  }
+
+  /* Northern markers project close together; offset by the label's own height. */
+  [data-project="kinetics"] #urban-streetart-adaptability [data-region="Lombardy"] {
+    translate: 0 -50%;
+  }
+
+  [data-project="kinetics"] #urban-streetart-magazine {
+    /* Keep the existing zoom/crop inside the magazine's reserved media frame. */
+    overflow: clip;
+  }
+
+  [data-project="kinetics"] #urban-streetart-design-system .group\/tri > div {
+    opacity: 1;
+  }
+
+  [data-project="kinetics"] .urban-menu {
+    padding-top: max(5rem, env(safe-area-inset-top));
+    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+    overscroll-behavior: contain;
+  }
+
+  [data-project="kinetics"] .urban-menu > div {
+    height: auto;
+    min-height: 100%;
+    flex-shrink: 0;
+    gap: 2rem;
+    padding-top: 0;
+  }
+
+  [data-project="kinetics"] .urban-menu > div > div:first-child {
+    margin-bottom: 0;
+  }
+
+  [data-project="kinetics"] .urban-menu button,
+  [data-project="kinetics"] .urban-menu [role="button"] {
+    min-width: 44px;
+    min-height: 44px;
+    flex-shrink: 0;
+  }
+
+  [data-project="kinetics"] > button:first-child {
+    top: max(2rem, env(safe-area-inset-top));
+    left: max(1.5rem, env(safe-area-inset-left));
+  }
+
+  [data-project="kinetics"] .urban-project-logo {
+    top: max(1.5rem, env(safe-area-inset-top));
+    right: max(1.5rem, env(safe-area-inset-right));
+    max-width: calc(100% - 3rem);
+    pointer-events: none;
+  }
+
+  [data-project="kinetics"] .urban-project-logo > button {
+    pointer-events: auto;
+  }
+
+  [data-project="kinetics"] .urban-project-logo > div:last-child {
+    max-width: 100%;
+  }
+
+  [data-project="kinetics"] .urban-project-logo > div:last-child > div {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  [data-project="kinetics"] :is(button, [role="button"]):focus-visible {
+    outline: 2px solid #FCD306;
+    outline-offset: 4px;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  [data-project="kinetics"] *,
+  [data-project="kinetics"] *::before,
+  [data-project="kinetics"] *::after {
+    animation: none !important;
+    transition-duration: 0s !important;
+  }
+}

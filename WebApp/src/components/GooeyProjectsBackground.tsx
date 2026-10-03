@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-export const GooeyProjectsBackground: React.FC = () => {
+export const GooeyProjectsBackground: React.FC<{ mobile?: boolean }> = ({ mobile = false }) => {
   const text1Ref = useRef<HTMLHeadingElement>(null);
   const text2Ref = useRef<HTMLHeadingElement>(null);
 
@@ -13,6 +13,8 @@ export const GooeyProjectsBackground: React.FC = () => {
     const texts = ["Diego Cavallaro", "Portfolio"];
     const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
     const setDisplayText = (element: HTMLHeadingElement, text: string) => {
+      if (mobile && element.dataset.displayText === text) return;
+      if (mobile) element.dataset.displayText = text;
       if (isMobileViewport && text === "Diego Cavallaro") {
         element.innerHTML = "Diego<br />Cavallaro";
       } else {
@@ -30,7 +32,10 @@ export const GooeyProjectsBackground: React.FC = () => {
     setDisplayText(text1, texts[textIndex % texts.length]);
     setDisplayText(text2, texts[(textIndex + 1) % texts.length]);
 
-    let animationFrameId: number;
+    let animationFrameId = 0;
+    let visible = true;
+    let inCooldown = false;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     function doMorph() {
       morph -= cooldown;
@@ -44,6 +49,7 @@ export const GooeyProjectsBackground: React.FC = () => {
       }
       
       setMorph(fraction);
+      inCooldown = false;
     }
 
     function setMorph(fraction: number) {
@@ -59,6 +65,8 @@ export const GooeyProjectsBackground: React.FC = () => {
     }
 
     function doCooldown() {
+      if (mobile && inCooldown) return;
+      inCooldown = true;
       morph = 0;
       
       text2.style.filter = "";
@@ -88,12 +96,44 @@ export const GooeyProjectsBackground: React.FC = () => {
       }
     }
 
-    animate();
+    let observer: IntersectionObserver | undefined;
+    const syncPlayback = () => {
+      cancelAnimationFrame(animationFrameId);
+      if (reducedMotion.matches) {
+        setDisplayText(text2, texts[0]);
+        text2.style.filter = '';
+        text2.style.opacity = '1';
+        text1.style.opacity = '0';
+        return;
+      }
+      if (visible && !document.hidden) {
+        time = new Date();
+        inCooldown = false;
+        animate();
+      }
+    };
+    if (mobile) {
+      observer = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        syncPlayback();
+      });
+      observer.observe(text1.parentElement!);
+      document.addEventListener('visibilitychange', syncPlayback);
+      reducedMotion.addEventListener('change', syncPlayback);
+      syncPlayback();
+    } else {
+      animate();
+    }
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      observer?.disconnect();
+      document.removeEventListener('visibilitychange', syncPlayback);
+      reducedMotion.removeEventListener('change', syncPlayback);
+      delete text1.dataset.displayText;
+      delete text2.dataset.displayText;
     };
-  }, []);
+  }, [mobile]);
 
   return (
     <div className="relative w-full h-[30vh] min-h-[200px] flex items-center justify-center overflow-visible pointer-events-none select-none z-10 my-4">

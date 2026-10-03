@@ -1,4 +1,5 @@
 import { GridVignetteBackground } from './ui/vignette-grid-background';
+import { useOrtoMobile } from './useOrtoMobile';
 
 type NodeAlignment = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'top-center';
 
@@ -45,14 +46,17 @@ function PersonaNode({ top, left, label, content, align }: { top: string; left: 
 }
 
 function PersonaPortrait() {
+  const isMobile = useOrtoMobile();
   return (
     <div className="relative shrink-0 group/img cursor-pointer w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64">
       <div className="absolute inset-0 rounded-full border-2 sm:border-[3px] border-[#068B35] bg-[#131514] overflow-hidden shadow-[0_0_50px_rgba(6,139,53,0.15)]">
-        <img src="./Images/Project 01/mirella_no_bg.png" alt="Mirella Base" className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[115%] max-w-none h-auto object-contain object-bottom transition-transform duration-700 origin-bottom group-hover/img:scale-110" />
+        <img src="./Images/Project 01/mirella_no_bg.png" alt="Mirella Base" loading={isMobile ? 'lazy' : undefined} decoding={isMobile ? 'async' : undefined} className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[115%] max-w-none h-auto object-contain object-bottom transition-transform duration-700 origin-bottom group-hover/img:scale-110" />
       </div>
       <img
         src="./Images/Project 01/mirella_no_bg.png"
         alt="Mirella Pop Out"
+        loading={isMobile ? 'lazy' : undefined}
+        decoding={isMobile ? 'async' : undefined}
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[115%] max-w-none h-auto object-contain object-bottom z-10 pointer-events-none drop-shadow-[0_15px_15px_rgba(0,0,0,0.5)] transition-transform duration-700 origin-bottom group-hover/img:scale-110"
         style={{ clipPath: 'inset(0 0 50% 0)' }}
       />

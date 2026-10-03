@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useUrbanActivity } from './useUrbanMobile';
 import { Menu, ShoppingCart, User, Search, Battery, Wifi, Signal } from 'lucide-react';
 
 const column1Images = [
@@ -40,8 +41,10 @@ const col4 = [...column4Images, ...column4Images];
 const col5 = [...column5Images, ...column5Images];
 
 export const UrbanStreetArtAppMockup: React.FC = () => {
+  const { ref, isMobile, active } = useUrbanActivity<HTMLElement>();
   return (
     <section
+      ref={ref}
       id="urban-streetart-responsive-app"
       data-project-section="07-responsive-app"
       aria-label="Applicazione responsive Urban StreetArt Sicily"
@@ -57,6 +60,7 @@ export const UrbanStreetArtAppMockup: React.FC = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#FCD306]/10 rounded-full blur-[150px] pointer-events-none z-0" />
 
       {/* DESKTOP MOCKUP */}
+      {!isMobile && (
       <div className="relative w-full max-w-[1100px] aspect-[16/10] xl:aspect-auto xl:max-w-none xl:w-[840px] xl:h-[525px] bg-[#111111] rounded-[30px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6),_0_0_0_2px_#333,_0_0_0_12px_#1a1a1a] overflow-hidden order-2 xl:order-1 hidden md:block shrink-0">
         
         {/* Solid Top Header Background */}
@@ -94,7 +98,7 @@ export const UrbanStreetArtAppMockup: React.FC = () => {
                animate={{ y: colIdx % 2 === 0 ? ["0%", "-50%"] : ["-50%", "0%"] }}
                transition={{
                  y: {
-                   repeat: Infinity,
+                   repeat: active ? Infinity : 0,
                    repeatType: "loop",
                    duration: 35 + (colIdx * 2), // varied speed
                    ease: "linear",
@@ -110,6 +114,8 @@ export const UrbanStreetArtAppMockup: React.FC = () => {
                  return (
                    <div key={`dcol${colIdx}-${idx}`} className={`w-full relative ${aspect}`}>
                      <img
+                  loading={isMobile ? "lazy" : undefined}
+                  decoding={isMobile ? "async" : undefined}
                        src={src}
                        alt={`Street Art ${idx}`}
                        className="w-full h-full object-cover border border-white/30 brightness-[0.5] sepia-[0.1] contrast-[1.1]"
@@ -144,6 +150,7 @@ export const UrbanStreetArtAppMockup: React.FC = () => {
         <div className="absolute bottom-0 w-full h-48 bg-gradient-to-t from-[#111111] to-transparent z-40 pointer-events-none" />
       </div>
 
+      )}
       {/* MOBILE MOCKUP */}
       <div className="relative w-full max-w-[280px] md:max-w-[380px] aspect-[9/19.5] xl:aspect-auto xl:max-w-none xl:w-[245px] xl:h-[530px] bg-[#111111] rounded-[45px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5),_0_0_0_2px_#333,_0_0_0_12px_#1a1a1a] overflow-hidden order-1 xl:order-2 shrink-0">
         
@@ -168,12 +175,12 @@ export const UrbanStreetArtAppMockup: React.FC = () => {
         <div className="absolute inset-0 pt-32 px-4 grid grid-cols-2 gap-4 pb-12 overflow-hidden bg-[#111111]">
           {/* Col 1 */}
           <motion.div
-            animate={{ y: ["0%", "-50%"] }}
+            animate={active ? { y: ["0%", "-50%"] } : { y: "0%" }}
             transition={{
               y: {
-                repeat: Infinity,
+                repeat: active ? Infinity : 0,
                 repeatType: "loop",
-                duration: 25,
+                duration: active ? 25 : 0,
                 ease: "linear",
               },
             }}
@@ -185,6 +192,8 @@ export const UrbanStreetArtAppMockup: React.FC = () => {
               return (
                 <div key={`col1-${idx}`} className={`w-full relative ${aspect}`}>
                 <img
+                  loading={isMobile ? "lazy" : undefined}
+                  decoding={isMobile ? "async" : undefined}
                   src={src}
                   alt={`Street Art ${idx}`}
                   className="w-full h-full object-cover border border-white/30 brightness-[0.5] sepia-[0.1] contrast-[1.1]"
@@ -196,12 +205,12 @@ export const UrbanStreetArtAppMockup: React.FC = () => {
 
           {/* Col 2 */}
           <motion.div
-            animate={{ y: ["-50%", "0%"] }}
+            animate={active ? { y: ["-50%", "0%"] } : { y: "-50%" }}
             transition={{
               y: {
-                repeat: Infinity,
+                repeat: active ? Infinity : 0,
                 repeatType: "loop",
-                duration: 25,
+                duration: active ? 25 : 0,
                 ease: "linear",
               },
             }}
@@ -213,6 +222,8 @@ export const UrbanStreetArtAppMockup: React.FC = () => {
               return (
                 <div key={`col2-${idx}`} className={`w-full relative ${aspect}`}>
                 <img
+                  loading={isMobile ? "lazy" : undefined}
+                  decoding={isMobile ? "async" : undefined}
                   src={src}
                   alt={`Street Art ${idx}`}
                   className="w-full h-full object-cover border border-white/30 brightness-[0.5] sepia-[0.1] contrast-[1.1]"
@@ -235,6 +246,9 @@ export const UrbanStreetArtAppMockup: React.FC = () => {
             <input
               type="text"
               placeholder="Cerca un'opera..."
+              aria-label={isMobile ? "Anteprima ricerca opere (dimostrativa)" : undefined}
+              tabIndex={isMobile ? -1 : undefined}
+              style={isMobile ? { pointerEvents: "none" } : undefined}
               className="bg-transparent text-white placeholder-white/90 outline-none text-[13px] font-urbanist w-full font-medium tracking-tight"
               readOnly
             />

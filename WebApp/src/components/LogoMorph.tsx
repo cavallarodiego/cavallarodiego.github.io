@@ -24,7 +24,7 @@ function splitFirstLetter(pathStr: string) {
 
 const oldPathsObj = oldPaths.map(splitFirstLetter);
 
-export function LogoMorph() {
+export function LogoMorph({ active = true }: { active?: boolean }) {
   const progress = useMotionValue(0);
 
   // Forziamo useTransform a calcolare sempre tramite interpolatore usando SOLO la prima lettera
@@ -42,6 +42,12 @@ export function LogoMorph() {
   const color3 = useTransform(progress, [0, 1], ["#FFFFFF", "#F7F9FB"]);
 
   useEffect(() => {
+    if (!active) {
+      progress.set(1);
+      return;
+    }
+    // Resume the full before/after cycle after an offscreen pause.
+    progress.set(0);
     const controls = animate(progress, 1, {
       duration: 1.0,
       ease: "easeInOut",
@@ -50,7 +56,7 @@ export function LogoMorph() {
       repeatDelay: 2.5
     });
     return controls.stop;
-  }, [progress]);
+  }, [progress, active]);
 
   const scale = useTransform(progress, [0, 1], [1.5, 1]);
   const x = useTransform(progress, [0, 1], [47.75, 0]);

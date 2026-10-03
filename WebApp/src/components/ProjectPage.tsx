@@ -59,6 +59,10 @@ import { ItaloIntroductionSection } from './ItaloIntroductionSection';
 import { ItaloCriticalIssuesSection } from './ItaloCriticalIssuesSection';
 import { ItaloWireframeSection } from './ItaloWireframeSection';
 import { ItaloMockupGallerySection } from './ItaloMockupGallerySection';
+import './orto-mobile.css';
+import { useOrtoMobile } from './useOrtoMobile';
+import { useUrbanMobile } from './useUrbanMobile';
+import './urban-mobile.css';
 
 import HighlightCard from './ui/highlight-card';
 import AuroraBackground from './ui/aurora-background';
@@ -138,6 +142,11 @@ interface ProjectPageProps {
 }
 
 export default function ProjectPage({ project, onClose, onNavigateToProject, allProjects, lang = 'it', setLang }: ProjectPageProps) {
+  const isOrtoMobile = useOrtoMobile() && project.id === 'aetheris';
+  const { isMobile, reducedMotion } = useUrbanMobile();
+  const isUrbanMobile = isMobile && project.id === 'kinetics';
+  const isAccessibleMobileMenu = isOrtoMobile || isUrbanMobile;
+  const menuRef = React.useRef<HTMLDivElement>(null);
   // Back to top on mount or project change
   useLayoutEffect(() => {
     // Prevent browser native scroll restoration from jumping down
@@ -206,6 +215,52 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
   const [copiedColor, setCopiedColor] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLogoDetailsOpen, setIsLogoDetailsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isAccessibleMobileMenu || !isMenuOpen || !menuRef.current) return;
+    const menu = menuRef.current;
+    const opener = document.activeElement as HTMLElement | null;
+    const controls = () => Array.from(menu.querySelectorAll<HTMLElement>('button, a[href], [tabindex="0"]'));
+    controls()[0]?.focus({ preventScroll: true });
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMenuOpen(false);
+      if (event.key !== 'Tab') return;
+      const items = controls();
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+    menu.addEventListener('keydown', onKeyDown);
+    return () => {
+      menu.removeEventListener('keydown', onKeyDown);
+      if (opener?.isConnected) opener.focus({ preventScroll: true });
+    };
+  }, [isAccessibleMobileMenu, isMenuOpen]);
+
+  useEffect(() => {
+    if (!isUrbanMobile || !isMenuOpen) return;
+    // Lock the background without changing the current scroll position.
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = previous; };
+  }, [isUrbanMobile, isMenuOpen]);
+
+  const mobileMenuItemProps = isAccessibleMobileMenu ? {
+    role: 'button',
+    tabIndex: 0,
+    onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        event.currentTarget.click();
+      }
+    },
+  } : {};
 
   const currentIndex = allProjects.findIndex(p => p.id === project.id);
   const prevProject = allProjects[(currentIndex - 1 + allProjects.length) % allProjects.length];
@@ -296,13 +351,15 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
       <CustomCursor color={primaryColor} />
       <ScrollProgress color={primaryColor} />
       <ScrollReveal />
-      <div id="project-page-root" className={`min-h-screen pb-24 relative ${isKinetics ? 'font-urbanist bg-[#0D0D0D] text-[#F5F5F0] selection:bg-[#FCD306] selection:text-[#0D0D0D]' : isAetheris ? 'font-raleway bg-[#050505] text-white selection:bg-[#068B35] selection:text-white' : isChronos ? 'font-sans bg-black text-white selection:bg-[#9E1C1F] selection:text-white' : 'font-sans bg-black text-white selection:bg-[#E8302A] selection:text-white'}`}>
+      <div id="project-page-root" data-project={project.id} className={`min-h-screen pb-24 relative ${isKinetics ? 'font-urbanist bg-[#0D0D0D] text-[#F5F5F0] selection:bg-[#FCD306] selection:text-[#0D0D0D]' : isAetheris ? 'font-raleway bg-[#050505] text-white selection:bg-[#068B35] selection:text-white' : isChronos ? 'font-sans bg-black text-white selection:bg-[#9E1C1F] selection:text-white' : 'font-sans bg-black text-white selection:bg-[#E8302A] selection:text-white'}`}>
 
 
 
         {/* 1. FIXED TOP HEADER (Hamburger Menu) */}
         <button
-          onClick={() => setIsMenuOpen(true)}
+          aria-label={isAccessibleMobileMenu ? (lang === 'it' ? 'Apri menu' : 'Open menu') : undefined}
+          aria-expanded={isAccessibleMobileMenu ? isMenuOpen : undefined}
+          onClick={() => { setIsMenuOpen(true); if (isAccessibleMobileMenu) setIsLogoDetailsOpen(false); }}
           className="fixed top-6 left-6 z-[100] w-12 h-12 flex items-center justify-center rounded-full bg-black/50 backdrop-blur-xl border border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.5)] hover:scale-105 transition-transform duration-300 md:top-6 max-md:top-8"
         >
           <Menu className="w-6 h-6 text-white" />
@@ -310,7 +367,7 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
 
         {/* Orto Botanico Logo Card */}
         {isAetheris && (
-          <div className="fixed top-6 right-6 z-[160] flex flex-col items-end">
+          <div className={`orto-project-logo fixed top-6 right-6 z-[160] flex flex-col items-end ${isMenuOpen ? 'orto-project-logo--menu-open' : ''}`}>
             <button
               type="button"
               aria-label={lang === 'it' ? 'Apri dettagli progetto' : 'Open project details'}
@@ -348,7 +405,7 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
 
         {/* Urban StreetArt Sicily Logo Card */}
         {isKinetics && !isMenuOpen && (
-          <div className="fixed top-6 right-6 z-[160] md:z-[100] flex flex-col items-end">
+          <div className="urban-project-logo fixed top-6 right-6 z-[160] md:z-[100] flex flex-col items-end">
             <div className="hidden md:flex h-16 md:h-20 px-8 md:px-10 items-center justify-center rounded-full bg-black/50 backdrop-blur-xl border border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.5)]">
               <img src="./Images/Project 02/Logo/logo_uss.png" alt="Urban StreetArt Sicily Logo" className="h-10 md:h-12 w-auto object-contain rounded-md" />
             </div>
@@ -398,13 +455,18 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              initial={{ x: '-100%' }}
+              ref={menuRef}
+              role={isAccessibleMobileMenu ? 'dialog' : undefined}
+              aria-modal={isAccessibleMobileMenu ? true : undefined}
+              aria-label={isAccessibleMobileMenu ? 'Menu progetti' : undefined}
+              initial={{ x: isUrbanMobile && reducedMotion ? 0 : '-100%' }}
               animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
+              exit={{ x: isUrbanMobile && reducedMotion ? 0 : '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 left-0 bottom-0 w-[80vw] max-w-sm bg-[#050505]/95 backdrop-blur-3xl z-[150] border-r border-white/10 flex flex-col p-8 shadow-[30px_0_50px_rgba(0,0,0,0.5)] overflow-y-auto"
+              className="urban-menu fixed top-0 left-0 bottom-0 w-[80vw] max-w-sm bg-[#050505]/95 backdrop-blur-3xl z-[150] border-r border-white/10 flex flex-col p-8 shadow-[30px_0_50px_rgba(0,0,0,0.5)] overflow-y-auto"
             >
               <button
+                aria-label={isAccessibleMobileMenu ? (lang === 'it' ? 'Chiudi menu' : 'Close menu') : undefined}
                 onClick={() => setIsMenuOpen(false)}
                 className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors z-50"
               >
@@ -414,6 +476,7 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
               <div className="flex flex-col items-center justify-center gap-10 w-full h-full my-auto pt-8 pb-4">
                 {/* TOP: HOME */}
                 <div
+                  {...mobileMenuItemProps}
                   onClick={() => { setIsMenuOpen(false); onClose(); }}
                   className="cursor-pointer group flex flex-col items-center hover:scale-105 transition-transform duration-300 mb-12"
                   title="Torna alla Home"
@@ -423,7 +486,9 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
 
                 {/* MIDDLE: PROJECTS CAROUSEL LIST */}
                 <div className="flex flex-col items-center gap-8 w-full max-w-sm relative">
-                  <div 
+                  <div
+                    {...mobileMenuItemProps}
+                    aria-label={isAccessibleMobileMenu ? 'Progetto precedente' : undefined}
                     className="p-2 cursor-pointer group"
                     onClick={() => { setIsMenuOpen(false); onNavigateToProject(prevProject); }}
                   >
@@ -431,7 +496,8 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
                   </div>
                   
                   {/* Orto Botanico */}
-                  <div 
+                  <div
+                    {...mobileMenuItemProps}
                     onClick={() => { setIsMenuOpen(false); onNavigateToProject(allProjects[0]); }}
                     className={`cursor-pointer transition-all duration-500 hover:scale-105 flex justify-center items-center h-14 w-full ${project.id === 'aetheris' ? 'opacity-100 scale-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]' : 'opacity-20 hover:opacity-100 grayscale hover:grayscale-0'}`}
                   >
@@ -439,7 +505,8 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
                   </div>
 
                   {/* Urban StreetArt Sicily */}
-                  <div 
+                  <div
+                    {...mobileMenuItemProps}
                     onClick={() => { setIsMenuOpen(false); onNavigateToProject(allProjects[1]); }}
                     className={`cursor-pointer transition-all duration-500 hover:scale-105 flex justify-center items-center h-14 w-full ${project.id === 'kinetics' ? 'opacity-100 scale-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]' : 'opacity-20 hover:opacity-100 grayscale hover:grayscale-0'}`}
                   >
@@ -447,14 +514,17 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
                   </div>
 
                   {/* Italo Treni / Chronos */}
-                  <div 
+                  <div
+                    {...mobileMenuItemProps}
                     onClick={() => { setIsMenuOpen(false); onNavigateToProject(allProjects[2]); }}
                     className={`cursor-pointer transition-all duration-500 hover:scale-105 flex justify-center items-center h-14 w-full ${project.id === 'chronos' ? 'opacity-100 scale-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]' : 'opacity-20 hover:opacity-100 grayscale hover:grayscale-0'}`}
                   >
                     <span className="text-xl sm:text-2xl font-black tracking-[0.2em] uppercase font-sans text-white text-center">Italo<br/><span className="text-lg sm:text-xl text-[#9E1C1F]">Treni</span></span>
                   </div>
 
-                  <div 
+                  <div
+                    {...mobileMenuItemProps}
+                    aria-label={isAccessibleMobileMenu ? 'Progetto successivo' : undefined}
                     className="p-2 cursor-pointer group"
                     onClick={() => { setIsMenuOpen(false); onNavigateToProject(nextProject); }}
                   >

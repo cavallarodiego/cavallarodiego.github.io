@@ -15,6 +15,8 @@ export interface AuroraBackgroundProps {
   pulseDuration?: number
   /** ARIA label for the animated background */
   ariaLabel?: string
+  motionEnabled?: boolean
+  containsContent?: boolean
 }
 
 const AuroraBackground: React.FC<AuroraBackgroundProps> = ({
@@ -27,13 +29,15 @@ const AuroraBackground: React.FC<AuroraBackgroundProps> = ({
   ],
   pulseDuration = 10,
   ariaLabel = "Animated aurora background",
+  motionEnabled = true,
+  containsContent = false,
 }) => {
   const [colorA, colorB] = gradientColors
 
   return (
     <div
-      role="img"
-      aria-label={ariaLabel}
+      role={containsContent ? undefined : 'img'}
+      aria-label={containsContent ? undefined : ariaLabel}
       className={`relative flex flex-col w-full h-full items-center justify-center bg-black overflow-hidden ${className}`}
     >
       {/* Background layers (hidden from screen readers) */}
@@ -48,6 +52,7 @@ const AuroraBackground: React.FC<AuroraBackgroundProps> = ({
             `,
             backgroundSize: "100% 100%",
             animation: `pulse ${pulseDuration}s infinite`,
+            animationPlayState: motionEnabled ? 'running' : 'paused',
           }}
         />
 
@@ -61,13 +66,13 @@ const AuroraBackground: React.FC<AuroraBackgroundProps> = ({
           <motion.div
             className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-[#068B35] rounded-full filter blur-[120px] opacity-10"
             animate={{
-              x: [-50, 50, -50],
-              y: [-20, 20, -20],
-              scale: [1, 1.2, 1],
+              x: motionEnabled ? [-50, 50, -50] : -50,
+              y: motionEnabled ? [-20, 20, -20] : -20,
+              scale: motionEnabled ? [1, 1.2, 1] : 1,
             }}
             transition={{
-              duration: 30,
-              repeat: Infinity,
+              duration: motionEnabled ? 30 : 0,
+              repeat: motionEnabled ? Infinity : 0,
               repeatType: "mirror",
               ease: "easeInOut",
             }}
@@ -75,13 +80,13 @@ const AuroraBackground: React.FC<AuroraBackgroundProps> = ({
           <motion.div
             className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-[#046024] rounded-full filter blur-[120px] opacity-15"
             animate={{
-              x: [50, -50, 50],
-              y: [20, -20, 20],
-              scale: [1, 1.3, 1],
+              x: motionEnabled ? [50, -50, 50] : 50,
+              y: motionEnabled ? [20, -20, 20] : 20,
+              scale: motionEnabled ? [1, 1.3, 1] : 1,
             }}
             transition={{
-              duration: 40,
-              repeat: Infinity,
+              duration: motionEnabled ? 40 : 0,
+              repeat: motionEnabled ? Infinity : 0,
               repeatType: "mirror",
               ease: "easeInOut",
             }}
@@ -89,13 +94,13 @@ const AuroraBackground: React.FC<AuroraBackgroundProps> = ({
           <motion.div
             className="absolute top-1/3 left-1/3 w-1/3 h-1/3 bg-[#068B35] rounded-full filter blur-[120px] opacity-5"
             animate={{
-              x: [20, -20, 20],
-              y: [-30, 30, -30],
-              rotate: [0, 360, 0],
+              x: motionEnabled ? [20, -20, 20] : 20,
+              y: motionEnabled ? [-30, 30, -30] : -30,
+              rotate: motionEnabled ? [0, 360, 0] : 0,
             }}
             transition={{
-              duration: 50,
-              repeat: Infinity,
+              duration: motionEnabled ? 50 : 0,
+              repeat: motionEnabled ? Infinity : 0,
               repeatType: "mirror",
               ease: "easeInOut",
             }}
@@ -113,12 +118,12 @@ const AuroraBackground: React.FC<AuroraBackgroundProps> = ({
               opacity: 0,
             }}
             animate={{
-              opacity: [0, Math.random() * 0.8, 0],
+              opacity: motionEnabled ? [0, Math.random() * 0.8, 0] : 0.3,
             }}
             transition={{
-              duration: Math.random() * 3 + 2,
-              repeat: Infinity,
-              delay: Math.random() * 5,
+              duration: motionEnabled ? Math.random() * 3 + 2 : 0,
+              repeat: motionEnabled ? Infinity : 0,
+              delay: motionEnabled ? Math.random() * 5 : 0,
             }}
           />
         ))}

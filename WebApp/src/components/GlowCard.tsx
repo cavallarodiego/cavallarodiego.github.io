@@ -9,6 +9,7 @@ interface GlowCardProps extends React.HTMLAttributes<HTMLDivElement> {
   height?: string | number;
   customSize?: boolean; // When true, ignores size prop and uses width/height or className
   radius?: number; // Custom radius in pixels
+  interactivePointer?: boolean;
 }
 
 const glowColorMap = {
@@ -34,12 +35,14 @@ const GlowCard: React.FC<GlowCardProps> = ({
   height,
   customSize = false,
   radius = 32, // matching rounded-[2rem]
+  interactivePointer = true,
   ...props
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!interactivePointer) return;
     const syncPointer = (e: PointerEvent) => {
       const { clientX: x, clientY: y } = e;
       
@@ -58,7 +61,7 @@ const GlowCard: React.FC<GlowCardProps> = ({
 
     document.addEventListener('pointermove', syncPointer);
     return () => document.removeEventListener('pointermove', syncPointer);
-  }, []);
+  }, [interactivePointer]);
 
   const { base, spread } = glowColorMap[glowColor];
 
@@ -96,7 +99,7 @@ const GlowCard: React.FC<GlowCardProps> = ({
       backgroundPosition: '50% 50%',
       border: 'var(--border-size) solid var(--backup-border)',
       position: 'relative' as const,
-      touchAction: 'none' as const,
+      touchAction: interactivePointer ? 'none' : 'pan-y pinch-zoom',
     };
 
     // Add width and height if provided

@@ -10,8 +10,9 @@ import {
   Transform,
   type OGLRenderingContext,
 } from "ogl";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils"; // Assuming shadcn 'cn' utility path
+import { useHomeMobile } from '../useHomeMobile';
 
 /* --------------------------------
 * Types
@@ -87,16 +88,18 @@ function autoBind(instance: object) {
 
 function createCardContentTexture(
   gl: OGLRenderingContext,
-  item: GalleryItem
+  item: GalleryItem,
+  mobile = false,
 ) {
   const canvas = document.createElement("canvas");
-  canvas.width = 1000;
-  canvas.height = 1400;
+  canvas.width = mobile ? 750 : 1000;
+  canvas.height = mobile ? 1050 : 1400;
   const ctx = canvas.getContext("2d")!;
+  if (mobile) ctx.scale(0.75, 0.75);
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  const centerX = canvas.width / 2;
+  const centerX = 500;
 
   function wrapTextAndGetNextY(
     context: CanvasRenderingContext2D,
@@ -191,6 +194,7 @@ class Media {
   textColor: string;
   borderRadius: number;
   font: string;
+  sharedTexture?: Texture;
   program!: Program;
   plane!: Mesh;
   extra: number = 0;
@@ -218,6 +222,7 @@ class Media {
     textColor,
     borderRadius = 0,
     font,
+    sharedTexture,
   }: {
     geometry: Plane;
     gl: OGLRenderingContext;
@@ -233,6 +238,7 @@ class Media {
     textColor: string;
     borderRadius: number;
     font: string;
+    sharedTexture?: Texture;
   }) {
     this.geometry = geometry;
     this.gl = gl;
@@ -248,13 +254,14 @@ class Media {
     this.textColor = textColor;
     this.borderRadius = borderRadius;
     this.font = font;
+    this.sharedTexture = sharedTexture;
     this.createShader();
     this.createMesh();
     this.onResize();
   }
 
   createShader() {
-    const texture = createCardContentTexture(this.gl, this.item);
+    const texture = this.sharedTexture ?? createCardContentTexture(this.gl, this.item);
     
     this.program = new Program(this.gl, {
       depthTest: false,
@@ -409,6 +416,12 @@ class Media {
 }
 
 class App {
+  mobile: boolean;
+  textures = new Map<GalleryItem, Texture>();
+  observer?: IntersectionObserver;
+  visible = true;
+  startY = 0;
+  horizontalDrag = false;
   container: HTMLElement;
   scrollSpeed: number;
   autoScroll: number;
@@ -455,6 +468,7 @@ class App {
     },
   ) {
     this.container = container;
+    this.mobile = window.matchMedia('(max-width: 767px)').matches;
     this.scrollSpeed = scrollSpeed;
     this.autoScroll = autoScroll;
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
@@ -470,6 +484,19 @@ class App {
     this.createMedias(items, bend, textColor, borderRadius, font);
     this.update();
     this.addEventListeners();
+    if (this.mobile) {
+      this.observer = new IntersectionObserver(([entry]) => {
+        this.visible = entry.isIntersecting;
+        this.syncPlayback();
+      });
+      this.observer.observe(container);
+      document.addEventListener('visibilitychange', this.syncPlayback);
+    }
+  }
+
+  syncPlayback() {
+    cancelAnimationFrame(this.raf);
+    if (this.visible && !document.hidden) this.update();
   }
 
   createRenderer() {
@@ -495,8 +522,8 @@ class App {
 
   createGeometry() {
     this.planeGeometry = new Plane(this.gl, {
-      heightSegments: 50,
-      widthSegments: 100,
+      heightSegments: this.mobile ? 1 : 50,
+      widthSegments: this.mobile ? 1 : 100,
     });
   }
 
@@ -521,7 +548,11 @@ class App {
     const galleryItems = items && items.length > 0 ? items : defaultItems;
     this.mediasImages = [...galleryItems, ...galleryItems]; // Duplicate for seamless loop
     this.medias = this.mediasImages.map((data, index) => {
+      if (this.mobile && !this.textures.has(data)) {
+        this.textures.set(data, createCardContentTexture(this.gl, data, true));
+      }
       return new Media({
+        sharedTexture: this.textures.get(data),
         geometry: this.planeGeometry,
         gl: this.gl,
         item: data,
@@ -541,14 +572,27 @@ class App {
   }
 
   onTouchDown(e: MouseEvent | TouchEvent) {
+    if (this.mobile && 'touches' in e && e.touches.length !== 1) return;
     this.isDown = true;
     this.scroll.position = this.scroll.current;
     this.start = "touches" in e ? e.touches[0].clientX : e.clientX;
+    this.startY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    this.horizontalDrag = false;
   }
 
   onTouchMove(e: MouseEvent | TouchEvent) {
     if (!this.isDown) return;
     const x = "touches" in e ? e.touches[0].clientX : e.clientX;
+    if (this.mobile && 'touches' in e && !this.horizontalDrag) {
+      const dx = Math.abs(x - this.start);
+      const dy = Math.abs(e.touches[0].clientY - this.startY);
+      if (Math.max(dx, dy) < 8) return;
+      if (dy > dx || e.touches.length !== 1) {
+        this.isDown = false;
+        return;
+      }
+      this.horizontalDrag = true;
+    }
     const distance = (this.start - x) * (this.scrollSpeed * 0.025);
     this.scroll.target = (this.scroll as any).position + distance;
   }
@@ -573,6 +617,7 @@ class App {
   }
 
   onResize() {
+    if (this.mobile && this.screen?.width === this.container.clientWidth && this.screen?.height === this.container.clientHeight) return;
     this.screen = {
       width: this.container.clientWidth,
       height: this.container.clientHeight,
@@ -618,17 +663,33 @@ class App {
     this.boundOnTouchUp = this.onTouchUp;
 
     window.addEventListener("resize", this.boundOnResize);
-    window.addEventListener("mousewheel", this.boundOnWheel);
-    window.addEventListener("wheel", this.boundOnWheel);
+    if (!this.mobile) {
+      window.addEventListener("mousewheel", this.boundOnWheel);
+      window.addEventListener("wheel", this.boundOnWheel);
+    }
     this.container.addEventListener("mousedown", this.boundOnTouchDown);
     window.addEventListener("mousemove", this.boundOnTouchMove);
     window.addEventListener("mouseup", this.boundOnTouchUp);
-    this.container.addEventListener("touchstart", this.boundOnTouchDown);
-    window.addEventListener("touchmove", this.boundOnTouchMove);
+    this.container.addEventListener("touchstart", this.boundOnTouchDown, this.mobile ? { passive: true } : undefined);
+    window.addEventListener("touchmove", this.boundOnTouchMove, this.mobile ? { passive: true } : undefined);
     window.addEventListener("touchend", this.boundOnTouchUp);
+    if (this.mobile) {
+      window.addEventListener('touchcancel', this.boundOnTouchUp);
+      this.container.addEventListener('keydown', this.onKeyDown);
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    this.scroll.target += (event.key === 'ArrowRight' ? 1 : -1) * this.medias[0].width;
   }
 
   destroy() {
+    this.observer?.disconnect();
+    document.removeEventListener('visibilitychange', this.syncPlayback);
+    this.container.removeEventListener('keydown', this.onKeyDown);
+    window.removeEventListener('touchcancel', this.boundOnTouchUp);
     window.cancelAnimationFrame(this.raf);
     window.removeEventListener("resize", this.boundOnResize);
     window.removeEventListener("mousewheel", this.boundOnWheel);
@@ -642,6 +703,14 @@ class App {
 
     if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
       this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas);
+    }
+    if (this.mobile) {
+      // Release GPU allocations when changing language or leaving the Home.
+      this.textures.forEach(texture => this.gl.deleteTexture(texture.texture));
+      this.textures.clear();
+      this.medias.forEach(media => this.gl.deleteProgram(media.program.program));
+      this.planeGeometry.remove();
+      this.gl.getExtension('WEBGL_lose_context')?.loseContext();
     }
   }
 }
@@ -661,9 +730,21 @@ const CircularGallery = ({
   ...props
 }: CircularGalleryProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const mobile = useHomeMobile();
+  const [fallback, setFallback] = useState(false);
+  const [reduced, setReduced] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const showFallback = mobile && (fallback || reduced);
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const change = () => setReduced(media.matches);
+    media.addEventListener('change', change);
+    return () => media.removeEventListener('change', change);
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
+    if (showFallback) return;
 
     const isMobileViewport = window.matchMedia("(max-width: 767px)").matches;
 
@@ -676,7 +757,9 @@ const CircularGallery = ({
 
     const computedFont = `${computedFontWeight} ${computedFontSize} ${computedFontFamily}`;
 
-    const app = new App(containerRef.current, {
+    let app: App;
+    try {
+      app = new App(containerRef.current, {
       items,
       bend: isMobileViewport ? Math.min(bend * 0.12, 0.35) : bend,
       textColor: computedColor,
@@ -685,17 +768,39 @@ const CircularGallery = ({
       scrollSpeed,
       scrollEase,
       autoScroll,
-    });
+      });
+    } catch (error) {
+      if (!mobile) throw error;
+      setFallback(true);
+      return;
+    }
+    const onContextLost = () => { if (mobile) setFallback(true); };
+    app.gl.canvas.addEventListener('webglcontextlost', onContextLost);
 
     return () => {
+      app.gl.canvas.removeEventListener('webglcontextlost', onContextLost);
       app.destroy();
     };
-  }, [items, bend, borderRadius, scrollSpeed, scrollEase, autoScroll, fontClassName]);
+  }, [items, bend, borderRadius, scrollSpeed, scrollEase, autoScroll, fontClassName, mobile, showFallback]);
+
+  if (showFallback) {
+    return <div className="home-skills-fallback" tabIndex={0} role="region" aria-label="Skills">
+      {items?.map(item => <article key={item.title}>
+        {item.iconSvg && <img src={'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(item.iconSvg)} alt="" />}
+        <h3>{item.title}</h3><p>{item.description}</p>
+      </article>)}
+    </div>;
+  }
 
   return (
+    <>
     <div
       ref={containerRef}
+      role={mobile ? 'region' : undefined}
+      aria-label={mobile ? 'Skills' : undefined}
+      tabIndex={mobile ? 0 : undefined}
       className={cn(
+        mobile && 'home-skills-gallery',
         "w-full h-full overflow-hidden cursor-grab active:cursor-grabbing",
         // Apply theme-aware defaults for getComputedStyle to read
         "text-foreground font-bold text-[30px]",
@@ -704,6 +809,8 @@ const CircularGallery = ({
       )}
       {...props}
     />
+    {mobile && <ul className="sr-only">{items?.map(item => <li key={item.title}>{item.title}: {item.description}</li>)}</ul>}
+    </>
   );
 };
 

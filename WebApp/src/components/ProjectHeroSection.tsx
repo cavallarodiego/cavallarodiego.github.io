@@ -5,6 +5,37 @@ import * as THREE from 'three';
 import { Project } from '../types';
 import { Model } from './IphoneMockup3D';
 import { GridVignetteBackground } from './ui/vignette-grid-background';
+import { useOrtoMobile } from './useOrtoMobile';
+import { useUrbanActivity } from './useUrbanMobile';
+
+function UrbanHeroVideo() {
+  const { ref, isMobile, active } = useUrbanActivity<HTMLVideoElement>();
+  const wasMobile = useRef(isMobile);
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+    if (!isMobile) {
+      // Resume after the mobile effect's cleanup when crossing the breakpoint.
+      if (wasMobile.current) void video.play().catch(() => {});
+      wasMobile.current = false;
+      return;
+    }
+    wasMobile.current = true;
+    if (active) void video.play().catch(() => { /* Autoplay may be blocked by power-saving settings. */ });
+    else video.pause();
+    return () => video.pause();
+  }, [active, isMobile, ref]);
+
+  return <video
+    ref={ref}
+    src="./Video/Project 02/hero_video_02_wide.mp4"
+    autoPlay={!isMobile}
+    loop muted playsInline
+    poster={isMobile ? './Images/Project 02/Mockup/mockup_desktop_2.jpg' : undefined}
+    style={{ imageRendering: 'pixelated' }}
+    className="w-full h-full object-cover transition-all duration-1000 ease-[0.16,1,0.3,1] [image-rendering:pixelated]"
+  />;
+}
 
 interface ProjectHeroSectionProps {
   project: Project;
@@ -38,6 +69,7 @@ export function ProjectHeroSection({
   heroImage,
 }: ProjectHeroSectionProps) {
   const ortoVideoRef = useRef<HTMLVideoElement>(null);
+  const isOrtoMobile = useOrtoMobile() && isAetheris;
   const sectionIdentity = isKinetics
     ? {
         id: 'urban-streetart-hero',
@@ -62,8 +94,9 @@ export function ProjectHeroSection({
     const video = ortoVideoRef.current;
     if (!video) return;
 
-    const startTime = window.matchMedia('(max-width: 767px)').matches ? 3.5 : 3;
-    const endTime = 15;
+    // The mobile file contains only the original 3.5–15s segment.
+    const startTime = isOrtoMobile ? 0 : 3;
+    const endTime = isOrtoMobile ? 11.5 : 15;
     const seekToStart = () => {
       if (video.currentTime < startTime || video.currentTime >= endTime) {
         video.currentTime = startTime;
@@ -84,7 +117,35 @@ export function ProjectHeroSection({
       video.removeEventListener('loadedmetadata', seekToStart);
       video.removeEventListener('timeupdate', keepWithinSegment);
     };
-  }, [isAetheris]);
+  }, [isAetheris, isOrtoMobile]);
+
+  useEffect(() => {
+    const video = ortoVideoRef.current;
+    if (!isOrtoMobile || !video) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let visible = false;
+    const syncPlayback = () => {
+      if (visible && !document.hidden && !reducedMotion.matches) {
+        void video.play().catch(() => { /* Keep the poster when autoplay is unavailable. */ });
+      } else {
+        video.pause();
+      }
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      syncPlayback();
+    });
+    observer.observe(video);
+    document.addEventListener('visibilitychange', syncPlayback);
+    reducedMotion.addEventListener('change', syncPlayback);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', syncPlayback);
+      reducedMotion.removeEventListener('change', syncPlayback);
+      video.pause();
+    };
+  }, [isOrtoMobile]);
 
   return (
     <section
@@ -97,8 +158,10 @@ export function ProjectHeroSection({
         {isAetheris ? (
           <video
             ref={ortoVideoRef}
-            src="./Video/Project 01/hero_video.mov"
-            autoPlay
+            src={isOrtoMobile ? './Video/Project 01/hero_video_mobile.mp4' : './Video/Project 01/hero_video.mov'}
+            poster={isOrtoMobile ? './Video/Project 01/hero_video_mobile.jpg' : undefined}
+            preload={isOrtoMobile ? 'metadata' : undefined}
+            autoPlay={!isOrtoMobile}
             loop
             muted
             playsInline
@@ -142,15 +205,7 @@ export function ProjectHeroSection({
             </div>
           </>
         ) : isKinetics ? (
-          <video
-            src="./Video/Project 02/hero_video_02_wide.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            style={{ imageRendering: 'pixelated' }}
-            className="w-full h-full object-cover transition-all duration-1000 ease-[0.16,1,0.3,1] [image-rendering:pixelated]"
-          />
+          <UrbanHeroVideo />
         ) : (
           <img
             src={heroImage || project.heroImage}
