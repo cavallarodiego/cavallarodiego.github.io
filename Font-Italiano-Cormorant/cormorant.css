@@ -1,0 +1,16 @@
+/* Cormorant Garamond — font variabile, OFL 1.1 */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("CormorantGaramond-Variable.woff2") format("woff2"),
+       url("CormorantGaramond-Variable.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+/* Esempio: applica la famiglia solo dove serve. */
+.font-editoriale {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-synthesis: none;
+}

@@ -89,9 +89,9 @@ export const DesignSystemSection: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="flex flex-col gap-2 relative z-10 w-full">
                 <span className="font-urbanist text-[11px] text-[#FCD306] font-bold uppercase tracking-wider mb-4">H1 / Urbanist, Black</span>
-                <h1 className="text-white text-[24px] md:text-[80px] font-urbanist font-black leading-none tracking-tighter uppercase mb-2">
+                <div className="text-white text-[24px] md:text-[80px] font-urbanist font-black leading-none tracking-tighter uppercase mb-2">
                   Title
-                </h1>
+                </div>
               </div>
             </div>
 

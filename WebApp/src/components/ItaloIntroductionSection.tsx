@@ -57,7 +57,7 @@ export function ItaloIntroductionSection() {
       id="italo-treni-introduction"
       data-project-section="02-introduction"
       aria-label="Introduzione al progetto Italo Treni"
-      className="w-full min-h-[100svh] relative z-10 isolate overflow-hidden bg-transparent flex flex-col justify-center py-20 sm:py-24 lg:py-28"
+      className="w-full min-h-[100svh] max-md:min-h-[85svh] relative z-10 isolate overflow-hidden bg-transparent flex flex-col justify-center py-20 max-md:py-12 sm:py-24 lg:py-28"
     >
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div className="absolute left-[8%] top-[12%] h-72 w-72 rounded-full bg-[#B50D3A]/[0.12] blur-[140px] sm:left-[12%] sm:h-[26rem] sm:w-[26rem] sm:blur-[170px]" />
@@ -92,7 +92,7 @@ export function ItaloIntroductionSection() {
         <motion.img
           src={`${assetBase}train-3d.png`}
           alt=""
-          className="absolute top-[54%] right-[1%] w-44 sm:right-[4%] sm:w-72 lg:right-[6%] lg:w-[475px] object-contain"
+          className="absolute top-[66%] right-[1%] w-44 md:top-[54%] sm:right-[4%] sm:w-72 lg:right-[6%] lg:w-[475px] object-contain"
           animate={floatingMotion(17, -1.7, 24, 3.5, 16)}
           loading="eager"
           draggable={false}
@@ -105,7 +105,7 @@ export function ItaloIntroductionSection() {
           whileInView={reduceMotion ? undefined : 'visible'}
           viewport={{ once: true, amount: 0.2 }}
           variants={introTextVariants}
-          className="text-white font-urbanist text-xl md:text-2xl lg:text-3xl leading-[1.4] font-light tracking-tight text-center max-w-4xl"
+          className="text-white font-urbanist text-[17px] md:text-2xl lg:text-3xl leading-[1.4] font-light tracking-tight text-center max-w-[320px] md:max-w-4xl"
         >
           <span className="sr-only">{introText}</span>
           <span aria-hidden="true">

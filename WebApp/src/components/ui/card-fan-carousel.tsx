@@ -26,9 +26,9 @@ function getHeightMultiplier(width: number) {
   return 1.0; // Keep height consistent, handle via CSS if needed
 }
 
-function getCardConfig(offset: number) {
+function getCardConfig(offset: number, showNeighbors: boolean) {
   const absOffset = Math.abs(offset);
-  const isHidden = absOffset > 1; // Show center, left (1), right (1). Hide others.
+  const isHidden = absOffset > (showNeighbors ? 1 : 0);
   
   return {
     rot: offset * 8, // Rotation in degrees
@@ -80,7 +80,9 @@ export default function CardFanCarousel({ cards }: CardFanCarouselProps) {
     const cardElements = Array.from(container.querySelectorAll<HTMLElement>(".fan-card"));
     if (!cardElements.length) return;
 
-    const multiplier = getResponsiveMultiplier(window.innerWidth);
+    const viewportWidth = window.innerWidth;
+    const multiplier = getResponsiveMultiplier(viewportWidth);
+    const showNeighbors = viewportWidth >= 768;
     
     let completedCount = 0;
     const onCardDone = () => {
@@ -92,7 +94,7 @@ export default function CardFanCarousel({ cards }: CardFanCarouselProps) {
 
     cardElements.forEach((card, i) => {
       const offset = getOffset(i, centerIndex, totalCards);
-      const config = getCardConfig(offset);
+      const config = getCardConfig(offset, showNeighbors);
       
       const target = {
         x: `${config.x * multiplier}rem`,
@@ -128,6 +130,11 @@ export default function CardFanCarousel({ cards }: CardFanCarouselProps) {
       <div className="flex items-center justify-center w-full max-w-[90rem]">
         <div ref={containerRef} className="fan-layout relative w-full h-[450px]">
           {cards.map((card, index) => {
+            const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
+            const isSideCard = getOffset(index, centerIndex, totalCards) !== 0;
+            const mobileHiddenStyle = isMobileViewport && isSideCard
+              ? { opacity: 0, pointerEvents: "none" as const }
+              : undefined;
             const contentNode = card.content ? (
               <div className="relative w-full h-full bg-[#0a0a0a] border border-white/10 rounded-[2rem] overflow-hidden p-6 md:p-8 flex flex-col justify-between shadow-[0_20px_40px_rgba(0,0,0,0.6)] transition-colors">
                 {card.content}
@@ -138,9 +145,9 @@ export default function CardFanCarousel({ cards }: CardFanCarouselProps) {
               </div>
             );
             return card.linkUrl ? (
-              <a key={index} href={card.linkUrl} target={card.linkUrl.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer" className="fan-card absolute top-1/2 left-1/2 w-[280px] h-[360px] md:w-[320px] md:h-[420px] block cursor-pointer select-none">{contentNode}</a>
+              <a key={index} href={card.linkUrl} target={card.linkUrl.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer" style={mobileHiddenStyle} className="fan-card absolute top-1/2 left-1/2 w-[280px] h-[360px] md:w-[320px] md:h-[420px] block cursor-pointer select-none">{contentNode}</a>
             ) : (
-              <div key={index} className="fan-card absolute top-1/2 left-1/2 w-[280px] h-[360px] md:w-[320px] md:h-[420px] select-none">{contentNode}</div>
+              <div key={index} style={mobileHiddenStyle} className="fan-card absolute top-1/2 left-1/2 w-[280px] h-[360px] md:w-[320px] md:h-[420px] select-none">{contentNode}</div>
             );
           })}
         </div>

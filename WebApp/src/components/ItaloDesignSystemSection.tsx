@@ -1,4 +1,5 @@
 import { ItaloTrainMarquee } from './ItaloTrainMarquee';
+import { ItaloDesignSystemCarousel } from './ItaloDesignSystemCarousel';
 
 interface ItaloDesignSystemSectionProps {
   lang?: 'it' | 'en';
@@ -32,7 +33,7 @@ export default function ItaloDesignSystemSection({ lang = 'it' }: ItaloDesignSys
 
         {/* Palette and typography above the component card */}
         <div className="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-5">
-          <div className="rounded-[1.5rem] bg-white/[0.02] border border-white/[0.07] backdrop-blur-lg p-5 sm:p-6 flex flex-col justify-center items-center shadow-lg relative overflow-hidden group">
+          <div className="rounded-[1.5rem] bg-white/[0.02] border border-white/[0.07] backdrop-blur-lg p-5 sm:p-6 max-md:!py-9 flex flex-col justify-center items-center shadow-lg relative overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-br from-[#B50D3A]/[0.035] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             <div className="grid grid-cols-2 sm:grid-cols-4 justify-items-center gap-x-3 gap-y-4 relative z-10 w-full max-w-[520px]">
               {primaryColors.map((color) => (
@@ -58,7 +59,7 @@ export default function ItaloDesignSystemSection({ lang = 'it' }: ItaloDesignSys
             <div className="absolute inset-0 bg-gradient-to-tr from-[#B50D3A]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             <div className="flex flex-col gap-2 relative z-10 w-full">
               <span className="font-mono text-[11px] text-[#B50D3A] font-bold uppercase tracking-wider mb-2">H1 / Instrument Sans, Bold, 56px</span>
-              <h1 style={{ fontFamily: "'Instrument Sans', sans-serif" }} className="text-white text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tight leading-tight">Title</h1>
+              <div style={{ fontFamily: "'Instrument Sans', sans-serif" }} className="text-white text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tight leading-tight">Title</div>
             </div>
           </div>
         </div>
@@ -67,7 +68,8 @@ export default function ItaloDesignSystemSection({ lang = 'it' }: ItaloDesignSys
         <div className="rounded-[2rem] bg-white/[0.02] border border-white/[0.07] backdrop-blur-lg p-5 sm:p-7 md:p-9 shadow-xl relative overflow-hidden group flex flex-col gap-8">
           <div className="absolute inset-0 bg-gradient-to-br from-[#B50D3A]/[0.035] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-          <div className="relative z-10 flex w-full flex-col gap-12 lg:gap-16">
+          <ItaloDesignSystemCarousel basePath={componentsPath} lang={lang} />
+          <div className="relative z-10 hidden w-full flex-col gap-12 md:flex lg:gap-16">
             {/* Main app screens */}
             <div className="grid w-full grid-cols-1 items-center gap-7 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 xl:gap-10">
               <img

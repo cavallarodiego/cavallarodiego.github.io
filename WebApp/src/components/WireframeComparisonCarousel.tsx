@@ -83,7 +83,7 @@ export default function WireframeComparisonCarousel() {
         </button>
 
         <div className="flex-1 flex flex-col items-center justify-center gap-1.5 text-center min-w-0">
-          <span className="text-sm sm:text-base font-urbanist font-semibold text-white tracking-tight truncate whitespace-nowrap block max-w-full">
+          <span className="text-base font-urbanist font-semibold text-white tracking-tight truncate whitespace-nowrap block max-w-full">
             {currentScreen.name}
           </span>
 

@@ -26,7 +26,6 @@ import {
 } from 'lucide-react';
 import { PROJECTS, SKILL_GROUPS, BIOGRAPHY_TEXT } from './data.ts';
 import { Project } from './types.ts';
-import ProjectPage from './components/ProjectPage.tsx';
 import { GlowCard } from './components/GlowCard.tsx';
 import { FloatingPaths } from './components/ui/background-paths';
 import { GooeyProjectsBackground } from './components/GooeyProjectsBackground.tsx';
@@ -38,6 +37,8 @@ import { CircularGalleryDemo } from './components/CircularGalleryDemo.tsx';
 import { GridVignetteBackground } from './components/ui/vignette-grid-background.tsx';
 import { useHomeMobile } from './components/useHomeMobile.ts';
 import './components/home-mobile.css';
+
+const ProjectPage = React.lazy(() => import('./components/ProjectPage.tsx'));
 
 
 const PenNibIcon = ({ className, strokeWidth = 2 }: { className?: string; strokeWidth?: number }) => (
@@ -84,6 +85,9 @@ export default function App() {
     }
     return null;
   });
+  const openProject = (project: Project) => {
+    React.startTransition(() => setActiveProjectPage(project));
+  };
 
   useEffect(() => {
     if (!isHomeMobile || activeProjectPage || !mobileMenuOpen) return;
@@ -362,14 +366,16 @@ export default function App() {
 
   if (activeProjectPage) {
     return (
-      <ProjectPage
-        project={activeProjectPage}
-        onClose={() => setActiveProjectPage(null)}
-        onNavigateToProject={(proj) => setActiveProjectPage(proj)}
-        allProjects={PROJECTS}
-        lang={lang}
-        setLang={setLang}
-      />
+      <React.Suspense fallback={null}>
+        <ProjectPage
+          project={activeProjectPage}
+          onClose={() => setActiveProjectPage(null)}
+          onNavigateToProject={openProject}
+          allProjects={PROJECTS}
+          lang={lang}
+          setLang={setLang}
+        />
+      </React.Suspense>
     );
   }
 
@@ -377,7 +383,7 @@ export default function App() {
     <SmoothScroll>
       <CustomCursor />
       <ScrollProgress />
-      <ScrollReveal />
+      <ScrollReveal heroParallax={false} />
       <div className="home-page relative min-h-screen bg-[#050505] text-white font-sans select-none flex flex-col scroll-smooth overflow-x-clip selection:bg-[#E8302A] selection:text-white">
 
         {/* SECTION 1: HERO VIEW CONTAINER */}
@@ -712,15 +718,15 @@ export default function App() {
                 <GlowCard
                   id="collab-card-1"
                   interactivePointer={!isHomeMobile}
-                  role={isHomeMobile ? 'link' : undefined}
-                  tabIndex={isHomeMobile ? 0 : undefined}
-                  onKeyDown={isHomeMobile ? (event) => { if (event.key === 'Enter') setActiveProjectPage(PROJECTS[0]); } : undefined}
+                  role="link"
+                  tabIndex={0}
+                  onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openProject(PROJECTS[0]); } }}
                   customSize={true}
                   glowColor="red"
                   radius={32}
                   className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-neutral-950 ring-1 ring-[#05903C]/60 group shadow-2xl cursor-pointer md:-rotate-3 hover:rotate-0 hover:scale-105 custom-card-transition duration-500 ease-[0.16,1,0.3,1] hover:z-20 hover:ring-[#05903C]"
                   onClick={() => {
-                    setActiveProjectPage(PROJECTS[0]);
+                    openProject(PROJECTS[0]);
                   }}
                   data-reveal
                   data-delay="0"
@@ -741,15 +747,15 @@ export default function App() {
                 <GlowCard
                   id="collab-card-2"
                   interactivePointer={!isHomeMobile}
-                  role={isHomeMobile ? 'link' : undefined}
-                  tabIndex={isHomeMobile ? 0 : undefined}
-                  onKeyDown={isHomeMobile ? (event) => { if (event.key === 'Enter') setActiveProjectPage(PROJECTS[1]); } : undefined}
+                  role="link"
+                  tabIndex={0}
+                  onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openProject(PROJECTS[1]); } }}
                   customSize={true}
                   glowColor="red"
                   radius={32}
                   className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-neutral-950 ring-1 ring-[#FCD306]/60 group shadow-2xl cursor-pointer md:-translate-y-4 hover:scale-105 custom-card-transition duration-500 ease-[0.16,1,0.3,1] hover:z-20 hover:ring-[#FCD306]"
                   onClick={() => {
-                    setActiveProjectPage(PROJECTS[1]);
+                    openProject(PROJECTS[1]);
                   }}
                   data-reveal
                   data-delay="120"
@@ -770,15 +776,15 @@ export default function App() {
                 <GlowCard
                   id="collab-card-3"
                   interactivePointer={!isHomeMobile}
-                  role={isHomeMobile ? 'link' : undefined}
-                  tabIndex={isHomeMobile ? 0 : undefined}
-                  onKeyDown={isHomeMobile ? (event) => { if (event.key === 'Enter') setActiveProjectPage(PROJECTS[2]); } : undefined}
+                  role="link"
+                  tabIndex={0}
+                  onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openProject(PROJECTS[2]); } }}
                   customSize={true}
                   glowColor="red"
                   radius={32}
                   className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-neutral-950 ring-1 ring-[#AA1136]/60 group shadow-2xl cursor-pointer md:rotate-3 hover:rotate-0 hover:scale-105 custom-card-transition duration-500 ease-[0.16,1,0.3,1] hover:z-20 hover:ring-[#AA1136]"
                   onClick={() => {
-                    setActiveProjectPage(PROJECTS[2]);
+                    openProject(PROJECTS[2]);
                   }}
                   data-reveal
                   data-delay="240"
@@ -913,7 +919,7 @@ export default function App() {
 
                         {/* Name Input */}
                         <div className="flex flex-col gap-4 sm:gap-2">
-                          <label htmlFor={isHomeMobile ? 'home-contact-name' : undefined} className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
+                          <label htmlFor="home-contact-name" className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#E8302A] shrink-0 animate-pulse" />
                             <span>{lang === 'it' ? 'Nome' : 'Name'}</span>
                           </label>
@@ -931,7 +937,7 @@ export default function App() {
 
                         {/* Email Input */}
                         <div className="flex flex-col gap-4 sm:gap-2">
-                          <label htmlFor={isHomeMobile ? 'home-contact-email' : undefined} className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
+                          <label htmlFor="home-contact-email" className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#E8302A] shrink-0 animate-pulse" />
                             <span>Email</span>
                           </label>
@@ -949,7 +955,7 @@ export default function App() {
 
                         {/* Message Input */}
                         <div className="flex flex-col gap-4 sm:gap-2">
-                          <label htmlFor={isHomeMobile ? 'home-contact-message' : undefined} className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
+                          <label htmlFor="home-contact-message" className="text-sm font-jakarta uppercase tracking-widest text-neutral-300 pl-1 font-bold flex items-center gap-2">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#E8302A] shrink-0 animate-pulse" />
                             <span>{lang === 'it' ? 'Messaggio' : 'Message'}</span>
                           </label>
@@ -1073,8 +1079,9 @@ export default function App() {
                     </p>
 
                     <div className="flex flex-col gap-1">
-                      <label className="text-[9px] font-mono uppercase text-white/40">Full Name</label>
+                      <label htmlFor="booking-name" className="text-[9px] font-mono uppercase text-white/40">Full Name</label>
                       <input
+                        id="booking-name"
                         type="text"
                         required
                         value={bookingForm.name}
@@ -1085,8 +1092,9 @@ export default function App() {
                     </div>
 
                     <div className="flex flex-col gap-1">
-                      <label className="text-[9px] font-mono uppercase text-white/40">Work Email Address</label>
+                      <label htmlFor="booking-email" className="text-[9px] font-mono uppercase text-white/40">Work Email Address</label>
                       <input
+                        id="booking-email"
                         type="email"
                         required
                         value={bookingForm.email}
@@ -1098,8 +1106,9 @@ export default function App() {
 
                     <div className="grid grid-cols-2 gap-3">
                       <div className="flex flex-col gap-1">
-                        <label className="text-[9px] font-mono uppercase text-white/40">Sector</label>
+                        <label htmlFor="booking-sector" className="text-[9px] font-mono uppercase text-white/40">Sector</label>
                         <select
+                          id="booking-sector"
                           value={bookingForm.projectType}
                           onChange={(e) => setBookingForm({ ...bookingForm, projectType: e.target.value })}
                           className="w-full bg-black border border-[#2A2A2A] focus:border-[#E8302A] text-sm p-2.5 rounded-lg text-white font-mono focus:outline-none"
@@ -1112,8 +1121,9 @@ export default function App() {
                       </div>
 
                       <div className="flex flex-col gap-1">
-                        <label className="text-[9px] font-mono uppercase text-white/40">Consult Date</label>
+                        <label htmlFor="booking-date" className="text-[9px] font-mono uppercase text-white/40">Consult Date</label>
                         <input
+                          id="booking-date"
                           type="date"
                           required
                           value={bookingForm.date}
@@ -1489,8 +1499,9 @@ export default function App() {
                         </h4>
 
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-sm font-mono uppercase text-white/40">{lang === 'it' ? 'Il Tuo Nome' : 'Your Name'}</label>
+                          <label htmlFor="overlay-contact-name" className="text-sm font-mono uppercase text-white/40">{lang === 'it' ? 'Il Tuo Nome' : 'Your Name'}</label>
                           <input
+                            id="overlay-contact-name"
                             type="text"
                             required
                             value={formState.name}
@@ -1501,8 +1512,9 @@ export default function App() {
                         </div>
 
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-sm font-mono uppercase text-white/40">{lang === 'it' ? 'Il Tuo Indirizzo Email' : 'Your Email Address'}</label>
+                          <label htmlFor="overlay-contact-email" className="text-sm font-mono uppercase text-white/40">{lang === 'it' ? 'Il Tuo Indirizzo Email' : 'Your Email Address'}</label>
                           <input
+                            id="overlay-contact-email"
                             type="email"
                             required
                             value={formState.email}
@@ -1513,8 +1525,9 @@ export default function App() {
                         </div>
 
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-sm font-mono uppercase text-white/40">{lang === 'it' ? 'Contenuto del Messaggio' : 'Secure Message Payload'}</label>
+                          <label htmlFor="overlay-contact-message" className="text-sm font-mono uppercase text-white/40">{lang === 'it' ? 'Contenuto del Messaggio' : 'Secure Message Payload'}</label>
                           <textarea
+                            id="overlay-contact-message"
                             rows={4}
                             required
                             value={formState.message}

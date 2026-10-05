@@ -64,23 +64,23 @@ export function ItaloWireframeSection() {
       className="w-full min-h-[100svh] relative z-20 isolate flex items-center justify-center py-20 sm:py-24 lg:py-28 px-6 sm:px-12"
     >
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20 w-full max-w-6xl mx-auto">
-        <div className="w-full lg:w-[520px] shrink-0 flex flex-col items-start text-left gap-6 relative">
+        <div className="w-full lg:w-[520px] shrink-0 flex flex-col items-start max-md:items-center text-left max-md:text-center gap-6 relative">
           <div
             className="absolute -top-32 -left-32 sm:-top-44 sm:-left-44 w-[600px] sm:w-[750px] lg:w-[850px] h-[600px] sm:h-[750px] lg:h-[850px] rounded-full bg-[radial-gradient(circle_at_center,rgba(181,13,58,0.28)_0%,rgba(158,28,31,0.12)_45%,transparent_70%)] blur-[35px] sm:blur-[50px] transform-gpu -z-10 pointer-events-none"
             aria-hidden="true"
           />
 
-          <div className="flex flex-col items-start gap-3 relative z-10">
+          <div className="flex flex-col items-start max-md:items-center gap-3 relative z-10">
             <h2
               id="italo-wireframe-title"
-              className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase font-sans"
+              className="max-md:max-w-[280px] text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase font-sans"
             >
               Sviluppo Wireframe
             </h2>
             <div className="w-12 h-1 bg-[#B50D3A] mt-1 rounded-full" />
           </div>
 
-          <div className="flex flex-col gap-5 text-neutral-300 font-urbanist text-lg sm:text-xl leading-relaxed font-light relative z-10">
+          <div className="flex max-md:max-w-[280px] flex-col gap-5 text-neutral-300 font-urbanist text-lg sm:text-xl leading-relaxed font-light relative z-10">
             {paragraphs.map(({ text, className }) => renderAnimatedText(text, className))}
           </div>
         </div>

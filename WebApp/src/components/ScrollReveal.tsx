@@ -5,13 +5,13 @@ import { useEffect } from 'react';
  * Elements with [data-reveal] start hidden via CSS and get class "revealed" when they enter viewport.
  * NO dependency on GSAP ScrollTrigger or Lenis internals — zero conflict.
  */
-export function ScrollReveal() {
+export function ScrollReveal({ heroParallax = true }: { heroParallax?: boolean }) {
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
 
     // Hero parallax — pure rAF, no GSAP needed
-    const heroBg = document.querySelector('.hero-bg-img') as HTMLElement;
+    const heroBg = heroParallax ? document.querySelector<HTMLElement>('.hero-bg-img') : null;
     let rafId = 0;
     
     const onScroll = () => {
@@ -56,7 +56,7 @@ export function ScrollReveal() {
       window.removeEventListener('scroll', onScroll as EventListener);
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [heroParallax]);
 
   return null;
 }

@@ -1,6 +1,6 @@
-import React, { Suspense, useEffect, useRef } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Center, Environment, Html, Resize } from '@react-three/drei';
+import { Center, Environment, Resize } from '@react-three/drei';
 import * as THREE from 'three';
 import { Project } from '../types';
 import { Model } from './IphoneMockup3D';
@@ -69,7 +69,15 @@ export function ProjectHeroSection({
   heroImage,
 }: ProjectHeroSectionProps) {
   const ortoVideoRef = useRef<HTMLVideoElement>(null);
-  const isOrtoMobile = useOrtoMobile() && isAetheris;
+  const isMobile = useOrtoMobile();
+  const isOrtoMobile = isMobile && isAetheris;
+  const isItaloMobile = isMobile && isChronos;
+  const [canvasProjectId, setCanvasProjectId] = useState<string | null>(() => isItaloMobile ? null : project.id);
+  const shouldRenderItaloCanvas = canvasProjectId === project.id;
+
+  useEffect(() => {
+    if (!isItaloMobile) setCanvasProjectId(project.id);
+  }, [isItaloMobile, project.id]);
   const sectionIdentity = isKinetics
     ? {
         id: 'urban-streetart-hero',
@@ -173,16 +181,16 @@ export function ProjectHeroSection({
               <div className="block md:hidden absolute inset-0 z-0 bg-[#050505]">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#B5103B] rounded-full blur-[100px] opacity-40 z-0" />
                 <GridVignetteBackground className="opacity-100 absolute inset-0 z-10 bg-[image:linear-gradient(to_right,rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.15)_1px,transparent_1px)]" horizontalVignetteSize={50} verticalVignetteSize={50} intensity={100} />
-                <div className="absolute inset-0 z-20 flex items-center justify-center p-8">
-                  <img src="./Images/Project 03/hero_screens/center-home.png" alt="Italo App Mobile" className="w-[80%] max-w-[280px] rounded-3xl shadow-2xl border-2 border-neutral-800" />
+                <div className="absolute inset-0 z-20 flex translate-y-6 items-center justify-center p-8">
+                  <img src="./Images/Project 03/hero_screens/home-mobile-mockup.png" alt="Schermate mobile dell'app Italo" className="h-auto w-full max-w-[400px] object-contain drop-shadow-2xl" />
                 </div>
               </div>
               <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[800px] h-[600px] md:h-[800px] bg-[#B5103B] rounded-full blur-[150px] md:blur-[200px] opacity-30 z-0" />
               <GridVignetteBackground className="hidden md:block opacity-100 absolute inset-0 z-10 bg-[image:linear-gradient(to_right,rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.15)_1px,transparent_1px)]" horizontalVignetteSize={50} verticalVignetteSize={50} intensity={100} />
             </div>
-            <div className="hidden md:flex absolute inset-0 z-10 pointer-events-auto items-center justify-center pt-20">
-              <Canvas camera={{ position: [0, 0, 300], fov: 45 }} className="w-full h-full">
-                <Suspense fallback={<Html center><div className="text-white text-xl">Caricamento 3D...</div></Html>}>
+            {shouldRenderItaloCanvas && <div className="hidden md:flex absolute inset-0 z-10 pointer-events-auto items-center justify-center pt-20">
+              <Canvas camera={{ position: [0, 0, 300], fov: 45 }} frameloop={isItaloMobile ? 'never' : 'always'} className="w-full h-full">
+                <Suspense fallback={null}>
                   <Environment preset="city" />
                   <ambientLight intensity={0.4} />
                   <directionalLight position={[10, 20, 15]} intensity={1} />
@@ -202,7 +210,7 @@ export function ProjectHeroSection({
                   </group>
                 </Suspense>
               </Canvas>
-            </div>
+            </div>}
           </>
         ) : isKinetics ? (
           <UrbanHeroVideo />
@@ -214,20 +222,21 @@ export function ProjectHeroSection({
             className={`w-full h-full object-cover transition-all duration-1000 ease-[0.16,1,0.3,1] ${isKinetics ? 'grayscale brightness-[0.3] contrast-[1.15] hover:grayscale-0' : 'grayscale brightness-[0.4] hover:grayscale-0'}`}
           />
         )}
-        <div className={`absolute inset-0 pointer-events-none ${isKinetics ? 'bg-[radial-gradient(ellipse_at_center,_transparent_30%,_rgba(13,13,13,0.85)_100%)]' : (isAetheris || isChronos) ? 'bg-gradient-to-t from-[#050505] from-10% via-[#050505]/50 to-transparent' : 'bg-gradient-to-t from-black via-black/40 to-transparent'}`} />
+        <div className={`absolute inset-0 pointer-events-none ${isKinetics ? 'bg-[radial-gradient(ellipse_at_center,_transparent_30%,_rgba(13,13,13,0.85)_100%)]' : isChronos ? 'max-md:bg-none md:bg-gradient-to-t md:from-[#050505] md:from-10% md:via-[#050505]/50 md:to-transparent' : isAetheris ? 'bg-gradient-to-t from-[#050505] from-10% via-[#050505]/50 to-transparent' : 'bg-gradient-to-t from-black via-black/40 to-transparent'}`} />
       </div>
 
       <div className="relative z-10 max-w-[1600px] mx-auto w-full flex flex-col gap-3">
         {!(isAetheris || isChronos || isKinetics) && (
           <span className="text-sm font-raleway uppercase tracking-[0.25em] text-[#E8302A]">{category}</span>
         )}
+        {isKinetics && <h1 className="sr-only">{project.title}</h1>}
         {!isKinetics && (
           <h1 className={`font-black tracking-tighter uppercase mb-2 ${(isAetheris || isChronos) ? 'text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-raleway font-bold text-white' : 'text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-sans text-white'}`}>
-            {isAetheris ? <span className="sr-only">{project.title}</span> : !(isAetheris || isChronos) ? project.title : null}
+            {(isAetheris || isChronos) ? <span className="sr-only">{project.title}</span> : project.title}
           </h1>
         )}
         {(isAetheris || isChronos || isKinetics) && (
-          <div className={`flex flex-col gap-1 w-full items-center justify-center mb-4 ${isAetheris || isKinetics ? 'hidden md:flex' : ''}`}>
+          <div className={`flex flex-col gap-1 w-full items-center justify-center mb-4 ${isAetheris || isKinetics || isChronos ? 'hidden md:flex' : ''}`}>
             <div className="flex flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 w-full">
               <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-md shadow-sm">
                 <span className={`text-sm font-raleway uppercase tracking-wider ${isKinetics ? 'text-[#FCD306]' : isChronos ? 'text-[#B40E3C]' : 'text-[#068B35]'}`}>Year:</span>

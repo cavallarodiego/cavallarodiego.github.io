@@ -58,7 +58,7 @@ import { ProjectFooter } from './ProjectFooter';
 import { ItaloIntroductionSection } from './ItaloIntroductionSection';
 import { ItaloCriticalIssuesSection } from './ItaloCriticalIssuesSection';
 import { ItaloWireframeSection } from './ItaloWireframeSection';
-import { ItaloMockupGallerySection } from './ItaloMockupGallerySection';
+import { ItaloMockupGallerySection, ItaloMobileMockupShowcase } from './ItaloMockupGallerySection';
 import './orto-mobile.css';
 import { useOrtoMobile } from './useOrtoMobile';
 import { useUrbanMobile } from './useUrbanMobile';
@@ -392,7 +392,7 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
                     ['Role:', project.role],
                     ['Type:', 'Team Project'],
                   ].map(([label, value]) => (
-                    <div key={label} className="flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 shadow-sm">
+                    <div key={label} className={`flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 shadow-sm ${label === 'Role:' ? 'max-w-[290px]' : ''}`}>
                       <span className="text-sm font-raleway uppercase tracking-wider text-[#068B35]">{label}</span>
                       <span className="text-sm font-semibold text-white">{value}</span>
                     </div>
@@ -433,7 +433,7 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
                     ['Role:', project.role],
                     ['Type:', 'Team Project'],
                   ].map(([label, value]) => (
-                    <div key={label} className="flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 shadow-sm">
+                    <div key={label} className={`flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 shadow-sm ${label === 'Role:' ? 'w-[min(270px,calc(100vw-5rem))] justify-center whitespace-normal text-center' : 'whitespace-nowrap'}`}>
                       <span className="text-sm font-raleway uppercase tracking-wider text-[#FCD306]">{label}</span>
                       <span className="text-sm font-semibold text-white">{value}</span>
                     </div>
@@ -446,8 +446,39 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
 
         {/* Chronos Logo Card */}
         {isChronos && !isMenuOpen && (
-          <div className="fixed top-6 right-6 z-[100] h-12 md:h-14 px-6 md:px-8 flex items-center justify-center rounded-full bg-black/50 backdrop-blur-xl border border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.5)]">
-            <img src="./Images/Project 03/italo_logo.webp" alt="Italo Treni Logo" className="h-7 md:h-8 w-auto object-contain" />
+          <div className="fixed top-6 right-6 z-[160] flex flex-col items-end">
+            <button
+              type="button"
+              aria-label={lang === 'it' ? 'Apri dettagli progetto' : 'Open project details'}
+              aria-expanded={isLogoDetailsOpen}
+              onClick={() => setIsLogoDetailsOpen((open) => !open)}
+              className="relative flex h-16 w-[170px] items-center justify-start rounded-full border border-white/15 bg-black/50 px-4 shadow-[0_8px_30px_rgb(0,0,0,0.5)] backdrop-blur-xl md:pointer-events-none md:h-14 md:w-auto md:justify-center md:px-8"
+            >
+              <img src="./Images/Project 03/italo_logo.webp" alt="Italo Treni Logo" className="h-6 w-auto object-contain md:h-8" />
+              <ChevronDown className={`absolute right-2 h-4 w-4 shrink-0 text-white/80 transition-transform duration-200 md:hidden ${isLogoDetailsOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
+            </button>
+            <AnimatePresence>
+              {isLogoDetailsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="mt-2 flex w-[min(340px,calc(100vw-3rem))] flex-col items-center gap-2 rounded-3xl border border-white/15 bg-black/50 p-3 shadow-[0_8px_30px_rgb(0,0,0,0.5)] backdrop-blur-xl md:hidden"
+                >
+                  {[
+                    ['Year:', project.year],
+                    ['Role:', project.role],
+                    ['Type:', 'Personal Project'],
+                  ].map(([label, value]) => (
+                    <div key={label} className="flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 shadow-sm">
+                      <span className="text-sm font-raleway uppercase tracking-wider text-[#B40E3C]">{label}</span>
+                      <span className="text-sm font-semibold text-white">{value}</span>
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )}
 
@@ -601,6 +632,7 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
         )}
 
         {isChronos && <ItaloMockupGallerySection />}
+        {isChronos && <ItaloMobileMockupShowcase />}
 
         {/* 2.9 Provalo Interactive Prototype Section for Chronos */}
         {isChronos && (

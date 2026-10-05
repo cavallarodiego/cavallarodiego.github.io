@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Home, Search, Ticket, Sparkles } from 'lucide-react';
+import { Home, Search, Ticket, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import { AnimatedMenuText } from './ui/animated-menu';
 
 interface ItaloBeforeAfterSectionProps {
@@ -116,6 +116,13 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
   const [activeTab, setActiveTab] = useState<string>('home');
   const [comparisonPosition, setComparisonPosition] = useState(50);
   const activeScreen = screens.find((s) => s.id === activeTab) || screens[0];
+  const changeScreen = (direction: number) => {
+    setActiveTab((current) => {
+      const index = screens.findIndex((screen) => screen.id === current);
+      return screens[(index + direction + screens.length) % screens.length].id;
+    });
+    setComparisonPosition(50);
+  };
 
   const oldBasePath = `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/legacy/`;
   const newBasePath = `${import.meta.env.BASE_URL}Images/Project 03/app_mobile/redesign/`;
@@ -135,13 +142,15 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
         }}
       />
       {/* Section Title Header */}
-      <div className="flex flex-col items-center justify-center text-center gap-3 mb-16 sm:mb-20 lg:mb-24">
+      <div className="flex flex-col items-center justify-center text-center gap-3 mb-8 md:mb-20 lg:mb-24">
         <h2
           id="italo-before-after-title"
           className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase font-sans text-center"
         >
-          {lang === 'it' ? 'Prima e Dopo' : 'Before & After'}
+          {lang === 'it' ? 'Prima e ' : 'Before & '}
+          <span className="max-md:text-[#B50F3C]">{lang === 'it' ? 'Dopo' : 'After'}</span>
         </h2>
+        <div className="mt-9 h-1 w-12 rounded-full bg-[#B50F3A] md:hidden" aria-hidden="true" />
       </div>
 
       {/* Preload images for instant switching without lag */}
@@ -156,8 +165,17 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
 
       <div className="mx-auto grid w-full max-w-[900px] grid-cols-1 items-center gap-8 md:grid-cols-[300px_minmax(0,1fr)] md:gap-12 lg:gap-16">
         {/* Animated vertical menu */}
-        <nav aria-label={lang === 'it' ? 'Schermate del confronto' : 'Comparison screens'} className="order-1 mx-auto w-full max-w-[340px] md:order-2">
-          <ul className="flex w-full flex-col items-stretch justify-center gap-1.5 rounded-2xl border border-white/15 bg-white/[0.06] p-3 shadow-[0_12px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl sm:p-4">
+        <nav aria-label={lang === 'it' ? 'Schermate del confronto' : 'Comparison screens'} className="order-1 mx-auto w-full max-w-[min(280px,calc(100vw-6rem))] md:max-w-[340px] md:order-2">
+          <div className="md:hidden">
+            <div className="flex min-h-12 items-center gap-1">
+              <div className="flex min-w-0 flex-1 items-center justify-center gap-2 text-white" aria-live="polite" aria-atomic="true">
+                <span className="text-center text-[20px] font-medium uppercase leading-tight">
+                  {lang === 'it' ? activeScreen.labelIt : activeScreen.labelEn}
+                </span>
+              </div>
+            </div>
+          </div>
+          <ul className="hidden w-full flex-col items-stretch justify-center gap-1.5 rounded-2xl border border-white/15 bg-white/[0.06] p-3 shadow-[0_12px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl sm:p-4 md:flex">
             {screens.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -187,7 +205,17 @@ export default function ItaloBeforeAfterSection({ lang }: ItaloBeforeAfterSectio
         </nav>
 
         {/* Before and after image comparison slider */}
-        <div className="relative mx-auto order-2 w-full max-w-[280px] rounded-[2.1rem] bg-gradient-to-b from-neutral-800/90 via-neutral-900 to-black p-2 sm:p-2.5 border border-white/15 shadow-[0_24px_80px_rgba(0,0,0,0.45)] md:order-1">
+        <div className="relative mx-auto order-2 w-full max-w-[min(280px,calc(100vw-6rem))] md:max-w-[280px] rounded-[2.1rem] bg-gradient-to-b from-neutral-800/90 via-neutral-900 to-black p-2 sm:p-2.5 border border-white/15 shadow-[0_24px_80px_rgba(0,0,0,0.45)] md:order-1">
+          <button type="button" onClick={() => changeScreen(-1)}
+            aria-label={lang === 'it' ? 'Schermata precedente' : 'Previous screen'}
+            className="absolute right-full top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full text-white/80 active:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white md:hidden">
+            <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+          </button>
+          <button type="button" onClick={() => changeScreen(1)}
+            aria-label={lang === 'it' ? 'Schermata successiva' : 'Next screen'}
+            className="absolute left-full top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full text-white/80 active:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white md:hidden">
+            <ChevronRight className="h-5 w-5" aria-hidden="true" />
+          </button>
           <div className="relative w-full aspect-[393/852] rounded-[1.9rem] overflow-hidden bg-neutral-950">
             <img
               key={`new-${activeScreen.id}`}

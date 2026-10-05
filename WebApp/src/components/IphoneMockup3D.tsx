@@ -5,7 +5,7 @@ Command: npx gltfjsx@6.5.3 public/models/iphone16_mockup/iphone-16-pro.glb --typ
 
 import * as THREE from 'three'
 import React, {  useEffect, useRef, Suspense, Component, ReactNode , useMemo } from 'react'
-import { useGLTF, useTexture,  Environment, ContactShadows, Html,  Center , Resize} from '@react-three/drei'
+import { useGLTF, useTexture,  Environment, ContactShadows,  Center , Resize} from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { GLTF } from 'three-stdlib'
 import gsap from 'gsap'
@@ -449,7 +449,7 @@ export default function IphoneMockup3D({ imagePath }: { imagePath?: string } = {
             </div>
             </div>
             {!isMobile && <Canvas camera={{ position: [0, 0, 300], fov: 45 }} className="!absolute inset-0 hidden h-full w-full z-0 md:block">
-              <Suspense fallback={<Html center><div className="text-white text-xl">Caricamento 3D in corso...</div></Html>}>
+              <Suspense fallback={null}>
                 <Environment preset="city" />
                 <ambientLight intensity={0.4} />
                 <directionalLight position={[10, 20, 15]} intensity={1} />

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
+import { useOrtoMobile } from './useOrtoMobile';
 
 interface ItaloPrototypeSectionProps {
   lang: 'it' | 'en';
@@ -9,6 +10,7 @@ interface ItaloPrototypeSectionProps {
 export default function ItaloPrototypeSection({ lang }: ItaloPrototypeSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInSlot, setIsInSlot] = useState(false);
+  const isMobile = useOrtoMobile();
 
   useEffect(() => {
     // Check if the container is already in or near the viewport
@@ -45,7 +47,7 @@ export default function ItaloPrototypeSection({ lang }: ItaloPrototypeSectionPro
       <div className="max-w-[1300px] w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center justify-items-center">
 
         {/* Left Column: Interactive Prototype Embed */}
-        <div className="flex justify-center items-center w-full">
+        {!isMobile && <div className="flex justify-center items-center w-full">
           {/* Prototype Container: sized precisely to the phone silhouette so all surrounding space scrolls freely */}
           <div
             ref={containerRef}
@@ -82,7 +84,7 @@ export default function ItaloPrototypeSection({ lang }: ItaloPrototypeSectionPro
               allowFullScreen
             />
           </div>
-        </div>
+        </div>}
 
         {/* Right Column: Text & CTA Button (Centered in its half, text naturally left-aligned) */}
         <div className="flex justify-center items-center w-full">
@@ -95,8 +97,8 @@ export default function ItaloPrototypeSection({ lang }: ItaloPrototypeSectionPro
             </h2>
             <p className="text-xl md:text-2xl lg:text-3xl text-white font-medium leading-relaxed font-urbanist text-left">
               {lang === 'it'
-                ? "Puoi provare il prototipo dall'anteprima a sinistra o cliccando sul pulsante qui sotto"
-                : "You can test the prototype from the preview on the left or by clicking the button below"}
+                ? (isMobile ? "Puoi provare il prototipo cliccando sul pulsante qui sotto" : "Puoi provare il prototipo dall'anteprima a sinistra o cliccando sul pulsante qui sotto")
+                : (isMobile ? "Try the prototype by clicking the button below" : "You can test the prototype from the preview on the left or by clicking the button below")}
             </p>
             <div className="mt-2 flex items-start">
               <a

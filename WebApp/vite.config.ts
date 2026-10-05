@@ -7,21 +7,6 @@ export default defineConfig(() => {
   return {
     base: '/Portfolio/',
     plugins: [
-      {
-        name: 'portfolio-dev-preview-redirect',
-        configureServer(server) {
-          server.middlewares.use((req, res, next) => {
-            if (req.url === '/') {
-              res.statusCode = 302;
-              res.setHeader('Location', '/Portfolio/?project=aetheris');
-              res.end();
-              return;
-            }
-
-            next();
-          });
-        },
-      },
       react(),
       tailwindcss(),
     ],

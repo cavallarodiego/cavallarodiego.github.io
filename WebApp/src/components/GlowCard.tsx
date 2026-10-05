@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, ReactNode } from 'react';
+import React, { useRef, ReactNode } from 'react';
 
 interface GlowCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -41,27 +41,16 @@ const GlowCard: React.FC<GlowCardProps> = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!interactivePointer) return;
-    const syncPointer = (e: PointerEvent) => {
-      const { clientX: x, clientY: y } = e;
-      
-      if (cardRef.current) {
-        // Calculate pointer coordinates local to the card
-        const rect = cardRef.current.getBoundingClientRect();
-        const localX = x - rect.left;
-        const localY = y - rect.top;
-        
-        cardRef.current.style.setProperty('--x', localX.toFixed(2));
-        cardRef.current.style.setProperty('--xp', (localX / rect.width).toFixed(2));
-        cardRef.current.style.setProperty('--y', localY.toFixed(2));
-        cardRef.current.style.setProperty('--yp', (localY / rect.height).toFixed(2));
-      }
-    };
-
-    document.addEventListener('pointermove', syncPointer);
-    return () => document.removeEventListener('pointermove', syncPointer);
-  }, [interactivePointer]);
+  const syncPointer = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!interactivePointer || !cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const localX = e.clientX - rect.left;
+    const localY = e.clientY - rect.top;
+    cardRef.current.style.setProperty('--x', localX.toFixed(2));
+    cardRef.current.style.setProperty('--xp', (localX / rect.width).toFixed(2));
+    cardRef.current.style.setProperty('--y', localY.toFixed(2));
+    cardRef.current.style.setProperty('--yp', (localY / rect.height).toFixed(2));
+  };
 
   const { base, spread } = glowColorMap[glowColor];
 
@@ -99,7 +88,7 @@ const GlowCard: React.FC<GlowCardProps> = ({
       backgroundPosition: '50% 50%',
       border: 'var(--border-size) solid var(--backup-border)',
       position: 'relative' as const,
-      touchAction: interactivePointer ? 'none' : 'pan-y pinch-zoom',
+      touchAction: 'pan-y pinch-zoom',
     };
 
     // Add width and height if provided
@@ -190,6 +179,7 @@ const GlowCard: React.FC<GlowCardProps> = ({
           ${className}
         `}
         {...props}
+        onPointerMove={syncPointer}
       >
         <div ref={innerRef} data-glow></div>
         {children}
