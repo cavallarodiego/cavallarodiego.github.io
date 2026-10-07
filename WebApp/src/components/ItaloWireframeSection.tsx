@@ -2,15 +2,15 @@ import { Fragment } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import WireframeComparisonCarousel from './WireframeComparisonCarousel';
 
-export function ItaloWireframeSection() {
+export function ItaloWireframeSection({ lang = 'it' }: { lang?: 'it' | 'en' }) {
   const reduceMotion = useReducedMotion();
   const paragraphs = [
     {
-      text: 'Sono stati analizzati i flussi principali degli utenti e le funzionalità più utilizzate.',
+      text: lang === 'it' ? 'Sono stati analizzati i flussi principali degli utenti e le funzionalità più utilizzate.' : 'The main user flows and most frequently used features were analyzed.',
       className: '',
     },
     {
-      text: 'Successivamente è stato sviluppato un wireframe a bassa fedeltà per definire la struttura della schermata, la disposizione dei contenuti e la gerarchia delle informazioni.',
+      text: lang === 'it' ? 'Successivamente è stato sviluppato un wireframe a bassa fedeltà per definire la struttura della schermata, la disposizione dei contenuti e la gerarchia delle informazioni.' : 'A low-fidelity wireframe was then created to define the screen structure, content layout and information hierarchy.',
       className: 'text-neutral-400 text-base sm:text-lg leading-relaxed',
     },
   ];
@@ -86,7 +86,7 @@ export function ItaloWireframeSection() {
         </div>
 
         <div className="w-full lg:w-[340px] shrink-0 flex justify-center items-center">
-          <WireframeComparisonCarousel />
+          <WireframeComparisonCarousel lang={lang} />
         </div>
       </div>
     </section>

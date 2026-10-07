@@ -25,14 +25,14 @@ export function OrtoMobileMockupShowcaseSection() {
     >
       <div className="relative w-full h-full">
         <img
-          src="./Images/Project 01/mockup_mobile.jpg"
+          src="./Images/Project 01/mobile_showcase_1.jpg"
           alt="Bussola Verde App Preview 1"
           loading={isMobile ? 'lazy' : undefined}
           decoding={isMobile ? 'async' : undefined}
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 shadow-2xl ${mobileImageIndex === 0 ? 'opacity-100' : 'opacity-0'}`}
         />
         <img
-          src="./Images/Project 01/mockup_mobile_2.jpg"
+          src="./Images/Project 01/mobile_showcase_2.jpg"
           alt="Bussola Verde App Preview 2"
           loading={isMobile ? 'lazy' : undefined}
           decoding={isMobile ? 'async' : undefined}

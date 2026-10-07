@@ -29,7 +29,6 @@ import {
   MessageSquare,
   Menu,
   X,
-  ChevronUp,
   ChevronDown,
   MousePointerClick
 } from 'lucide-react';
@@ -55,6 +54,7 @@ import { OrtoAppShowcaseSection } from './OrtoAppShowcaseSection';
 import { OrtoInteractivePrototypeSection } from './OrtoInteractivePrototypeSection';
 import { UrbanStreetArtIntroductionSection } from './UrbanStreetArtIntroductionSection';
 import { ProjectFooter } from './ProjectFooter';
+import { useProjectEnglishCopy } from './useProjectEnglishCopy';
 import { ItaloIntroductionSection } from './ItaloIntroductionSection';
 import { ItaloCriticalIssuesSection } from './ItaloCriticalIssuesSection';
 import { ItaloWireframeSection } from './ItaloWireframeSection';
@@ -142,6 +142,8 @@ interface ProjectPageProps {
 }
 
 export default function ProjectPage({ project, onClose, onNavigateToProject, allProjects, lang = 'it', setLang }: ProjectPageProps) {
+  const projectRootRef = React.useRef<HTMLDivElement>(null);
+  useProjectEnglishCopy(projectRootRef, lang);
   const isOrtoMobile = useOrtoMobile() && project.id === 'aetheris';
   const { isMobile, reducedMotion } = useUrbanMobile();
   const isUrbanMobile = isMobile && project.id === 'kinetics';
@@ -262,9 +264,6 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
     },
   } : {};
 
-  const currentIndex = allProjects.findIndex(p => p.id === project.id);
-  const prevProject = allProjects[(currentIndex - 1 + allProjects.length) % allProjects.length];
-  const nextProject = allProjects[(currentIndex + 1) % allProjects.length];
   const [activeResearchTab, setActiveResearchTab] = useState<'desk' | 'sondaggi' | 'interviste'>('desk');
   const [activeProtoTab, setActiveProtoTab] = useState<'mobile' | 'totem'>('mobile');
   const ortoSectionRef = React.useRef<HTMLDivElement>(null);
@@ -348,10 +347,10 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
 
   return (
     <SmoothScroll>
-      <CustomCursor color={primaryColor} />
+      <CustomCursor color={primaryColor} fontClassName={isAetheris ? 'font-jakarta' : 'font-mono'} />
       <ScrollProgress color={primaryColor} />
       <ScrollReveal />
-      <div id="project-page-root" data-project={project.id} className={`min-h-screen pb-24 relative ${isKinetics ? 'font-urbanist bg-[#0D0D0D] text-[#F5F5F0] selection:bg-[#FCD306] selection:text-[#0D0D0D]' : isAetheris ? 'font-raleway bg-[#050505] text-white selection:bg-[#068B35] selection:text-white' : isChronos ? 'font-sans bg-black text-white selection:bg-[#9E1C1F] selection:text-white' : 'font-sans bg-black text-white selection:bg-[#E8302A] selection:text-white'}`}>
+      <div ref={projectRootRef} id="project-page-root" data-project={project.id} lang={lang} className={`min-h-screen pb-24 relative ${isKinetics ? 'font-urbanist bg-[#0D0D0D] text-[#F5F5F0]' : isAetheris ? 'font-jakarta bg-[#050505] text-white' : isChronos ? 'font-sans bg-black text-white' : 'font-sans bg-black text-white'}`}>
 
 
 
@@ -509,22 +508,15 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
                 <div
                   {...mobileMenuItemProps}
                   onClick={() => { setIsMenuOpen(false); onClose(); }}
-                  className="cursor-pointer group flex flex-col items-center hover:scale-105 transition-transform duration-300 mb-12"
+                  className="cursor-pointer group flex items-center gap-3 hover:scale-105 transition-transform duration-300"
                   title="Torna alla Home"
                 >
                   <img src="./Images/Home/logo_diego_cavallaro.png" alt="Home" className="w-8 h-8 object-contain" />
+                  <span className="font-jakarta text-sm font-bold tracking-widest text-white">HOME</span>
                 </div>
 
                 {/* MIDDLE: PROJECTS CAROUSEL LIST */}
-                <div className="flex flex-col items-center gap-8 w-full max-w-sm relative">
-                  <div
-                    {...mobileMenuItemProps}
-                    aria-label={isAccessibleMobileMenu ? 'Progetto precedente' : undefined}
-                    className="p-2 cursor-pointer group"
-                    onClick={() => { setIsMenuOpen(false); onNavigateToProject(prevProject); }}
-                  >
-                    <ChevronUp className="w-8 h-8 text-white/30 group-hover:text-white transition-colors" strokeWidth={1.5} />
-                  </div>
+                <div className="flex flex-1 flex-col items-center justify-center gap-12 w-full max-w-sm relative">
                   
                   {/* Orto Botanico */}
                   <div
@@ -550,16 +542,7 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
                     onClick={() => { setIsMenuOpen(false); onNavigateToProject(allProjects[2]); }}
                     className={`cursor-pointer transition-all duration-500 hover:scale-105 flex justify-center items-center h-14 w-full ${project.id === 'chronos' ? 'opacity-100 scale-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]' : 'opacity-20 hover:opacity-100 grayscale hover:grayscale-0'}`}
                   >
-                    <span className="text-xl sm:text-2xl font-black tracking-[0.2em] uppercase font-sans text-white text-center">Italo<br/><span className="text-lg sm:text-xl text-[#9E1C1F]">Treni</span></span>
-                  </div>
-
-                  <div
-                    {...mobileMenuItemProps}
-                    aria-label={isAccessibleMobileMenu ? 'Progetto successivo' : undefined}
-                    className="p-2 cursor-pointer group"
-                    onClick={() => { setIsMenuOpen(false); onNavigateToProject(nextProject); }}
-                  >
-                    <ChevronDown className="w-8 h-8 text-white/30 group-hover:text-white transition-colors" strokeWidth={1.5} />
+                    <img src="./Images/Project 03/italo_logo.webp" alt="Italo Treni" className="max-h-full max-w-[180px] object-contain" />
                   </div>
                 </div>
 
@@ -613,13 +596,13 @@ export default function ProjectPage({ project, onClose, onNavigateToProject, all
             category={getLocalizedField('category')}
             heroImage={wireframeImages[`hero_${project.id}`]}
           />
-        {isKinetics && <UrbanStreetArtIntroductionSection />}
+        {isKinetics && <UrbanStreetArtIntroductionSection lang={lang} />}
 
-        {isChronos && <ItaloIntroductionSection />}
+        {isChronos && <ItaloIntroductionSection lang={lang} />}
 
         {isChronos && <ItaloCriticalIssuesSection />}
 
-        {isChronos && <ItaloWireframeSection />}
+        {isChronos && <ItaloWireframeSection lang={lang} />}
 
         {/* 2.7 Design System Section for Chronos */}
         {isChronos && (

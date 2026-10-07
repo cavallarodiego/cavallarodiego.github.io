@@ -103,7 +103,7 @@ export function ProjectHeroSection({
     if (!video) return;
 
     // The mobile file contains only the original 3.5–15s segment.
-    const startTime = isOrtoMobile ? 0 : 3;
+    const startTime = isOrtoMobile ? 0 : 3.5;
     const endTime = isOrtoMobile ? 11.5 : 15;
     const seekToStart = () => {
       if (video.currentTime < startTime || video.currentTime >= endTime) {

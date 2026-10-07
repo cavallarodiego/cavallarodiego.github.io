@@ -36,10 +36,31 @@
   --color-text-accent: #E8302A;
 }
 
-/* Use the Italo brand red when text is selected. */
+/* Default selection outside the project pages. */
 ::selection {
   background: #B50D3A;
   color: #FFFFFF;
+}
+
+#project-page-root[data-project="aetheris"] {
+  --project-selection-bg: #098B36;
+  --project-selection-text: #FFFFFF;
+}
+
+#project-page-root[data-project="kinetics"] {
+  --project-selection-bg: #FAD308;
+  --project-selection-text: #0D0D0D;
+}
+
+#project-page-root[data-project="chronos"] {
+  --project-selection-bg: #B50F3C;
+  --project-selection-text: #FFFFFF;
+}
+
+#project-page-root::selection,
+#project-page-root *::selection {
+  background: var(--project-selection-bg);
+  color: var(--project-selection-text);
 }
 
 html, body {
@@ -53,6 +74,12 @@ html, body {
 
 * {
   box-sizing: border-box;
+}
+
+#project-page-root[data-project="aetheris"] *,
+#project-page-root[data-project="aetheris"] *::before,
+#project-page-root[data-project="aetheris"] *::after {
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif !important;
 }
 
 /* Style scrollbar to match the dark premium aesthetic */
@@ -293,6 +320,12 @@ body::after {
   width: 100vw;
   max-width: 100vw;
   height: 100svh;
+}
+
+@media (min-width: 48rem) {
+  #totem-showcase img:nth-child(2) {
+    object-position: center top;
+  }
 }
 
 @media (min-width: 64rem) {

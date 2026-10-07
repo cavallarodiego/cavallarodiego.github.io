@@ -1,12 +1,14 @@
 import { Fragment } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
-export function ItaloIntroductionSection() {
+export function ItaloIntroductionSection({ lang = 'it' }: { lang?: 'it' | 'en' }) {
   const reduceMotion = useReducedMotion();
   const assetBase = `${import.meta.env.BASE_URL}Images/Project 03/introduction/3d/`;
   const brandRedColorCorrection = 'hue-rotate(-8deg) saturate(1.2) brightness(1.22)';
-  const introText = "Il redesign dell'applicazione di Italo Treno si concentra sull'abbattimento del carico cognitivo durante la ricerca, selezione e pagamento delle tratte ad alta velocità.";
-  const emphasizedWordCount = "Il redesign dell'applicazione di Italo Treno".split(' ').length;
+  const introText = lang === 'it'
+    ? "Il redesign dell'applicazione di Italo Treno si concentra sull'abbattimento del carico cognitivo durante la ricerca, selezione e pagamento delle tratte ad alta velocità."
+    : 'The redesign of the Italo train app focuses on reducing cognitive load when searching for, selecting and paying for high-speed journeys.';
+  const emphasizedWordCount = (lang === 'it' ? "Il redesign dell'applicazione di Italo Treno" : 'The redesign of the Italo train app').split(' ').length;
   const introWords = introText.split(' ');
   const introTextVariants = {
     hidden: {},

@@ -6,8 +6,6 @@ type OrtoDesignSystemSectionProps = {
   onCopyHex: (hex: string) => void;
 };
 
-const getAssetUrl = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
-
 const categoryColors = [
   { labelIt: 'Orto Generale', labelEn: 'General Garden', bg: '#0054F0' },
   { labelIt: 'Tropicale', labelEn: 'Tropical', bg: '#EEBE00' },
@@ -18,8 +16,6 @@ const categoryColors = [
   { labelIt: 'Bagni', labelEn: 'Restrooms', bg: '#00025D' },
 ];
 
-const mapCategories = ['Arido', 'Bagni', 'Fontanella', 'Mediterraneo', 'Orto Generale', 'Orto Siculo', 'Tropicale', 'Tu sei qui'];
-
 export function OrtoDesignSystemSection({ lang, copiedColor, onCopyHex }: OrtoDesignSystemSectionProps) {
   const palette = ['#068B35', '#FFFFFF', '#EBEBEB'];
 
@@ -28,7 +24,6 @@ export function OrtoDesignSystemSection({ lang, copiedColor, onCopyHex }: OrtoDe
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full">
         <div className="md:col-span-3 rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-xl p-8 flex flex-col justify-center items-center shadow-2xl relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          <h3 className="text-sm font-raleway uppercase tracking-widest text-neutral-400 font-bold mb-8 relative z-10 text-center">Color Palette</h3>
           <div className="flex flex-wrap justify-center gap-6 relative z-10">
             {palette.map((color) => (
               <button key={color} onClick={() => onCopyHex(color)} className="group/btn flex flex-col items-center gap-3 cursor-pointer">
@@ -56,35 +51,14 @@ export function OrtoDesignSystemSection({ lang, copiedColor, onCopyHex }: OrtoDe
           </div>
         </div>
 
-        <div className="md:col-span-7 max-md:hidden rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl p-8 md:p-12 shadow-2xl relative overflow-hidden group flex flex-col gap-12" id="orto-block-components">
-          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-          <div className="flex flex-col lg:flex-row justify-center gap-8 lg:gap-10 relative z-10 w-full items-start">
-            <div className="flex flex-col gap-6 w-full lg:w-auto lg:min-w-[320px] xl:min-w-[380px]">
-              <img src="./Images/Project 01/design_system/searchbar/State=Default.svg" alt="Search Default" className="w-full max-w-[380px] h-auto object-contain drop-shadow-lg hover:-translate-y-1 transition-transform" />
-              <img src="./Images/Project 01/design_system/searchbar/State=Typing.svg" alt="Search Typing" className="w-full max-w-[380px] h-auto object-contain drop-shadow-lg hover:-translate-y-1 transition-transform" />
-              <img src="./Images/Project 01/design_system/searchbar/State=Suggestions.svg" alt="Search Suggestions" className="w-full max-w-[380px] h-auto object-contain drop-shadow-lg hover:-translate-y-1 transition-transform" />
-              <div className="mt-8">
-                <img src="./Images/Project 01/design_system/button_primary.svg" alt="Button Primary" className="w-full max-w-[240px] h-auto object-contain drop-shadow-md hover:scale-105 transition-transform origin-left" />
-              </div>
-            </div>
-            <div className="flex flex-col gap-8 items-start w-full lg:w-auto">
-              <img src="./Images/Project 01/design_system/card_pianta.svg" alt="Card Pianta" className="w-full max-w-[240px] h-auto object-contain drop-shadow-2xl hover:scale-[1.02] transition-transform duration-300" />
-              <img src="./Images/Project 01/design_system/tag.svg" alt="Tag" className="h-10 w-auto object-contain drop-shadow-md hover:scale-105 transition-transform origin-left" />
-              <div className="flex items-center gap-8">
-                <img src="./Images/Project 01/design_system/language.svg" alt="Language" className="h-28 w-auto object-contain drop-shadow-xl hover:scale-105 transition-transform" />
-                <img src="./Images/Project 01/design_system/button_scopri_piante.svg" alt="Button Scopri Piante" className="h-14 sm:h-16 w-auto object-contain drop-shadow-md hover:scale-105 transition-transform" onError={(event) => { event.currentTarget.src = './Images/Project 01/design_system/button_scopri_pianta.png'; }} />
-              </div>
-              <div className="mt-4 -ml-12 lg:-ml-20 xl:-ml-36">
-                <img src="./Images/Project 01/design_system/button_percorso.png" alt="Button Percorso" className="h-14 sm:h-16 w-auto object-contain drop-shadow-md hover:scale-105 transition-transform origin-left" />
-              </div>
-            </div>
-          </div>
-          <div className="w-full relative z-10 pt-8 lg:pt-12 border-t border-white/5 mt-4">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-4 w-full mx-auto">
-              {mapCategories.map((variant) => (
-                <img key={variant} src={getAssetUrl(`Images/Project 01/design_system/button_categorie/State=Unselected, Variant=${variant}, Size=Large.svg`)} alt={`Categoria ${variant}`} className="w-full h-auto max-h-10 lg:max-h-12 object-contain drop-shadow-sm hover:scale-105 transition-transform" />
-              ))}
-            </div>
+        <div className="md:col-span-7 max-md:hidden self-start rounded-[2.5rem] bg-[#111111] border border-white/10 shadow-2xl relative overflow-hidden" id="orto-block-components">
+          <div className="relative w-full aspect-[2348/1746]">
+            <img src="./Images/Project 01/design_system/reference-layout/percorso-breve.png" alt="Percorso Breve" className="absolute h-auto" style={{ left: '8.3%', top: '9.9%', width: '83.4%' }} />
+            <img src="./Images/Project 01/design_system/reference-layout/ricerca-pianta.png" alt="Ricerca pianta" className="absolute h-auto" style={{ left: '8.2%', top: '40.3%', width: '40.2%' }} />
+            <img src="./Images/Project 01/design_system/reference-layout/piante.png" alt="Piante" className="absolute h-auto" style={{ left: '58.3%', top: '40.2%', width: '33.4%' }} />
+            <img src="./Images/Project 01/design_system/reference-layout/categorie.png" alt="Categorie botaniche" className="absolute h-auto" style={{ left: '8.2%', top: '54.8%', width: '83.1%' }} />
+            <img src="./Images/Project 01/design_system/reference-layout/coffea.png" alt="Scheda Coffea" className="absolute h-auto" style={{ left: '8.5%', top: '71.2%', width: '39.8%' }} />
+            <img src="./Images/Project 01/design_system/reference-layout/inizia-percorso.png" alt="Inizia il percorso" className="absolute h-auto" style={{ left: '53.7%', top: '76.4%', width: '38.3%' }} />
           </div>
         </div>
 
@@ -92,8 +66,8 @@ export function OrtoDesignSystemSection({ lang, copiedColor, onCopyHex }: OrtoDe
           <div className="rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-xl p-8 md:p-10 flex flex-col justify-center items-start shadow-2xl relative overflow-hidden group flex-1">
             <div className="absolute inset-0 bg-gradient-to-bl from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="flex flex-col gap-2 relative z-10">
-              <span className="font-raleway text-[11px] text-[#068B35] font-bold uppercase tracking-wider mb-2">Body / Raleway, Regular, 28px</span>
-              <p style={{ fontFamily: "'Raleway', sans-serif" }} className="text-[#EBEBEB] text-[16px] md:text-2xl leading-relaxed font-light">
+              <span className="font-raleway text-[11px] text-[#068B35] font-bold uppercase tracking-wider mb-2">Body / Plus Jakarta Sans, Regular, 28px</span>
+              <p className="text-[#EBEBEB] text-[16px] md:text-2xl leading-relaxed font-light">
                 <span className="md:hidden">Body</span>
                 <span className="hidden md:inline">{lang === 'it' ? 'Esplora la ricca biodiversità della nostra collezione di piante tropicali, progettata per stupire e ispirare.' : 'Explore the rich biodiversity of our tropical plant collection, designed to amaze and inspire.'}</span>
               </p>
@@ -102,8 +76,8 @@ export function OrtoDesignSystemSection({ lang, copiedColor, onCopyHex }: OrtoDe
           <div className="rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-xl p-8 md:p-12 flex flex-col justify-center items-start shadow-2xl relative overflow-hidden group flex-1">
             <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="flex flex-col gap-2 relative z-10 w-full">
-              <span className="font-raleway text-[11px] text-[#068B35] font-bold uppercase tracking-wider mb-2">H1 / Raleway, Semibold, 62px</span>
-              <div style={{ fontFamily: "'Raleway', sans-serif" }} className="text-white text-[24px] md:text-[56px] lg:text-[62px] font-semibold leading-tight tracking-tight">
+              <span className="font-raleway text-[11px] text-[#068B35] font-bold uppercase tracking-wider mb-2">H1 / Plus Jakarta Sans, Semibold, 62px</span>
+              <div className="text-white text-[24px] md:text-[56px] lg:text-[62px] font-semibold leading-tight tracking-tight">
                 <span className="md:hidden">Title</span>
                 <span className="hidden md:inline">{lang === 'it' ? 'Scegli il percorso' : 'Choose the path'}</span>
               </div>

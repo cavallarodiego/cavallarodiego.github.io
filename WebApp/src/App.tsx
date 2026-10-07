@@ -368,6 +368,7 @@ export default function App() {
     return (
       <React.Suspense fallback={null}>
         <ProjectPage
+          key={activeProjectPage.id}
           project={activeProjectPage}
           onClose={() => setActiveProjectPage(null)}
           onNavigateToProject={openProject}
@@ -451,7 +452,7 @@ export default function App() {
             {/* Center Area: Mobile Only Logo & Desktop Center Navigation */}
             <div className={`absolute left-1/2 -translate-x-1/2 flex justify-center items-center transition-all duration-700 ease-[0.16,1,0.3,1] ${!isScrolled ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}>
               {/* Mobile Only Center Logo */}
-              <div className="home-center-logo flex md:hidden justify-center items-center cursor-pointer" role={isHomeMobile ? 'button' : undefined} tabIndex={isHomeMobile && isScrolled ? 0 : undefined} aria-label={isHomeMobile ? (lang === 'it' ? 'Torna su' : 'Back to top') : undefined} onKeyDown={isHomeMobile ? (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); scrollToSection('hero-section'); setMobileMenuOpen(false); } } : undefined} onClick={() => { scrollToSection('hero-section'); setMobileMenuOpen(false); }}>
+              <div className="home-center-logo flex md:hidden justify-center items-center cursor-pointer" role={isHomeMobile ? 'button' : undefined} tabIndex={isHomeMobile && isScrolled ? 0 : undefined} aria-label={isHomeMobile ? 'Home' : undefined} onKeyDown={isHomeMobile ? (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); scrollToSection('hero-section'); setMobileMenuOpen(false); } } : undefined} onClick={() => { scrollToSection('hero-section'); setMobileMenuOpen(false); }}>
                 <img
                   src="./Images/Home/logo_diego_cavallaro.png"
                   className="w-5 h-5 object-contain"
@@ -567,6 +568,24 @@ export default function App() {
                   >
                     {lang === 'it' ? 'Progetti' : 'Projects'}
                   </button>
+                  {!isScrolled && (
+                    <button
+                      id="home-menu-language-toggle"
+                      type="button"
+                      onClick={() => setLang((current) => current === 'it' ? 'en' : 'it')}
+                      aria-label={lang === 'it' ? 'Switch to English' : 'Passa in italiano'}
+                      role="switch"
+                      aria-checked={lang === 'en'}
+                      className="w-full flex items-center justify-between text-left py-3 px-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10 text-white font-medium transition-all text-sm uppercase tracking-wider font-sans"
+                    >
+                      <span>{lang === 'it' ? 'Lingua' : 'Language'}</span>
+                      <span className="relative inline-flex h-8 w-[76px] shrink-0 items-center rounded-full border border-white/20 bg-black/40 p-[3px] font-mono text-[11px] font-bold">
+                        <span className={`absolute left-[3px] top-[3px] h-6 w-[34px] rounded-full bg-[#E8302A] shadow-sm transition-transform duration-300 ease-out ${lang === 'en' ? 'translate-x-[34px]' : ''}`} aria-hidden="true" />
+                        <span className={`relative z-10 flex w-[34px] justify-center transition-colors ${lang === 'it' ? 'text-white' : 'text-white/50'}`}>IT</span>
+                        <span className={`relative z-10 flex w-[34px] justify-center transition-colors ${lang === 'en' ? 'text-white' : 'text-white/50'}`}>EN</span>
+                      </span>
+                    </button>
+                  )}
                 </div>
 
                 <div className="h-[1px] bg-white/10 my-1" />
@@ -608,15 +627,6 @@ export default function App() {
             <div className="w-full max-w-4xl md:pt-[100px] flex flex-col items-center gap-6 text-center">
               <GooeyProjectsBackground mobile={isHomeMobile} />
 
-              {/* High-contrast elegant glass capsule for Based in Catania */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.8 }}
-                className="inline-flex items-center gap-2.5 bg-white/[0.04] border border-white/10 px-5 py-2.5 rounded-full shadow-lg backdrop-blur-md select-none mt-2 hover:border-white/25 hover:bg-white/[0.06] transition-all cursor-pointer"
-              >
-                <span className="text-sm sm:text-sm font-mono uppercase tracking-[0.2em] text-white/90 font-medium">{lang === 'it' ? 'Made in Catania' : 'Based in Catania'}</span>
-              </motion.div>
             </div>
           </main>
 
@@ -1025,7 +1035,7 @@ export default function App() {
         <footer className="w-full bg-black border-t border-white/5 py-8 px-6 sm:px-10 md:px-14 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm font-jakarta text-white/30" id="main-footer">
           <div className="flex flex-col items-center gap-7 w-full sm:hidden">
             <div className="flex gap-8 items-center">
-              <button onClick={() => scrollToSection('hero-section')} className="text-white hover:text-white transition-colors cursor-pointer font-jakarta">{lang === 'it' ? 'Torna su' : 'Back to top'}</button>
+              <button onClick={() => scrollToSection('hero-section')} className="text-white hover:text-white transition-colors cursor-pointer font-jakarta">Home</button>
               <button onClick={() => scrollToSection('about-me-section')} className="text-white hover:text-white transition-colors cursor-pointer font-jakarta">{lang === 'it' ? 'Skills' : 'Skills'}</button>
               <button onClick={() => scrollToSection('collaboration-section')} className="text-white hover:text-white transition-colors cursor-pointer font-jakarta">{lang === 'it' ? 'Progetti' : 'Projects'}</button>
               <button onClick={() => scrollToSection('direct-contact-section')} className="hover:text-white transition-colors cursor-pointer font-jakarta uppercase tracking-widest text-[#E8302A]">{lang === 'it' ? 'Contatti' : 'Contact'}</button>
@@ -1035,7 +1045,7 @@ export default function App() {
           </div>
           <span className="hidden sm:inline">{lang === 'it' ? '© 2026 Diego Cavallaro. Tutti i diritti riservati.' : '© 2026 Diego Cavallaro. All rights reserved.'}</span>
           <div className="hidden sm:flex gap-6 items-center">
-            <button onClick={() => scrollToSection('hero-section')} className="text-white/30 hover:text-white transition-colors cursor-pointer font-jakarta">{lang === 'it' ? 'Torna su' : 'Back to top'}</button>
+            <button onClick={() => scrollToSection('hero-section')} className="text-white/30 hover:text-white transition-colors cursor-pointer font-jakarta">Home</button>
             <button onClick={() => scrollToSection('about-me-section')} className="text-white/30 hover:text-white transition-colors cursor-pointer font-jakarta">{lang === 'it' ? 'Skills' : 'Skills'}</button>
             <button onClick={() => scrollToSection('collaboration-section')} className="text-white/30 hover:text-white transition-colors cursor-pointer font-jakarta">{lang === 'it' ? 'Progetti' : 'Projects'}</button>
             <button onClick={() => scrollToSection('direct-contact-section')} className="hover:text-white transition-colors cursor-pointer font-jakarta uppercase tracking-widest text-[#E8302A]">{lang === 'it' ? 'Contatti' : 'Contact'}</button>

@@ -5,7 +5,7 @@ type CursorMode = 'default' | 'button' | 'image' | 'text';
 
 const RING_SPRING = { stiffness: 120, damping: 18, mass: 0.8 };
 
-export function CustomCursor({ color = '#E8302A' }: { color?: string }) {
+export function CustomCursor({ color = '#E8302A', fontClassName = 'font-mono' }: { color?: string; fontClassName?: string }) {
   const [mode, setMode] = useState<CursorMode>('default');
   const [isVisible, setIsVisible] = useState(false);
   const dotX = useMotionValue(0);
@@ -92,7 +92,7 @@ export function CustomCursor({ color = '#E8302A' }: { color?: string }) {
           <motion.span
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-[7px] font-mono uppercase tracking-[0.25em] text-white font-bold select-none"
+            className={`text-[7px] ${fontClassName} uppercase tracking-[0.25em] text-white font-bold select-none`}
           >
             VIEW
           </motion.span>
