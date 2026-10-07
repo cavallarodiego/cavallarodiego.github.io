@@ -484,14 +484,12 @@ class App {
     this.createMedias(items, bend, textColor, borderRadius, font);
     this.update();
     this.addEventListeners();
-    if (this.mobile) {
-      this.observer = new IntersectionObserver(([entry]) => {
-        this.visible = entry.isIntersecting;
-        this.syncPlayback();
-      });
-      this.observer.observe(container);
-      document.addEventListener('visibilitychange', this.syncPlayback);
-    }
+    this.observer = new IntersectionObserver(([entry]) => {
+      this.visible = entry.isIntersecting;
+      this.syncPlayback();
+    });
+    this.observer.observe(container);
+    document.addEventListener('visibilitychange', this.syncPlayback);
   }
 
   syncPlayback() {
@@ -708,10 +706,10 @@ class App {
       // Release GPU allocations when changing language or leaving the Home.
       this.textures.forEach(texture => this.gl.deleteTexture(texture.texture));
       this.textures.clear();
-      this.medias.forEach(media => this.gl.deleteProgram(media.program.program));
-      this.planeGeometry.remove();
-      this.gl.getExtension('WEBGL_lose_context')?.loseContext();
     }
+    this.medias.forEach(media => this.gl.deleteProgram(media.program.program));
+    this.planeGeometry.remove();
+    this.gl.getExtension('WEBGL_lose_context')?.loseContext();
   }
 }
 

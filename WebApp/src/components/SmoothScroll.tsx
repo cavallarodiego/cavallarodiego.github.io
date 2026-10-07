@@ -27,13 +27,20 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       rafId = requestAnimationFrame(raf);
     }
 
-    rafId = requestAnimationFrame(raf);
+    const syncPlayback = () => {
+      cancelAnimationFrame(rafId);
+      rafId = document.hidden ? 0 : requestAnimationFrame(raf);
+    };
+
+    document.addEventListener('visibilitychange', syncPlayback);
+    syncPlayback();
 
     // Expose lenis globally for GSAP ScrollTrigger sync
     (window as any).__lenis = lenis;
 
     return () => {
       cancelAnimationFrame(rafId);
+      document.removeEventListener('visibilitychange', syncPlayback);
       lenis.destroy();
       lenisRef.current = null;
       delete (window as any).__lenis;

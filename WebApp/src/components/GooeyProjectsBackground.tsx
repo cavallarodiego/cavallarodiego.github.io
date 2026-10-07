@@ -112,18 +112,14 @@ export const GooeyProjectsBackground: React.FC<{ mobile?: boolean }> = ({ mobile
         animate();
       }
     };
-    if (mobile) {
-      observer = new IntersectionObserver(([entry]) => {
-        visible = entry.isIntersecting;
-        syncPlayback();
-      });
-      observer.observe(text1.parentElement!);
-      document.addEventListener('visibilitychange', syncPlayback);
-      reducedMotion.addEventListener('change', syncPlayback);
+    observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
       syncPlayback();
-    } else {
-      animate();
-    }
+    });
+    observer.observe(text1.parentElement!);
+    document.addEventListener('visibilitychange', syncPlayback);
+    reducedMotion.addEventListener('change', syncPlayback);
+    syncPlayback();
 
     return () => {
       cancelAnimationFrame(animationFrameId);

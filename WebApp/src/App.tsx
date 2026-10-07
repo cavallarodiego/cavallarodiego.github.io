@@ -150,9 +150,6 @@ export default function App() {
     }
   };
 
-  // Local active Catania clock
-  const [timeStr, setTimeStr] = useState('');
-
   // Contact Form state inside single screen
   const [copied, setCopied] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -255,31 +252,6 @@ export default function App() {
       desc: "Active custom engineering collaborations with international art bureaus and architectures."
     }
   ];
-
-  // Synchronize dynamic active Catania clock (Europe/Rome timezone)
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      // Format specifically for Europe/Rome
-      const options: Intl.DateTimeFormatOptions = {
-        timeZone: 'Europe/Rome',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      };
-      try {
-        const str = new Intl.DateTimeFormat('en-GB', options).format(now);
-        setTimeStr(`${str} CET`);
-      } catch (e) {
-        // Fallback
-        setTimeStr(now.toTimeString().split(' ')[0] + ' Local');
-      }
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Copy email handler
   const handleCopyEmail = () => {

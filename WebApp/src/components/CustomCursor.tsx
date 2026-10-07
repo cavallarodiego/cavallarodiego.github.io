@@ -27,6 +27,8 @@ export function CustomCursor({ color = '#E8302A', fontClassName = 'font-mono' }:
       isHiddenByHover.current = false;
       setIsVisible(true);
     };
+    const handleEnter = () => setIsVisible(true);
+    const handleLeave = () => setIsVisible(false);
 
     const move = (e: MouseEvent) => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -52,13 +54,15 @@ export function CustomCursor({ color = '#E8302A', fontClassName = 'font-mono' }:
     };
 
     document.addEventListener('mousemove', move, { passive: true });
-    document.addEventListener('mouseenter', () => setIsVisible(true));
-    document.addEventListener('mouseleave', () => setIsVisible(false));
+    document.addEventListener('mouseenter', handleEnter);
+    document.addEventListener('mouseleave', handleLeave);
     window.addEventListener('hide-custom-cursor', handleHide);
     window.addEventListener('show-custom-cursor', handleShow);
 
     return () => {
       document.removeEventListener('mousemove', move);
+      document.removeEventListener('mouseenter', handleEnter);
+      document.removeEventListener('mouseleave', handleLeave);
       window.removeEventListener('hide-custom-cursor', handleHide);
       window.removeEventListener('show-custom-cursor', handleShow);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
