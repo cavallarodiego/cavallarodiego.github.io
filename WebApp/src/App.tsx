@@ -458,20 +458,15 @@ export default function App() {
             <div className="flex justify-end items-center gap-2 flex-shrink-0">
               {/* Desktop Only Actions */}
               <div className={`items-center gap-3 transition-all duration-700 ease-[0.16,1,0.3,1] overflow-hidden whitespace-nowrap flex ${!isScrolled ? 'max-w-0 opacity-0 pointer-events-none' : 'max-w-0 opacity-0 md:max-w-[500px] md:opacity-100'}`} id="header-cta-container">
-                <button
+                <a
                   id="nav-cv-btn"
-                  onClick={() => {
-                    const link = document.createElement('a');
-                    link.href = '#';
-                    link.setAttribute('download', 'Diego_Cavallaro_CV.pdf');
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  }}
+                  href={`${import.meta.env.BASE_URL}Diego_Cavallaro_CV.pdf`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-5 py-2 rounded-full font-bold transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] cursor-pointer text-sm"
                 >
                   {lang === 'it' ? 'Download CV' : 'Download CV'}
-                </button>
+                </a>
                 <button
                   id="nav-contact-btn"
                   onClick={() => scrollToSection('direct-contact-section')}
@@ -563,20 +558,15 @@ export default function App() {
                 <div className="h-[1px] bg-white/10 my-1" />
 
                 <div className="flex flex-col gap-3">
-                  <button
-                    onClick={() => {
-                      const link = document.createElement('a');
-                      link.href = '#';
-                      link.setAttribute('download', 'Diego_Cavallaro_CV.pdf');
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                      setMobileMenuOpen(false);
-                    }}
+                  <a
+                    href={`${import.meta.env.BASE_URL}Diego_Cavallaro_CV.pdf`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
                     className="w-full py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-white font-bold text-center transition-all text-sm uppercase tracking-wider"
                   >
                     {lang === 'it' ? 'Download CV' : 'Download CV'}
-                  </button>
+                  </a>
                   <button
                     onClick={() => {
                       scrollToSection('direct-contact-section');
